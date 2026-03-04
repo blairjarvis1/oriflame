@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anti-aging Skincare – Oriflame Sweden</title>
+  <style>
+    @font-face {
+      font-family: 'Oriflame Sans';
+      src: url('assets/fonts/OriflamesSans-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Oriflame Sans';
+      src: url('assets/fonts/OriflamesSans-Bold.ttf') format('truetype');
+      font-weight: 600 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mint:    #9CDABC;
+      --dark:    #333333;
+      --mid:     #666666;
+      --light:   #F0F0F0;
+      --red:     #DA3A00;
+      --border:  #E5E5E5;
+      --cream:   #F8F3EE;
+      --white:   #ffffff;
+      --black:   #000000;
+      --font:    'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body { font-family: var(--font); color: var(--dark); background: var(--white); font-size: 14px; line-height: 1.5; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: var(--font); }
+
+    /* ── ANNOUNCEMENT BAR ─────────────────────────────────────────── */
+    .ann-bar {
+      background: var(--mint);
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dark);
+      letter-spacing: 0.2px;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────────────── */
+    #site-header {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 48px;
+      height: 80px;
+    }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; padding: 4px; border: none; background: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
+    .logo { display: flex; flex-direction: column; align-items: center; line-height: 1; white-space: nowrap; gap: 3px; padding: 0 16px; }
+    .logo-main { font-size: 20px; font-weight: 700; letter-spacing: 3px; }
+    .logo-sub  { font-size: 8px;  font-weight: 400; letter-spacing: 4px; color: var(--mid); }
+    .top-nav { display: flex; gap: 0; margin-left: 20px; align-self: stretch; }
+    .top-nav a {
+      font-size: 14px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--dark); white-space: nowrap;
+      display: flex; align-items: center; padding: 0 32px;
+      transition: background 0.18s ease;
+    }
+    .top-nav a:hover, .top-nav a.active { background: #F5F5F5; }
+    .search-wrap { flex: 1; max-width: 500px; margin-left: auto; position: relative; }
+    .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mid); pointer-events: none; }
+    .search-wrap input {
+      width: 100%; padding: 10px 16px 10px 42px;
+      border: 1px solid var(--border); border-radius: 999px;
+      font-size: 13px; background: #F8F8F8; color: var(--mid);
+      outline: none; font-family: var(--font); transition: border-color .2s;
+    }
+    .search-wrap input:focus { border-color: var(--mint); }
+    .header-icons { display: flex; align-items: center; gap: 22px; margin-left: 20px; }
+    .header-icons a { font-size: 20px; color: var(--dark); position: relative; }
+    .cart-badge {
+      position: absolute; top: -5px; right: -6px;
+      background: var(--red); color: var(--white);
+      font-size: 9px; font-weight: 700;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── CATEGORY NAV ─────────────────────────────────────────────── */
+    .cat-nav-wrap { border-top: 1px solid var(--border); padding: 0 48px; display: flex; align-items: center; }
+    .cat-nav { display: flex; align-items: center; flex: 1; }
+    .cat-nav a { padding: 13px 16px; font-size: 14px; color: var(--dark); white-space: nowrap; position: relative; transition: color .15s; }
+    .cat-nav a:hover { font-weight: 600; }
+    .cat-nav a.active { font-weight: 700; }
+    .cat-nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--dark); }
+    .cat-divider { width: 1px; height: 18px; background: var(--border); margin: 0 6px; }
+    .member-btn {
+      background: var(--dark); color: var(--white);
+      padding: 9px 20px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+      margin-left: 16px; transition: background .2s;
+    }
+    .member-btn:hover { background: var(--black); }
+
+    /* ── MEGA MENU ────────────────────────────────────────────────── */
+    .mega-menu {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--white); border-top: 1px solid var(--border);
+      box-shadow: 0 12px 32px rgba(0,0,0,.09);
+      z-index: 400; opacity: 0; visibility: hidden;
+      pointer-events: none; transition: opacity .18s ease, visibility .18s ease;
+    }
+    .mega-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .mega-inner {
+      max-width: 1440px; margin: 0 auto; padding: 36px 48px;
+      display: grid; grid-template-columns: 1.1fr 1.2fr 1fr 0.8fr 220px 220px; gap: 32px;
+    }
+    .mega-col h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 13px; }
+    .mega-col ul li { margin-bottom: 9px; }
+    .mega-col ul li a { font-size: 13px; color: var(--dark); transition: color .15s; }
+    .mega-col ul li a:hover { color: var(--mid); }
+    .mega-col ul li a.mega-active { font-weight: 700; }
+    .mega-spacer { margin-top: 20px; }
+    .mega-img img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; background: var(--light); }
+    .mega-img p { font-size: 13px; font-weight: 600; margin-top: 10px; }
+
+    /* ── SHARED ───────────────────────────────────────────────────── */
+    .btn-outline {
+      display: inline-block; padding: 11px 32px;
+      border: 1.5px solid var(--dark); border-radius: 999px;
+      font-size: 13px; font-weight: 600; color: var(--dark); transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--dark); color: var(--white); }
+    .btn-solid {
+      display: inline-block; padding: 12px 32px;
+      background: var(--dark); color: var(--white); border-radius: 999px;
+      font-size: 13px; font-weight: 600; transition: background .2s;
+    }
+    .btn-solid:hover { background: var(--black); }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ── PLP HERO BANNER ──────────────────────────────────────────── */
+    .plp-hero {
+      position: relative; width: 100%; height: 440px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .plp-hero-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+    }
+    .plp-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,.1) 60%, transparent 100%);
+    }
+    .plp-hero-content {
+      position: relative; z-index: 1;
+      width: 100%; padding: 52px 64px;
+    }
+    .plp-hero-eyebrow {
+      color: rgba(255,255,255,0.85); font-size: 48px; font-weight: 400;
+      margin-bottom: 12px; letter-spacing: 0.2px;
+    }
+    .plp-hero-title {
+      display: flex; align-items: center; gap: 0; width: 100%;
+    }
+    .plp-hero-title span {
+      font-size: 112px;
+      font-weight: 400; color: var(--white);
+      line-height: 1; white-space: nowrap;
+    }
+    .plp-hero-rule {
+      flex: 1; height: 1px; background: rgba(255,255,255,0.6);
+      margin: 0 32px; position: relative; top: 0;
+    }
+
+    /* ── BREADCRUMB ───────────────────────────────────────────────── */
+    .breadcrumb {
+      padding: 16px 64px; font-size: 12px; color: var(--mid);
+      display: flex; gap: 8px; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a { color: var(--mid); transition: color .15s; }
+    .breadcrumb a:hover { color: var(--dark); }
+    .breadcrumb-sep { color: #ccc; }
+
+    /* ── PLP PRODUCT LISTING ──────────────────────────────────────── */
+    .plp-section { padding: 48px 64px; }
+    .plp-heading { font-size: 32px; font-weight: 400; margin-bottom: 24px; }
+    .plp-meta-row {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 28px;
+    }
+    .plp-count { font-size: 13px; color: var(--mid); }
+    .plp-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .plp-filter-chip {
+      padding: 7px 18px; border-radius: 999px;
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      border: 1px solid var(--border); background: var(--white);
+      color: var(--mid); transition: all .2s; white-space: nowrap;
+      font-family: var(--font);
+    }
+    .plp-filter-chip:hover { border-color: var(--dark); color: var(--dark); }
+    .plp-filter-chip.active {
+      background: var(--dark); color: var(--white);
+      border-color: var(--dark);
+    }
+
+    /* ── PRODUCT CARDS GRID ───────────────────────────────────────── */
+    .plp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 48px;
+    }
+    .plp-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow .2s;
+      position: relative;
+    }
+    .plp-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); z-index: 1; }
+    .plp-card-header { padding: 20px 20px 0; text-align: center; }
+    .plp-card-type { font-size: 11px; color: var(--mid); display: block; margin-bottom: 4px; }
+    .plp-card-name { font-size: 15px; font-weight: 400; color: var(--dark); display: block; line-height: 1.3; }
+    .plp-card-img-area {
+      position: relative; flex: 1;
+      padding: 20px 32px; display: flex;
+      align-items: center; justify-content: center;
+      min-height: 220px;
+    }
+    .plp-card-img-area img {
+      max-height: 190px; width: auto;
+      object-fit: contain; transition: transform .3s ease;
+    }
+    .plp-card:hover .plp-card-img-area img { transform: scale(1.04); }
+    .plp-card-side {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .plp-icon-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; color: var(--mid);
+      transition: border-color .2s, color .2s; cursor: pointer;
+    }
+    .plp-icon-circle:hover { border-color: var(--dark); color: var(--dark); }
+    .plp-card-footer {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .plp-arrow-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #F0F0F0; border: none;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background .2s;
+    }
+    .plp-arrow-circle:hover { background: var(--dark); }
+    .plp-arrow-circle:hover svg path { fill: var(--white); }
+    .plp-badge {
+      padding: 6px 14px; border: 1px solid var(--border);
+      border-radius: 999px; font-size: 11px; font-weight: 500;
+      color: var(--dark); white-space: nowrap;
+    }
+    .plp-price { margin-left: auto; font-size: 16px; font-weight: 400; color: var(--dark); }
+
+    .plp-view-more { text-align: center; }
+
+    /* ── NOVAGE+ FEATURE PROMO ────────────────────────────────────── */
+    .plp-feature {
+      background: #F5F5F5;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      min-height: 520px; overflow: hidden;
+    }
+    .plp-feature-copy {
+      padding: 72px 56px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .plp-feature-eyebrow { font-size: 13px; color: var(--mid); margin-bottom: 10px; }
+    .plp-feature-title { font-size: 48px; font-weight: 400; line-height: 1.1; margin-bottom: 20px; color: var(--dark); }
+    .plp-feature-desc { font-size: 13px; color: var(--mid); line-height: 1.75; margin-bottom: 28px; max-width: 340px; }
+    .plp-feature-factors { margin-bottom: 8px; }
+    .plp-feature-factors-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--mid);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .plp-feature-factors-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .plp-factor-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .plp-factor-pill {
+      padding: 6px 14px; border: 1px solid var(--border);
+      border-radius: 999px; font-size: 12px; color: var(--dark); background: var(--white);
+    }
+    .plp-feature-photo {
+      position: relative; overflow: hidden;
+    }
+    .plp-feature-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .plp-feature-products {
+      padding: 40px 32px;
+      display: flex; flex-direction: column; justify-content: center; gap: 20px;
+    }
+    .plp-feat-card {
+      background: var(--white); border-radius: 8px;
+      padding: 16px; display: flex; align-items: center;
+      gap: 16px; position: relative; cursor: pointer;
+      transition: box-shadow .2s;
+    }
+    .plp-feat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .plp-feat-card-img {
+      width: 80px; height: 100px; flex-shrink: 0;
+      overflow: hidden; border-radius: 4px; background: #F9F6F3;
+    }
+    .plp-feat-card-img img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+    .plp-feat-card-info { flex: 1; }
+    .plp-feat-card-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .plp-feat-card-desc { font-size: 12px; color: var(--mid); line-height: 1.5; margin-bottom: 8px; }
+    .plp-feat-card-link {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--border); display: flex;
+      align-items: center; justify-content: center;
+      position: absolute; top: 16px; right: 16px;
+      font-size: 14px; transition: border-color .2s;
+    }
+    .plp-feat-card-link:hover { border-color: var(--dark); }
+    .plp-feature-nav {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 32px 32px;
+    }
+    .plp-nav-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid var(--border); background: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: border-color .15s;
+    }
+    .plp-nav-btn:hover { border-color: var(--dark); }
+    .plp-nav-dots { display: flex; gap: 6px; }
+    .plp-nav-dot {
+      width: 22px; height: 2px; background: var(--dark); border-radius: 2px;
+    }
+    .plp-nav-dot.dim { background: var(--border); }
+
+    /* ── BRAND PARTNER CTA ────────────────────────────────────────── */
+    .plp-partner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+    }
+    .plp-partner-copy {
+      padding: 72px 64px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .plp-partner-avatars { display: flex; align-items: center; margin-bottom: 24px; }
+    .plp-partner-avatars-wrap {
+      display: flex;
+    }
+    .plp-partner-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid var(--white); overflow: hidden;
+      background: var(--light); margin-left: -10px;
+    }
+    .plp-partner-avatars-wrap .plp-partner-avatar:first-child { margin-left: 0; }
+    .plp-partner-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .plp-partner-paren {
+      font-size: 40px; font-weight: 300; color: var(--dark);
+      line-height: 1; align-self: center;
+    }
+    .plp-partner-paren-l { margin-right: 4px; }
+    .plp-partner-paren-r { margin-left: 4px; }
+    .plp-partner-eyebrow { font-size: 13px; color: var(--mid); margin-bottom: 12px; }
+    .plp-partner-title { font-size: 40px; font-weight: 400; line-height: 1.15; margin-bottom: 20px; color: var(--dark); }
+    .plp-partner-desc { font-size: 13px; color: var(--mid); line-height: 1.75; margin-bottom: 32px; max-width: 360px; }
+    .plp-partner-actions { display: flex; align-items: center; gap: 16px; }
+    .plp-partner-arrow {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 1.5px solid var(--dark); display: flex;
+      align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+    }
+    .plp-partner-arrow:hover { background: var(--dark); color: var(--white); }
+    .plp-partner-photo { overflow: hidden; }
+    .plp-partner-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── SIGN UP TODAY ────────────────────────────────────────────── */
+    .plp-signup {
+      background: #FAF0EB;
+      padding: 80px 48px;
+      text-align: center;
+    }
+    .plp-signup h2 { font-size: 48px; font-weight: 400; margin-bottom: 14px; color: var(--dark); }
+    .plp-signup p { font-size: 14px; color: var(--mid); margin-bottom: 32px; }
+    .plp-signup-btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--dark); color: var(--white);
+      border-radius: 999px; font-size: 12px;
+      font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; transition: background .2s;
+    }
+    .plp-signup-btn:hover { background: var(--black); }
+
+    /* ── FOOTER ───────────────────────────────────────────────────── */
+    .site-footer { background: #1E1E1E; color: var(--white); }
+    .newsletter {
+      background: #161616; padding: 52px 48px;
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .newsletter h3 { font-size: 22px; font-weight: 600; }
+    .newsletter p  { font-size: 14px; color: #999; margin-top: 5px; }
+    .newsletter-form {
+      display: flex; gap: 12px;
+      flex: 1; min-width: 280px; max-width: 440px; margin-left: auto;
+    }
+    .newsletter-form input {
+      flex: 1; padding: 12px 16px;
+      border: 1px solid #3a3a3a; background: transparent;
+      color: var(--white); border-radius: 6px;
+      font-size: 14px; font-family: var(--font); outline: none;
+    }
+    .newsletter-form input::placeholder { color: #666; }
+    .newsletter-form input:focus { border-color: var(--mint); }
+    .newsletter-form button {
+      padding: 12px 26px; background: var(--mint);
+      color: var(--dark); border: none; border-radius: 6px;
+      font-size: 13px; font-weight: 700; white-space: nowrap; transition: opacity .2s;
+    }
+    .newsletter-form button:hover { opacity: .85; }
+    .footer-cols {
+      padding: 52px 48px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 40px;
+    }
+    .footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; margin-bottom: 18px; }
+    .footer-col ul li { margin-bottom: 11px; }
+    .footer-col ul li a { font-size: 13px; color: #777; transition: color .15s; }
+    .footer-col ul li a:hover { color: var(--white); }
+    .app-badges { display: flex; flex-direction: column; gap: 10px; }
+    .app-badge {
+      display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px;
+      border: 1px solid #3a3a3a; border-radius: 10px; color: var(--white);
+      white-space: nowrap; transition: border-color .15s;
+    }
+    .app-badge:hover { border-color: var(--mint); }
+    .app-badge .icon { font-size: 22px; }
+    .app-badge .label { font-size: 10px; color: #888; display: block; }
+    .app-badge .store { font-size: 14px; font-weight: 600; display: block; }
+    .footer-bottom {
+      border-top: 1px solid #2d2d2d; padding: 20px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .footer-logo { font-size: 16px; font-weight: 700; letter-spacing: 3px; color: #555; }
+    .footer-copy { font-size: 12px; color: #555; margin-top: 4px; }
+    .social-row { display: flex; gap: 12px; }
+    .social-link {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: #2d2d2d; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; color: #888;
+      transition: background .2s, color .2s;
+    }
+    .social-link:hover { background: var(--mint); color: var(--dark); }
+
+    /* ── BASKET DRAWER ──────────────────────────────────────── */
+    .basket-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 900;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .basket-overlay.open { opacity: 1; pointer-events: all; }
+
+    .basket-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 420px; max-width: 100vw;
+      background: var(--white);
+      z-index: 901;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -4px 0 40px rgba(0,0,0,0.12);
+    }
+    .basket-drawer.open { transform: translateX(0); }
+
+    .basket-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .basket-header-left { display: flex; align-items: baseline; gap: 8px; }
+    .basket-title { font-size: 18px; font-weight: 400; color: var(--dark); }
+    .basket-count { font-size: 13px; color: var(--mid); }
+    .basket-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--mid); padding: 4px;
+      transition: color 0.2s; line-height: 1;
+    }
+    .basket-close:hover { color: var(--dark); }
+
+    .basket-shipping-bar {
+      padding: 14px 28px 16px;
+      background: #F4FAF7;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .basket-shipping-text { font-size: 13px; color: var(--dark); margin-bottom: 10px; }
+    .basket-shipping-progress {
+      height: 3px; background: var(--border); border-radius: 99px; overflow: hidden;
+    }
+    .basket-shipping-fill { height: 100%; background: var(--mint); border-radius: 99px; }
+
+    .basket-items { flex: 1; overflow-y: auto; }
+
+    .basket-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: background 0.15s;
+    }
+    .basket-item:last-child { border-bottom: none; }
+    .basket-item:hover { background: #fafafa; }
+
+    .basket-item-img {
+      width: 80px; height: 80px; flex-shrink: 0;
+      border-radius: 4px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .basket-item-img svg { opacity: 0.35; }
+
+    .basket-item-info { flex: 1; min-width: 0; padding-right: 24px; }
+    .basket-item-type { font-size: 11px; color: var(--mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .basket-item-name { font-size: 14px; font-weight: 400; color: var(--dark); margin-bottom: 14px; line-height: 1.3; }
+
+    .basket-item-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .basket-qty {
+      display: flex; align-items: center;
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .qty-btn {
+      width: 30px; height: 30px; background: none; border: none;
+      cursor: pointer; font-size: 16px; color: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .qty-btn:hover { background: #f0f0f0; }
+    .qty-val { font-size: 14px; min-width: 28px; text-align: center; color: var(--dark); }
+    .basket-item-price { font-size: 15px; color: var(--dark); }
+
+    .basket-item-remove {
+      position: absolute; top: 18px; right: 22px;
+      background: none; border: none; cursor: pointer;
+      color: #ccc; padding: 4px;
+      transition: color 0.2s; line-height: 1;
+    }
+    .basket-item-remove:hover { color: var(--dark); }
+
+    .basket-summary {
+      padding: 18px 28px;
+      border-top: 1px solid var(--border);
+      background: #fafafa;
+      flex-shrink: 0;
+    }
+    .basket-summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 5px 0; font-size: 14px; color: var(--dark);
+    }
+    .basket-free { color: #4caf50; font-size: 13px; }
+    .basket-total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0 0; margin-top: 8px;
+      border-top: 1px solid var(--border);
+      font-size: 16px; font-weight: 400; color: var(--dark);
+    }
+
+    .basket-ctas {
+      padding: 16px 28px 28px;
+      display: flex; flex-direction: column; gap: 10px;
+      background: var(--white); flex-shrink: 0;
+    }
+    .btn-basket-view {
+      display: block; text-align: center; padding: 14px;
+      border: 1px solid var(--dark); color: var(--dark);
+      font-size: 14px; font-family: var(--font);
+      text-decoration: none; transition: background 0.2s, color 0.2s;
+    }
+    .btn-basket-view:hover { background: var(--dark); color: var(--white); }
+    .btn-basket-checkout {
+      display: block; text-align: center; padding: 14px;
+      background: var(--dark); color: var(--white);
+      font-size: 14px; font-family: var(--font);
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-basket-checkout:hover { opacity: 0.82; }
+
+    button#cartBtn {
+      background: none; border: none; cursor: pointer;
+      color: var(--dark); position: relative; padding: 0;
+      display: flex; align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── ANNOUNCEMENT BAR ──────────────────────────────────────────── -->
+<div class="ann-bar">Enjoy free shipping over £45 as a VIP!</div>
+
+<!-- ─── HEADER ───────────────────────────────────────────────────── -->
+<header id="site-header">
+  <div class="header-top">
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="oriflame-homepage.html" class="logo">
+      <svg width="120" height="27" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M70.9061 35.5793L68.9555 29.5502H67.757L65.8064 35.5793L63.8583 29.5429H62.354L65.0519 37.6816H66.2503L68.3489 31.9525L70.2934 37.6816H71.4919L74.1824 29.5429H72.6904L70.9061 35.5793ZM1.63123 33.0184H42.4164V34.2232H1.63123V33.0184ZM52.1608 2.41826H54.8598V20.3554H52.1571V2.41826H52.1608ZM65.0555 20.3554H67.7546V12.8191H77.0514V10.257H67.7448V4.8316H78.0909V2.41703H65.0543L65.0555 20.3554ZM10.1796 20.6542C15.8785 20.6542 20.5257 15.9824 20.5257 10.2533C20.5257 4.67916 15.8785 2.11459 12.4298 2.11459C5.68162 2.11459 5.23158 8.74852 5.23158 8.74852H5.39056C5.39056 8.74852 6.58904 3.92552 11.2362 3.92552C14.9907 3.92552 17.8401 6.48763 17.8401 10.1058C17.8401 14.3227 14.3914 17.7896 10.1967 17.7896C6.14878 17.7896 2.40413 14.7776 2.40413 9.34356C2.40413 5.11437 4.65435 1.64742 8.55187 0.14753V0C3.60384 0.749943 0.00349326 5.12666 0.00349326 10.241C-0.145706 15.9701 4.50392 20.6419 10.2004 20.6419L10.1796 20.6542ZM55.1595 33.0172C53.6614 32.716 53.2113 32.4148 53.2113 31.8123C53.2113 31.2099 53.6638 30.9063 54.5688 30.9063C55.327 30.9063 56.073 31.2013 56.6722 31.6562L57.4268 30.6112C56.6771 30.0088 55.6291 29.5539 54.5773 29.5539C52.9264 29.5539 51.8783 30.4637 51.8783 31.9636C51.8783 33.4635 52.7711 33.9306 54.5688 34.3732C56.0608 34.6806 56.3665 34.9756 56.3665 35.578C56.3665 36.1805 55.7673 36.6353 55.0213 36.6353C53.9695 36.6353 53.2235 36.1805 52.4653 35.578L51.5603 36.6353C52.4592 37.5451 53.6589 38 54.8574 38C56.5084 38 57.7069 37.1025 57.7069 35.5903C57.7069 33.9306 56.8043 33.3282 55.1558 33.0332L55.1595 33.0172ZM43.7653 20.3542L38.3672 13.1203C41.0663 12.3704 42.8652 10.4156 42.8652 7.84613C42.8652 4.539 40.1747 2.27688 36.2736 2.27688H28.4712V20.214H31.1617V13.5752H35.5031L40.456 20.214L43.758 20.369L43.7653 20.3542ZM31.169 11.1582V4.8316H36.1182C38.6669 4.8316 40.1662 5.8889 40.1662 7.84736C40.1662 9.80582 38.5152 11.0131 36.1182 11.0131H31.169V11.1582ZM80.9501 34.222H84.9981V32.8672H80.9501V30.9075H85.4481V29.5515H79.6024V37.5402H85.4481V36.3354H80.9587L80.9501 34.222ZM112.287 2.26704L104.191 20.3554H107.04L109.138 15.6837H117.833L119.783 20.3554H122.782L114.687 2.26704H112.287ZM110.039 13.2703L113.329 5.584L116.619 13.2801H110.015L110.039 13.2703ZM132.223 7.09127L137.922 15.5324L138.216 15.9849L138.509 15.5423L144.056 7.10848V20.3739H146.756V2.42441H144.207L138.21 11.468L132.21 2.42441H129.666V20.3616H132.216L132.223 7.09127ZM132.223 33.0172H170V34.222H132.223V33.0172ZM159.36 17.7933V12.5191H168.655V9.9558H159.36V4.82914H169.853V2.41949H156.67V20.3567H169.865V17.7896L159.36 17.7933ZM120.986 35.1244L116.636 29.5502H115.287V37.539H116.786V31.9623L121.127 37.539H122.326V29.5502H120.981L120.986 35.1244ZM89.1964 2.41949H86.6478V20.3567H98.9433V17.7946H89.1964V2.41949ZM105.241 34.2245H109.289V32.8684H105.241V30.9075H109.738V29.5515H103.889V37.5402H109.887V36.3354H105.228L105.241 34.2245ZM93.994 29.5527H90.9868V37.5402H93.9867C96.5341 37.5402 98.1838 35.733 98.1838 33.4708C98.333 31.3599 96.5329 29.5515 93.9843 29.5515L93.994 29.5527ZM93.994 36.3341H92.3431V30.9075H93.994C95.645 30.9075 96.6845 32.1123 96.6845 33.6196C96.8313 35.1269 95.6328 36.3329 93.9818 36.3329L93.994 36.3341Z" fill="#333333"/></svg>
+    </a>
+    <nav class="top-nav">
+      <a href="#" class="active">Members Shop</a>
+      <a href="#">Brand Partners</a>
+      <a href="#">Join Us</a>
+    </nav>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Search 60+ brands, 1000+ beauty and nutrition products">
+    </div>
+    <div class="header-icons">
+      <a href="#" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href="#" aria-label="Gifts">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      </a>
+      <button id="cartBtn" aria-label="Open basket">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">3</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Category Nav -->
+  <div class="cat-nav-wrap">
+    <nav class="cat-nav" id="catNav">
+      <a href="#" data-menu="none">Nutrition</a>
+      <a href="#" data-menu="skincare" class="active">Skincare</a>
+      <a href="#" data-menu="none">Makeup</a>
+      <a href="#" data-menu="none">Fragrance</a>
+      <a href="#" data-menu="none">Bath &amp; Body</a>
+      <a href="#" data-menu="none">Hair</a>
+      <a href="#" data-menu="none">Accessories</a>
+      <a href="#" data-menu="none">Men</a>
+      <div class="cat-divider"></div>
+      <a href="#" data-menu="none">New Arrivals</a>
+      <a href="#" data-menu="none">Icons</a>
+      <a href="#" data-menu="none">Sample Shop</a>
+      <a href="#" data-menu="none">Oriflame Outlet</a>
+    </nav>
+    <a href="#" class="member-btn">Become a member &rsaquo;</a>
+  </div>
+
+  <!-- ─── MEGA MENU ──────────────────────────────────────────────── -->
+  <nav class="mega-menu" id="megaMenu">
+    <div class="mega-inner">
+      <div class="mega-col">
+        <h4>Concerns</h4>
+        <ul>
+          <li><a href="plp-anti-aging-skincare.html" class="mega-active">Anti-aging Skincare</a></li>
+          <li><a href="#">Dark circles and Puffiness</a></li>
+          <li><a href="#">Dark spots and...</a></li>
+          <li><a href="#">Dehydrated skin</a></li>
+          <li><a href="#">Dull skin</a></li>
+          <li><a href="#">Lack of firmness</a></li>
+          <li><a href="#">Menopausal skin</a></li>
+          <li><a href="#">Oily skin</a></li>
+          <li><a href="#">Pores, Acne and Blemishes</a></li>
+          <li><a href="#">Sensitive skin</a></li>
+          <li><a href="#">Stressed skin</a></li>
+          <li><a href="#">Sunburns photoaging</a></li>
+        </ul>
+      </div>
+      <div class="mega-col">
+        <h4>Skincare tools and Accessories</h4>
+        <ul>
+          <li><a href="#">Cleansing tools</a></li>
+          <li><a href="#">Facial massagers and Other tools</a></li>
+          <li><a href="#">Skincare brushes</a></li>
+          <li><a href="#">Toiletry bags</a></li>
+        </ul>
+        <div class="mega-spacer">
+          <h4>Treatments</h4>
+          <ul>
+            <li><a href="#">Exfoliator</a></li>
+            <li><a href="#">Facial oil</a></li>
+            <li><a href="#">Serum and booster</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mega-col">
+        <h4>Sun care</h4>
+        <ul>
+          <li><a href="#">After sun and Self tanning</a></li>
+          <li><a href="#">Face sunscreen</a></li>
+          <li><a href="#">Kids Suncare</a></li>
+        </ul>
+        <div class="mega-spacer"><h4>Eye care</h4></div>
+        <div class="mega-spacer"><h4>Cleanses</h4></div>
+        <div class="mega-spacer"><h4>Lip care</h4></div>
+        <div class="mega-spacer"><h4>Toner, Essences, and Mist</h4></div>
+      </div>
+      <div class="mega-col">
+        <h4>Mask</h4>
+        <div class="mega-spacer"><h4>Skincare routines</h4></div>
+        <div class="mega-spacer"><h4>Teenage skincare</h4></div>
+        <div class="mega-spacer"><h4>Skincare Gifts</h4></div>
+      </div>
+      <div class="mega-col">
+        <div class="mega-img">
+          <img src="assets/images/mega-skincare-1.png" alt="Your skincare routine">
+          <p>Your skincare routine</p>
+        </div>
+      </div>
+      <div class="mega-col">
+        <div class="mega-img">
+          <img src="assets/images/mega-skincare-2.png" alt="Skincare products for a fresher look">
+          <p>Skincare products for a fresher look</p>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ─── PLP HERO BANNER ───────────────────────────────────────────── -->
+<section class="plp-hero">
+  <img class="plp-hero-img" src="assets/images/antioxi-hero.jpg" alt="Anti-aging Skincare">
+  <div class="plp-hero-overlay"></div>
+  <div class="plp-hero-content">
+    <p class="plp-hero-eyebrow">40% off all</p>
+    <div class="plp-hero-title">
+      <span>Anti-aging</span>
+      <div class="plp-hero-rule"></div>
+      <span>Skincare</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── BREADCRUMB ────────────────────────────────────────────────── -->
+<div class="breadcrumb">
+  <a href="oriflame-homepage.html">Home</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Skincare</a>
+  <span class="breadcrumb-sep">›</span>
+  <span>Anti-aging Skincare</span>
+</div>
+
+
+<!-- ─── PRODUCT LISTING ───────────────────────────────────────────── -->
+<div class="plp-section">
+  <h1 class="plp-heading">Skincare</h1>
+
+  <div class="plp-meta-row">
+    <span class="plp-count">Showing 16 results for skincare</span>
+    <div class="plp-filters">
+      <button class="plp-filter-chip">Nutrition</button>
+      <button class="plp-filter-chip active">Skincare</button>
+      <button class="plp-filter-chip">Makeup</button>
+      <button class="plp-filter-chip">Fragrance</button>
+      <button class="plp-filter-chip">Hair</button>
+      <button class="plp-filter-chip">Bath &amp; Body</button>
+      <button class="plp-filter-chip">Accessories</button>
+    </div>
+  </div>
+
+  <!-- Arrow SVG used in cards -->
+  <div class="plp-grid">
+
+    <!-- Row 1 -->
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Foam Cleanser</span>
+        <span class="plp-card-name">Skinrelief Pro</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
+          <button class="plp-icon-circle" aria-label="Add to bag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </button>
+        </div>
+        <img src="assets/images/antioxi-1.jpg" alt="Skinrelief Pro">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle" aria-label="View product">
+          <svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg>
+        </button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Rich SPF 30</span>
+        <span class="plp-card-name">Anti-Ageing Day Cream</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
+          <button class="plp-icon-circle" aria-label="Add to bag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </button>
+        </div>
+        <img src="assets/images/antioxi-2.jpg" alt="Anti-Ageing Day Cream">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
+          <button class="plp-icon-circle" aria-label="Add to bag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
+          <button class="plp-icon-circle" aria-label="Add to bag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/novage-prod-1.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/novage-prod-2.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Rich SPF 30</span>
+        <span class="plp-card-name">Anti-Ageing Day Cream</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/prod-collagen.jpg" alt="Anti-Ageing Day Cream">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£42</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Foam Cleanser</span>
+        <span class="plp-card-name">Skinrelief Pro</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-1.jpg" alt="Skinrelief Pro">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-2.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/novage-prod-1.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Foam Cleanser</span>
+        <span class="plp-card-name">Skinrelief Pro</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/novage-prod-2.jpg" alt="Skinrelief Pro">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Rich SPF 30</span>
+        <span class="plp-card-name">Anti-Ageing Day Cream</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/prod-collagen.jpg" alt="Anti-Ageing Day Cream">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£42</span>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-1.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Foam Cleanser</span>
+        <span class="plp-card-name">Skinrelief Pro</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-2.jpg" alt="Skinrelief Pro">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
+        <span class="plp-card-name">Proceuticals Ultra Light</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+    <div class="plp-card">
+      <div class="plp-card-header">
+        <span class="plp-card-type">Rich SPF 30</span>
+        <span class="plp-card-name">Anti-Ageing Day Cream</span>
+      </div>
+      <div class="plp-card-img-area">
+        <div class="plp-card-side">
+          <button class="plp-icon-circle">♡</button>
+          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <img src="assets/images/novage-prod-1.jpg" alt="Anti-Ageing Day Cream">
+      </div>
+      <div class="plp-card-footer">
+        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
+        <span class="plp-badge">New Release</span>
+        <span class="plp-price">£23</span>
+      </div>
+    </div>
+
+  </div><!-- /plp-grid -->
+
+  <div class="plp-view-more">
+    <a href="#" class="btn-outline">View more</a>
+  </div>
+</div>
+
+
+<!-- ─── NOVAGE+ FEATURE PROMO ─────────────────────────────────────── -->
+<section class="plp-feature">
+  <!-- Left: copy -->
+  <div class="plp-feature-copy">
+    <p class="plp-feature-eyebrow">40% off all</p>
+    <h2 class="plp-feature-title">Novage+<br>day creams</h2>
+    <p class="plp-feature-desc">Apply, sit back, and relax. Let Novage+ products take care of your skin by protecting its health, hydration, vitality, and so much more. They're all powered by the latest technologies and highly effective ingredients. Now you can get the day creams and sets at special prices – only until 03.03!</p>
+    <div class="plp-feature-factors">
+      <div class="plp-feature-factors-label">KEY FACTORS</div>
+      <div class="plp-factor-pills">
+        <span class="plp-factor-pill">SPF 20</span>
+        <span class="plp-factor-pill">Vitamin C</span>
+        <span class="plp-factor-pill">AHA &amp; BHA</span>
+        <span class="plp-factor-pill">AHA &amp; BHA</span>
+        <span class="plp-factor-pill">Avocado Oil</span>
+        <span class="plp-factor-pill">Aloevera</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centre: model photo -->
+  <div class="plp-feature-photo">
+    <img src="assets/images/novage-model.jpg" alt="Novage+ day creams model">
+  </div>
+
+  <!-- Right: product cards + nav -->
+  <div style="display:flex;flex-direction:column;justify-content:center;background:#F5F5F5;">
+    <div class="plp-feature-products">
+      <div class="plp-feat-card">
+        <div class="plp-feat-card-img">
+          <img src="assets/images/novage-prod-1.jpg" alt="Skinrelief Pro">
+        </div>
+        <div class="plp-feat-card-info">
+          <div class="plp-feat-card-title">Skinrelief Pro</div>
+          <div class="plp-feat-card-desc">Mild and gentle cleanser specially formulated for sensitive skin.</div>
+        </div>
+        <a href="#" class="plp-feat-card-link">↗</a>
+      </div>
+      <div class="plp-feat-card">
+        <div class="plp-feat-card-img">
+          <img src="assets/images/novage-prod-2.jpg" alt="Skinrelief Pro">
+        </div>
+        <div class="plp-feat-card-info">
+          <div class="plp-feat-card-title">Skinrelief Pro</div>
+          <div class="plp-feat-card-desc">Mild and gentle cleanser specially formulated for sensitive skin.</div>
+        </div>
+        <a href="#" class="plp-feat-card-link">↗</a>
+      </div>
+    </div>
+    <div class="plp-feature-nav">
+      <button class="plp-nav-btn">&#8249;</button>
+      <button class="plp-nav-btn">&#8250;</button>
+      <div class="plp-nav-dots">
+        <div class="plp-nav-dot"></div>
+        <div class="plp-nav-dot dim"></div>
+        <div class="plp-nav-dot dim"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── BRAND PARTNER CTA ─────────────────────────────────────────── -->
+<section class="plp-partner">
+  <div class="plp-partner-copy">
+    <div class="plp-partner-avatars">
+      <span class="plp-partner-paren plp-partner-paren-l">(</span>
+      <div class="plp-partner-avatars-wrap">
+        <div class="plp-partner-avatar"><img src="assets/images/avatar-1.jpg" alt=""></div>
+        <div class="plp-partner-avatar"><img src="assets/images/avatar-2.jpg" alt=""></div>
+        <div class="plp-partner-avatar"><img src="assets/images/avatar-3.jpg" alt=""></div>
+      </div>
+      <span class="plp-partner-paren plp-partner-paren-r">)</span>
+    </div>
+    <p class="plp-partner-eyebrow">Start selling start earning</p>
+    <h2 class="plp-partner-title">Become a brand<br>partner &amp; travel the<br>world</h2>
+    <p class="plp-partner-desc">As a Brand Partner, you can make money in your own time, from home or on the move. Eventually, you may even want to develop your beauty sideline into more of a business. And when that happens, we'll be there for you.</p>
+    <div class="plp-partner-actions">
+      <a href="#" class="btn-outline">Become a Brand Partner</a>
+      <a href="#" class="plp-partner-arrow">
+        <svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="plp-partner-photo">
+    <img src="assets/images/hero-partners.jpg" alt="Become a Brand Partner">
+  </div>
+</section>
+
+
+<!-- ─── SIGN UP TODAY ─────────────────────────────────────────────── -->
+<section class="plp-signup">
+  <h2>Sign up today</h2>
+  <p>Sign up today and be the first to get our best offers, latest news &amp; beauty selling tips.</p>
+  <a href="#" class="plp-signup-btn">Subscribe to our partner newsletter</a>
+</section>
+
+
+<!-- ─── FOOTER ────────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="newsletter">
+    <div>
+      <h3>Join our newsletter!</h3>
+      <p>Sign up today and be the first to get our best offers, latest news &amp; beauty tips.</p>
+    </div>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="Your e-mail">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h4>Support / Help</h4>
+      <ul>
+        <li><a href="#">Support Centre</a></li>
+        <li><a href="#">Track your order</a></li>
+        <li><a href="#">Claims &amp; returns</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Corporate Info</h4>
+      <ul>
+        <li><a href="#">Work With Us</a></li>
+        <li><a href="#">Reach Your Happy Place</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Investor Relations</a></li>
+        <li><a href="#">Oriflame.com</a></li>
+        <li><a href="#">EU Declarations of Conformity</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Discover</h4>
+      <ul>
+        <li><a href="#">Join us as a Brand Partner</a></li>
+        <li><a href="#">Join us as a VIP Customer</a></li>
+        <li><a href="#">eCatalogue</a></li>
+        <li><a href="#">Explore Our Apps</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Explore Our Apps</h4>
+      <div class="app-badges">
+        <a href="#" class="app-badge">
+          <span class="icon">&#63743;</span>
+          <div><span class="label">Download on the</span><span class="store">App Store</span></div>
+        </a>
+        <a href="#" class="app-badge">
+          <span class="icon">&#9654;</span>
+          <div><span class="label">Get it on</span><span class="store">Google Play</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>
+      <div class="footer-logo">ORIFLAME</div>
+      <div class="footer-copy">© Oriflame is a beauty company selling direct. Copyright © 2026 Oriflame Cosmetics AG. All rights reserved.</div>
+    </div>
+    <div class="social-row">
+      <a href="#" class="social-link" aria-label="Facebook">f</a>
+      <a href="#" class="social-link" aria-label="Instagram">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="#" class="social-link" aria-label="YouTube">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.7 12 2.7 12 2.7s-4.3 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.2c0 2.2.3 4.5.3 4.5s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.3 12 22.3 12 22.3s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.2C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ─── BASKET OVERLAY ────────────────────────────────────────────── -->
+<div id="basketOverlay" class="basket-overlay"></div>
+
+<!-- ─── BASKET DRAWER ─────────────────────────────────────────────── -->
+<aside id="basketDrawer" class="basket-drawer" aria-label="Shopping basket">
+
+  <div class="basket-header">
+    <div class="basket-header-left">
+      <span class="basket-title">Your Basket</span>
+      <span class="basket-count" id="basketCount">3 items</span>
+    </div>
+    <button class="basket-close" id="basketClose" aria-label="Close basket">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="basket-shipping-bar">
+    <p class="basket-shipping-text">🎉 You qualify for <strong>free shipping</strong> as a VIP Member!</p>
+    <div class="basket-shipping-progress"><div class="basket-shipping-fill"></div></div>
+  </div>
+
+  <div class="basket-items" id="basketItems">
+    <!-- rendered by JS -->
+  </div>
+
+  <div class="basket-summary">
+    <div class="basket-summary-row">
+      <span>Subtotal</span>
+      <span id="basketSubtotal">£85.00</span>
+    </div>
+    <div class="basket-summary-row">
+      <span>Delivery</span>
+      <span class="basket-free">Free (VIP Member)</span>
+    </div>
+    <div class="basket-total-row">
+      <span>Total</span>
+      <span id="basketTotal">£85.00</span>
+    </div>
+  </div>
+
+  <div class="basket-ctas">
+    <a href="#" class="btn-basket-view">View Basket</a>
+    <a href="#" class="btn-basket-checkout">Checkout →</a>
+  </div>
+
+</aside>
+
+<script>
+  // ── Mega menu ──────────────────────────────────────────────────
+  const megaMenu = document.getElementById('megaMenu');
+  const catLinks = document.querySelectorAll('#catNav a');
+  let closeTimer;
+
+  catLinks.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      catLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      if (link.dataset.menu === 'skincare') {
+        megaMenu.classList.add('open');
+      } else {
+        megaMenu.classList.remove('open');
+      }
+    });
+    link.addEventListener('mouseleave', () => {
+      closeTimer = setTimeout(() => {
+        if (!megaMenu.matches(':hover')) megaMenu.classList.remove('open');
+      }, 120);
+    });
+  });
+
+  megaMenu.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+  megaMenu.addEventListener('mouseleave', () => {
+    closeTimer = setTimeout(() => megaMenu.classList.remove('open'), 120);
+  });
+
+  // ── Filter chips ───────────────────────────────────────────────
+  document.querySelectorAll('.plp-filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.plp-filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // ── Basket Drawer ──────────────────────────────────────────────
+  const basketDrawer = document.getElementById('basketDrawer');
+  const basketOverlay = document.getElementById('basketOverlay');
+  const basketClose  = document.getElementById('basketClose');
+  const cartBtn      = document.getElementById('cartBtn');
+  const cartBadge    = document.getElementById('cartBadge');
+
+  // Product data pre-populated in basket
+  const basketProducts = [
+    { id: 1, type: 'Foam Cleanser',           name: 'Skinrelief Pro',            price: 23, qty: 1, img: 'assets/images/antioxi-1.jpg' },
+    { id: 2, type: 'Rich SPF 30',             name: 'Anti-Ageing Day Cream',     price: 34, qty: 1, img: 'assets/images/antioxi-2.jpg' },
+    { id: 3, type: 'UV-Age Day Shield SPF 50',name: 'Proceuticals Ultra Light',  price: 28, qty: 1, img: 'assets/images/antioxi-3.jpg' },
+  ];
+
+  function openBasket()  { basketDrawer.classList.add('open'); basketOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeBasket() { basketDrawer.classList.remove('open'); basketOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+  function renderBasket() {
+    const container   = document.getElementById('basketItems');
+    const countEl     = document.getElementById('basketCount');
+    const subtotalEl  = document.getElementById('basketSubtotal');
+    const totalEl     = document.getElementById('basketTotal');
+
+    const total     = basketProducts.reduce((s, p) => s + p.price * p.qty, 0);
+    const itemCount = basketProducts.reduce((s, p) => s + p.qty, 0);
+
+    countEl.textContent     = `${itemCount} item${itemCount !== 1 ? 's' : ''}`;
+    subtotalEl.textContent  = `£${total.toFixed(2)}`;
+    totalEl.textContent     = `£${total.toFixed(2)}`;
+    cartBadge.textContent   = itemCount;
+
+    if (basketProducts.length === 0) {
+      container.innerHTML = `<div style="padding:48px 28px;text-align:center;color:var(--mid);font-size:14px;">Your basket is empty.</div>`;
+      return;
+    }
+
+    container.innerHTML = basketProducts.map(p => `
+      <div class="basket-item" data-id="${p.id}">
+        <div class="basket-item-img"><img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="basket-item-info">
+          <p class="basket-item-type">${p.type}</p>
+          <p class="basket-item-name">${p.name}</p>
+          <div class="basket-item-bottom">
+            <div class="basket-qty">
+              <button class="qty-btn qty-minus" data-id="${p.id}">−</button>
+              <span class="qty-val">${p.qty}</span>
+              <button class="qty-btn qty-plus" data-id="${p.id}">+</button>
+            </div>
+            <span class="basket-item-price">£${(p.price * p.qty).toFixed(2)}</span>
+          </div>
+        </div>
+        <button class="basket-item-remove" data-id="${p.id}" aria-label="Remove">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.qty-plus').forEach(btn => {
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p) { p.qty++; renderBasket(); } });
+    });
+    container.querySelectorAll('.qty-minus').forEach(btn => {
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p && p.qty > 1) { p.qty--; renderBasket(); } });
+    });
+    container.querySelectorAll('.basket-item-remove').forEach(btn => {
+      btn.addEventListener('click', () => { const i = basketProducts.findIndex(x => x.id === +btn.dataset.id); if (i > -1) { basketProducts.splice(i, 1); renderBasket(); } });
+    });
+  }
+
+  // Triggers
+  cartBtn.addEventListener('click', (e) => { e.preventDefault(); openBasket(); });
+  basketClose.addEventListener('click', closeBasket);
+  basketOverlay.addEventListener('click', closeBasket);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBasket(); });
+
+  // "Add to bag" on PLP cards also opens basket
+  document.querySelectorAll('[aria-label="Add to bag"]').forEach(btn => {
+    btn.addEventListener('click', () => openBasket());
+  });
+
+  // Initial render
+  renderBasket();
+</script>
+</body>
+</html>
