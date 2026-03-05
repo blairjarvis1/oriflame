@@ -118,7 +118,7 @@
     .header-icons a { font-size: 20px; color: var(--dark); position: relative; }
     .cart-badge {
       position: absolute; top: -5px; right: -6px;
-      background: var(--red); color: var(--white);
+      background: var(--mint); color: var(--dark);
       font-size: 9px; font-weight: 700;
       width: 16px; height: 16px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -458,37 +458,42 @@
     /* ── FULL-WIDTH PROMO ─────────────────────────────────────────── */
     .fwpromo {
       background: var(--cream);
+      position: relative;
       overflow: hidden;
+      min-height: 640px;
+    }
+    .fwpromo-model-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      pointer-events: none;
     }
     .fwpromo-grid {
+      position: relative; z-index: 1;
       max-width: 1440px; margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 400px 320px;
-      align-items: end;
-      padding: 0 120px;
-      gap: 60px;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 88px 120px;
+      gap: 64px;
     }
-    .fwpromo-content { padding: 88px 0; }
     .fwpromo-content h2 { font-size: 48px; font-weight: 400; line-height: 1.15; margin-bottom: 20px; }
-    .fwpromo-content p { font-size: 14px; color: var(--mid); line-height: 1.75; margin-bottom: 24px; max-width: 420px; }
+    .fwpromo-content p { font-size: 14px; color: var(--mid); line-height: 1.75; margin-bottom: 24px; max-width: 460px; }
     .promo-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
     .ptag {
       padding: 6px 14px; border: 1px solid var(--border);
       border-radius: 999px; font-size: 12px; color: var(--dark);
     }
-    .fwpromo-model { align-self: flex-end; }
-    .fwpromo-model img {
-      display: block; width: 100%;
-      height: 640px; object-fit: cover; object-position: top center;
-    }
-    .fwpromo-products { padding: 88px 0; display: flex; flex-direction: column; gap: 16px; }
+    .fwpromo-products { display: flex; gap: 16px; }
     .fwprod {
-      background: var(--white);
+      flex: 1; background: var(--white);
       border-radius: 8px; overflow: hidden;
-      display: flex; align-items: center; gap: 14px;
     }
-    .fwprod img { width: 80px; height: 80px; object-fit: cover; flex-shrink: 0; }
-    .fwprod-info { padding: 14px 14px 14px 0; }
+    .fwprod img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--light); }
+    .fwprod-info { padding: 14px; }
     .fwprod-info .b { font-size: 11px; color: var(--mid); }
     .fwprod-info .n { font-size: 13px; font-weight: 500; margin: 4px 0; }
     .fwprod-info .p { font-size: 14px; font-weight: 600; }
@@ -996,7 +1001,7 @@
   </div>
   <div class="product-grid">
     <!-- 1 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=1">
       <div class="product-img">
         <img src="assets/images/prod-spring-song.jpg" alt="Spring Song set">
         <span class="badge-new">NEW</span>
@@ -1007,7 +1012,7 @@
       <div class="p-price"><span class="p-now">£7.49</span><span class="p-was">£14.50</span></div>
     </div>
     <!-- 2 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=2">
       <div class="product-img">
         <img src="assets/images/prod-mascara.jpg" alt="TO 5-in-1 Wonder Lash Mascara">
         <span class="badge-new">NEW</span>
@@ -1019,7 +1024,7 @@
       <div class="p-price"><span class="p-now">£6.99</span><span class="p-was">£13.00</span></div>
     </div>
     <!-- 3 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=6">
       <div class="product-img">
         <img src="assets/images/prod-collagen.jpg" alt="Beauty Collagen Complex">
         <span class="badge-new">NEW</span>
@@ -1031,7 +1036,7 @@
       <div class="p-price"><span class="p-now">£29.99</span></div>
     </div>
     <!-- 4 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=3">
       <div class="product-img">
         <img src="assets/images/prod-micellar-1.jpg" alt="Comforting Micellar Water">
         <span class="badge-new">NEW</span>
@@ -1042,7 +1047,7 @@
       <div class="p-price"><span class="p-now">£6.99</span><span class="p-was">£12.00</span></div>
     </div>
     <!-- 5 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=4">
       <div class="product-img">
         <img src="assets/images/prod-micellar-2.jpg" alt="Comforting Micellar Water">
         <span class="badge-new">NEW</span>
@@ -1053,7 +1058,7 @@
       <div class="p-price"><span class="p-now">£6.99</span><span class="p-was">£12.00</span></div>
     </div>
     <!-- 6 -->
-    <div class="product-card">
+    <div class="product-card" data-href="pdp-skincare.html?product=5">
       <div class="product-img">
         <img src="assets/images/prod-micellar-3.jpg" alt="Comforting Micellar Water">
         <span class="badge-new">NEW</span>
@@ -1130,6 +1135,8 @@
 
 <!-- ─── NOVAGE+ FULL-WIDTH PROMO ─────────────────────────────────── -->
 <section class="fwpromo">
+  <!-- Model image fills background — swap for transparent PNG when available -->
+  <img src="assets/images/novage-model.jpg" alt="" class="fwpromo-model-bg" aria-hidden="true">
   <div class="fwpromo-grid">
     <!-- Left: text content -->
     <div class="fwpromo-content">
@@ -1143,10 +1150,6 @@
         <span class="ptag">Aloevera</span>
       </div>
       <a href="#" class="btn-solid">CHOOSE YOURS</a>
-    </div>
-    <!-- Centre: model cutout rising from top -->
-    <div class="fwpromo-model">
-      <img src="assets/images/novage-model.jpg" alt="Novage+ model">
     </div>
     <!-- Right: product cards -->
     <div class="fwpromo-products">
@@ -1388,7 +1391,7 @@
     <div class="basket-total-row"><span>Total</span><span id="basketTotal">£85.00</span></div>
   </div>
   <div class="basket-ctas">
-    <a href="#" class="btn-basket-view">View Basket</a>
+    <a href="basket.html" class="btn-basket-view">View Basket</a>
     <a href="#" class="btn-basket-checkout">Checkout →</a>
   </div>
 </aside>
@@ -1435,11 +1438,14 @@
   const cartBtn       = document.getElementById('cartBtn');
   const cartBadge     = document.getElementById('cartBadge');
 
-  const basketProducts = [
+  const BASKET_KEY = 'oriflame_basket';
+  const DEFAULT_BASKET = [
     { id: 1, type: 'Foam Cleanser',            name: 'Skinrelief Pro',           price: 23, qty: 1, img: 'assets/images/antioxi-1.jpg' },
     { id: 2, type: 'Rich SPF 30',              name: 'Anti-Ageing Day Cream',    price: 34, qty: 1, img: 'assets/images/antioxi-2.jpg' },
     { id: 3, type: 'UV-Age Day Shield SPF 50', name: 'Proceuticals Ultra Light', price: 28, qty: 1, img: 'assets/images/antioxi-3.jpg' },
   ];
+  let basketProducts = JSON.parse(localStorage.getItem(BASKET_KEY)) || DEFAULT_BASKET;
+  function saveBasket() { localStorage.setItem(BASKET_KEY, JSON.stringify(basketProducts)); }
 
   function openBasket()  { basketDrawer.classList.add('open'); basketOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeBasket() { basketDrawer.classList.remove('open'); basketOverlay.classList.remove('open'); document.body.style.overflow = ''; }
@@ -1485,13 +1491,13 @@
     `).join('');
 
     container.querySelectorAll('.qty-plus').forEach(btn => {
-      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p) { p.qty++; renderBasket(); } });
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p) { p.qty++; saveBasket(); renderBasket(); } });
     });
     container.querySelectorAll('.qty-minus').forEach(btn => {
-      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p && p.qty > 1) { p.qty--; renderBasket(); } });
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p && p.qty > 1) { p.qty--; saveBasket(); renderBasket(); } });
     });
     container.querySelectorAll('.basket-item-remove').forEach(btn => {
-      btn.addEventListener('click', () => { const i = basketProducts.findIndex(x => x.id === +btn.dataset.id); if (i > -1) { basketProducts.splice(i, 1); renderBasket(); } });
+      btn.addEventListener('click', () => { const i = basketProducts.findIndex(x => x.id === +btn.dataset.id); if (i > -1) { basketProducts.splice(i, 1); saveBasket(); renderBasket(); } });
     });
   }
 
@@ -1501,6 +1507,22 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBasket(); });
 
   renderBasket();
+
+  // ── New In product cards → PDP ─────────────────────────────────
+  document.querySelectorAll('.product-card[data-href]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.wishlist-btn')) return;
+      location.href = card.dataset.href;
+    });
+  });
+
+  // Stop wishlist clicks from toggling the card's wished state
+  document.querySelectorAll('.product-card .wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.textContent = btn.textContent.trim() === '♡' ? '♥' : '♡';
+    });
+  });
 </script>
 
 </body>

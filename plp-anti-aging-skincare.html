@@ -93,7 +93,7 @@
     .header-icons a { font-size: 20px; color: var(--dark); position: relative; }
     .cart-badge {
       position: absolute; top: -5px; right: -6px;
-      background: var(--red); color: var(--white);
+      background: var(--mint); color: var(--dark);
       font-size: 9px; font-weight: 700;
       width: 16px; height: 16px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -1323,7 +1323,7 @@
   </div>
 
   <div class="basket-ctas">
-    <a href="#" class="btn-basket-view">View Basket</a>
+    <a href="basket.html" class="btn-basket-view">View Basket</a>
     <a href="#" class="btn-basket-checkout">Checkout →</a>
   </div>
 
@@ -1374,11 +1374,14 @@
   const cartBadge    = document.getElementById('cartBadge');
 
   // Product data pre-populated in basket
-  const basketProducts = [
+  const BASKET_KEY = 'oriflame_basket';
+  const DEFAULT_BASKET = [
     { id: 1, type: 'Foam Cleanser',           name: 'Skinrelief Pro',            price: 23, qty: 1, img: 'assets/images/antioxi-1.jpg' },
     { id: 2, type: 'Rich SPF 30',             name: 'Anti-Ageing Day Cream',     price: 34, qty: 1, img: 'assets/images/antioxi-2.jpg' },
     { id: 3, type: 'UV-Age Day Shield SPF 50',name: 'Proceuticals Ultra Light',  price: 28, qty: 1, img: 'assets/images/antioxi-3.jpg' },
   ];
+  let basketProducts = JSON.parse(localStorage.getItem(BASKET_KEY)) || DEFAULT_BASKET;
+  function saveBasket() { localStorage.setItem(BASKET_KEY, JSON.stringify(basketProducts)); }
 
   function openBasket()  { basketDrawer.classList.add('open'); basketOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeBasket() { basketDrawer.classList.remove('open'); basketOverlay.classList.remove('open'); document.body.style.overflow = ''; }
@@ -1424,13 +1427,13 @@
     `).join('');
 
     container.querySelectorAll('.qty-plus').forEach(btn => {
-      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p) { p.qty++; renderBasket(); } });
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p) { p.qty++; saveBasket(); renderBasket(); } });
     });
     container.querySelectorAll('.qty-minus').forEach(btn => {
-      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p && p.qty > 1) { p.qty--; renderBasket(); } });
+      btn.addEventListener('click', () => { const p = basketProducts.find(x => x.id === +btn.dataset.id); if (p && p.qty > 1) { p.qty--; saveBasket(); renderBasket(); } });
     });
     container.querySelectorAll('.basket-item-remove').forEach(btn => {
-      btn.addEventListener('click', () => { const i = basketProducts.findIndex(x => x.id === +btn.dataset.id); if (i > -1) { basketProducts.splice(i, 1); renderBasket(); } });
+      btn.addEventListener('click', () => { const i = basketProducts.findIndex(x => x.id === +btn.dataset.id); if (i > -1) { basketProducts.splice(i, 1); saveBasket(); renderBasket(); } });
     });
   }
 
@@ -1447,6 +1450,46 @@
 
   // Initial render
   renderBasket();
+
+  // ── PLP card → PDP navigation ──────────────────────────────────
+  // Maps product image filename to PDP product param
+  const imgToProduct = {
+    'antioxi-1.jpg':   1,
+    'antioxi-2.jpg':   2,
+    'antioxi-3.jpg':   3,
+    'novage-prod-1.jpg': 4,
+    'novage-prod-2.jpg': 5,
+    'prod-collagen.jpg': 6
+  };
+
+  document.querySelectorAll('.plp-card').forEach(card => {
+    const img = card.querySelector('.plp-card-img-area img');
+    if (!img) return;
+    const filename = img.src.split('/').pop();
+    const productId = imgToProduct[filename] || 3;
+    const href = 'pdp-skincare.html?product=' + productId;
+
+    // Style card as clickable
+    card.style.cursor = 'pointer';
+
+    // Make image area + header navigate to PDP
+    card.querySelector('.plp-card-header').addEventListener('click', () => {
+      location.href = href;
+    });
+    card.querySelector('.plp-card-img-area').addEventListener('click', (e) => {
+      // Only navigate if not clicking wishlist/add-to-bag buttons
+      if (!e.target.closest('.plp-icon-circle')) location.href = href;
+    });
+
+    // Update arrow circle button to navigate to PDP
+    const arrowBtn = card.querySelector('.plp-arrow-circle');
+    if (arrowBtn) {
+      arrowBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        location.href = href;
+      });
+    }
+  });
 </script>
 </body>
 </html>
