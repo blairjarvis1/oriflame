@@ -154,8 +154,24 @@
       text-transform: uppercase;
       letter-spacing: 1.8px;
       color: var(--faint);
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
+    /* Toggle button — non-interactive on desktop, interactive on mobile */
+    .ph-kt-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 10px;
+      cursor: default;
+      pointer-events: none;
+      font-family: var(--font);
+    }
+    .ph-kt-chevron { display: none; } /* hidden on desktop */
+    .ph-kt-body {}                    /* always open on desktop */
     .ph-kt-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .ph-kt-pill {
       display: flex;
@@ -798,6 +814,44 @@
       .ph-subtitle { font-size: 12px; }
       .ph-right { max-width: 100%; }
 
+      /* ── Key Takeaways expandable accordion (mobile) ── */
+      .ph-kt-toggle {
+        pointer-events: auto;
+        cursor: pointer;
+        padding: 11px 0;
+        margin-bottom: 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        border-radius: 0;
+        transition: border-color 0.2s;
+      }
+      .ph-kt-toggle[aria-expanded="true"] {
+        border-bottom-color: transparent; /* body takes over the divider */
+      }
+      .ph-kt-chevron {
+        display: flex;
+        align-items: center;
+        color: var(--faint);
+        flex-shrink: 0;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ph-kt-toggle[aria-expanded="true"] .ph-kt-chevron {
+        transform: rotate(180deg);
+      }
+      /* Collapsed body */
+      .ph-kt-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ph-kt-body.open {
+        max-height: 240px;
+      }
+      .ph-kt-body .ph-kt-pills {
+        padding: 12px 0 4px;
+        grid-template-columns: 1fr 1fr;
+      }
+
       /* Hide the desktop sentiment wave row */
       .sw-row { display: none; }
 
@@ -1065,8 +1119,13 @@
         <div class="ph-subtitle">Light Touch</div>
       </div>
       <div class="ph-right">
-        <div class="ph-kt-label">Key Takeaways</div>
-        <div class="ph-kt-pills" id="ktPills"></div>
+        <button class="ph-kt-toggle" id="ktToggle" aria-expanded="false">
+          <span class="ph-kt-label">Key Takeaways</span>
+          <span class="ph-kt-chevron" id="ktChevron"></span>
+        </button>
+        <div class="ph-kt-body" id="ktBody">
+          <div class="ph-kt-pills" id="ktPills"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1331,8 +1390,21 @@ function ico(name, size = 16, color = 'currentColor', sw = 1.75) {
    BUILD KEY TAKEAWAYS
 ═══════════════════════════════════════════════════════ */
 function buildKT() {
-  const el = document.getElementById('ktPills');
+  const el     = document.getElementById('ktPills');
+  const toggle = document.getElementById('ktToggle');
+  const body   = document.getElementById('ktBody');
+  const chev   = document.getElementById('ktChevron');
+
   el.innerHTML = KEY_TAKEAWAYS.map(t => `<span class="ph-kt-pill">${t}</span>`).join('');
+
+  // Inject chevron SVG (feather is loaded synchronously in <head>)
+  if (chev) chev.innerHTML = ico('chevron-down', 14, 'currentColor', 2);
+
+  // Accordion behaviour — only meaningful on mobile (pointer-events: none on desktop)
+  toggle.addEventListener('click', () => {
+    const open = body.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
 }
 
 /* ═══════════════════════════════════════════════════════
