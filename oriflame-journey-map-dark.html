@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Members Digital Experience Map – Oriflame (Dark)</title>
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  <style>
+    @font-face {
+      font-family: 'Oriflame Sans';
+      src: url('assets/fonts/OriflamesSans-Regular.ttf') format('truetype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Oriflame Sans';
+      src: url('assets/fonts/OriflamesSans-Bold.ttf') format('truetype');
+      font-weight: 600 900; font-style: normal; font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --font: 'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --text:    #e8e8e8;
+      --mid:     #9a9a9a;
+      --faint:   #616161;
+      --white:   #141414;
+      --bg:      #141414;
+      --border:  #2b2b2b;
+      --light:   #1e1e1e;
+      --chip-bg: #232323;
+      --chip-bdr:#303030;
+      --mint:    #9CDABC;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+    }
+    button { cursor: pointer; font-family: var(--font); border: none; background: none; }
+
+    /* ─── TOP NAV ───────────────────────────────────────── */
+    .topnav {
+      flex-shrink: 0;
+      height: 52px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      z-index: 50;
+    }
+    .tn-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .tn-logo {
+      height: 22px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+    .tn-sep { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
+    .tn-title {
+      font-size: 10.5px;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .8px;
+      white-space: nowrap;
+    }
+    .tn-nav {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    .tn-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.5);
+      font-size: 10.5px;
+      font-family: var(--font);
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .tn-btn:hover, .tn-btn.active {
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,255,255,.3);
+      color: #fff;
+    }
+    .tn-btn .n { font-size: 9px; opacity: .5; }
+    .tn-btn svg { flex-shrink: 0; }
+
+    /* ─── OVERVIEW WRAPPER ──────────────────────────────── */
+    .overview-wrap {
+      flex: 1;
+      overflow: auto;
+      min-height: 0;
+      background: var(--white);
+    }
+
+    /* ─── PAGE TITLE AREA ───────────────────────────────── */
+    .page-header {
+      padding: 36px 40px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+      padding-bottom: 28px;
+    }
+    .ph-left {}
+    .ph-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mint);
+      margin-bottom: 6px;
+    }
+    .ph-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .ph-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--mid);
+    }
+    .ph-right { flex-shrink: 0; max-width: 580px; }
+    .ph-kt-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+    .ph-kt-pills { display: flex; flex-direction: column; gap: 6px; }
+    .ph-kt-pill {
+      display: inline-flex;
+      padding: 6px 12px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: var(--mid);
+      line-height: 1.4;
+    }
+
+    /* ─── STAGE COLUMNS GRID ────────────────────────────── */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      min-width: 960px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .stage-col {
+      border-right: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .stage-col:last-child { border-right: 1px solid var(--border); }
+    .stage-col:first-child { border-left: 1px solid var(--border); }
+    .stage-col:hover { background: #202020; }
+
+    /* Stage column header */
+    .sc-head {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sc-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+    .sc-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .sc-icon svg { display: block; }
+    .sc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .sc-obj-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--faint);
+      margin-bottom: 4px;
+    }
+    .sc-obj {
+      font-size: 11.5px;
+      color: var(--mid);
+      line-height: 1.45;
+    }
+
+    /* Steps section */
+    .sc-steps {
+      padding: 16px 20px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sc-steps-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+    .sc-chips { display: flex; flex-direction: column; gap: 5px; }
+    .sc-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-bdr);
+      border-radius: 4px;
+      font-size: 10.5px;
+      color: var(--text);
+      line-height: 1.35;
+      width: fit-content;
+      max-width: 100%;
+      text-align: left;
+    }
+
+    /* KPI section */
+    .sc-kpis {
+      padding: 16px 20px;
+    }
+    .sc-kpi {
+      margin-bottom: 12px;
+    }
+    .sc-kpi:last-child { margin-bottom: 0; }
+    .sc-kpi-val {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .sc-kpi-label {
+      font-size: 10px;
+      color: var(--mid);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    /* Click hint */
+    .sc-hint {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      color: var(--faint);
+    }
+    .sc-hint svg { opacity: .5; }
+
+    /* ─── FULL-SCREEN MODAL ─────────────────────────────── */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(100%);
+      transition: transform .38s cubic-bezier(.4,0,.2,1);
+      pointer-events: none;
+    }
+    .modal.open {
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    /* Modal nav — single row */
+    .m-nav {
+      flex-shrink: 0;
+      height: 52px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+    }
+    .m-nav-top {
+      display: contents; /* unwrap — children participate directly in .m-nav flex */
+    }
+    .m-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+    .m-nav-left .tn-logo,
+    .m-nav-left .tn-sep { flex-shrink: 0; }
+    .m-nav-title {
+      font-size: 10.5px;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+    .m-nav-stages {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      overflow: visible;
+    }
+    /* Compact stage buttons so all 6 fit */
+    .m-nav-stages .tn-btn {
+      padding: 5px 9px 5px 7px;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .m-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .m-ctrl {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .m-ctrl:hover { background: rgba(255,255,255,.18); color: #fff; }
+    .m-ctrl svg { display: block; }
+
+    /* Modal header section */
+    .m-head {
+      flex-shrink: 0;
+      padding: 40px 64px 36px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .m-head-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .m-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .m-icon svg { display: block; }
+    .m-head-text {}
+    .m-stage-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 6px;
+    }
+    .m-stage-name {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+    .m-stage-obj {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+    /* Steps in modal header */
+    .m-steps-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+    .m-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .m-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-bdr);
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    /* Dots nav */
+    .m-dots {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 20px;
+    }
+    .m-dot {
+      height: 4px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: width .22s, background .22s;
+      background: var(--border);
+      width: 20px;
+    }
+    .m-dot.active { background: var(--text); width: 32px; }
+
+    /* Modal body */
+    .m-body {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--light);
+    }
+    .m-body-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 64px 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* KPI row — spans full width */
+    .m-kpi-row {
+      grid-column: 1 / -1;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 28px;
+      display: flex;
+      gap: 0;
+    }
+    .m-kpi-item {
+      flex: 1;
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+    .m-kpi-item:first-child { padding-left: 0; }
+    .m-kpi-item:last-child { border-right: none; }
+    .m-kpi-val {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      white-space: pre-line;
+    }
+    .m-kpi-lbl { font-size: 11px; color: var(--mid); line-height: 1.4; margin-bottom: 4px; }
+    .m-kpi-note { font-size: 10.5px; color: var(--faint); line-height: 1.4; }
+
+    /* Section card */
+    .m-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px 24px;
+    }
+    .m-section.full { grid-column: 1 / -1; }
+    .m-section-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .m-section-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .m-section-icon svg { display: block; }
+    .m-section-title {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--mid);
+    }
+
+    /* Evidence card inside a section */
+    .ev-card {
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+    }
+    .ev-card:last-child { margin-bottom: 0; }
+
+    /* Screenshot rail */
+    .m-img-rail {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 16px 0 4px;
+      scroll-snap-type: x mandatory;
+    }
+    .m-img-rail::-webkit-scrollbar { height: 5px; }
+    .m-img-rail::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+    .m-img-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .m-img-thumb {
+      height: 300px;
+      width: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+      background: #252525;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      cursor: zoom-in;
+      transition: transform .2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    .m-img-thumb:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,0,0,.14); }
+    /* Touchpoint tag row */
+    .m-tp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 14px;
+    }
+    .m-tp-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: .3px;
+      background: #1a2040;
+      color: #8ba0e8;
+      border: 1px solid #2a3560;
+      white-space: nowrap;
+    }
+
+    /* Lightbox */
+    #imgLightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    #imgLightbox.open { display: flex; }
+    #imgLightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.6);
+    }
+    .ev-card.driver { background: #1c1530; border-color: #3a2e55; }
+    .ev-card.barrier { background: #2a1515; border-color: #552a2a; }
+    .ev-card.challenge { background: #231e08; border-color: #524510; }
+
+    .ev-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .ev-body {
+      font-size: 11.5px;
+      color: var(--mid);
+      line-height: 1.55;
+      margin-bottom: 6px;
+      white-space: pre-line;
+    }
+    .ev-impact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .ev-impact-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--faint);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ev-impact-text {
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.4;
+      font-weight: 500;
+    }
+    .ev-source {
+      font-size: 9px;
+      color: var(--faint);
+      letter-spacing: .5px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LIGHTBOX ────────────────────────────────────── -->
+<div id="imgLightbox" onclick="this.classList.remove('open')">
+  <img id="lbImg" src="" alt="Screen" />
+</div>
+
+<!-- ── TOP NAV ────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="tn-brand">
+    <img class="tn-logo" src="assets/oriflame-logo.svg" alt="Oriflame" />
+    <div class="tn-sep"></div>
+    <span class="tn-title">Members Digital Experience Map</span>
+  </div>
+  <div class="tn-nav" id="tnNav"></div>
+</nav>
+
+<!-- ── OVERVIEW ──────────────────────────────────── -->
+<div class="overview-wrap">
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="ph-left">
+        <div class="ph-label">Oriflame Sweden</div>
+        <div class="ph-title">Members Digital Experience Map</div>
+        <div class="ph-subtitle">Light Touch</div>
+      </div>
+      <div class="ph-right">
+        <div class="ph-kt-label">Key Takeaways</div>
+        <div class="ph-kt-pills" id="ktPills"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stages-grid" id="stagesGrid"></div>
+
+</div>
+
+<!-- ── FULL-SCREEN MODAL ──────────────────────────── -->
+<div class="modal" id="modal">
+
+  <div class="m-nav">
+    <div class="m-nav-left">
+      <img class="tn-logo" src="assets/oriflame-logo.svg" alt="Oriflame" />
+      <div class="tn-sep"></div>
+      <span class="m-nav-title">Members Digital Experience Map</span>
+    </div>
+    <div class="m-nav-stages" id="mNavStages"></div>
+    <div class="m-nav-right">
+      <button class="m-ctrl" id="mPrev" aria-label="Previous"><i data-feather="chevron-left" width="16" height="16" stroke-width="2"></i></button>
+      <button class="m-ctrl" id="mNext" aria-label="Next"><i data-feather="chevron-right" width="16" height="16" stroke-width="2"></i></button>
+      <button class="m-ctrl" id="mClose" aria-label="Close"><i data-feather="x" width="16" height="16" stroke-width="2"></i></button>
+    </div>
+  </div>
+
+  <div class="m-head" id="mHead">
+    <div class="m-head-top">
+      <div class="m-icon" id="mIcon"></div>
+      <div class="m-head-text">
+        <div class="m-stage-label" id="mLabel"></div>
+        <div class="m-stage-name" id="mName"></div>
+        <div class="m-stage-obj" id="mObj"></div>
+      </div>
+    </div>
+    <div class="m-steps-label">Possible Steps</div>
+    <div class="m-chips" id="mChips"></div>
+    <div class="m-dots" id="mDots"></div>
+  </div>
+
+  <div class="m-body">
+    <div class="m-body-inner" id="mBody"></div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA — exact content from Figma
+═══════════════════════════════════════════════════════ */
+
+const KEY_TAKEAWAYS = [
+  'Traffic is growing but engagement and retention are weakening',
+  'Value is present but users don\'t always clearly understand or feel the benefit',
+  'Trust is disrupted at sensitive moments',
+  'Loyalty is not strong enough to drive repeat purchase',
+];
+
+const STAGES = [
+  {
+    id: 1,
+    icon: 'eye',
+    short: 'Awareness',
+    name: 'Awareness & Discovery',
+    objective: 'Establish trust and explain the brand clearly.',
+    steps: [
+      'Encounters Oriflame\nvia social, word of mouth, or shared link',
+      'Visits website directly',
+      'Views homepage',
+      'Assesses products/promotions\nbefore deciding whether to register',
+    ],
+    kpis: [
+      { value: '+6.5%', label: 'Traffic (yoy)', note: 'More people are arriving, but they are not staying or coming back. This suggests a first-impression issue, not an acquisition issue.' },
+      { value: '-5.8%', label: 'Sessions', note: '' },
+      { value: '95%', label: 'of visitors are new users', note: 'Web users rarely return after their first purchase.' },
+      { value: '76%', label: 'of global traffic is mobile', note: '' },
+    ],
+    drivers: [
+      { source: 'Lumo', title: 'Product-led interest', body: 'People often arrive because of a specific product (e.g. Tender Care, perfumes), not because of the brand.', impact: 'Interest starts at product level.' },
+    ],
+    barriers: [
+      { source: 'Kantar', title: 'Low Brand Recognition in Growth Markets', body: 'The brand is largely unknown and needs explaining.', impact: 'People have to work out what it is before they can decide if they like it.' },
+      { source: 'Kantar', title: 'First impression feels functional', body: 'The brand feels practical rather than aspirational.', impact: "It doesn't immediately stand out in a crowded beauty market." },
+      { source: 'Kantar', title: 'Dated Perception', body: 'Research notes Oriflame is perceived as dated in several markets.', impact: 'Reduced appeal in a digitally-led beauty category.' },
+    ],
+    challenge: {
+      title: 'First impressions require too much explanation',
+      body: 'New visitors have to:\nWork out what the brand is\nUnderstand how it works\nDecide if it feels trustworthy\nWhen that effort is too high, people leave.',
+      note: 'Traffic is growing, but engagement is falling.',
+    },
+  },
+  {
+    id: 2,
+    icon: 'users',
+    short: 'Pre-Reg',
+    name: 'Pre-Registration Considerations',
+    objective: 'Remove doubt about what joining means.',
+    steps: [
+      'Lands on Join / Benefits Zone page',
+      'Reads \u201cBeauty Community\u201d framing',
+      'Watches brand video (optional)',
+      'Reviews benefits (delivery, cashback, referrals)',
+      'Decides whether to proceed',
+    ],
+    kpis: [],
+    drivers: [
+      { source: 'Kantar, Lumo', title: 'Clear financial benefits', body: 'Free delivery threshold, cashback and referral savings are visible.', impact: "There's a clear reason to join." },
+    ],
+    barriers: [
+      { source: 'Kantar, Lumo', title: 'Unclear separation between buying and selling', body: 'Research shows users pause to ask:\nAm I signing up to sell?\nIs this free?\nIs there an obligation?', impact: 'Hesitation at the point of account creation.' },
+      { source: 'Kantar, Lumo', title: 'Too many membership terms', body: 'Community, Club, Benefits Zone, Premium Zone.', impact: 'People need to interpret what each one means.' },
+      { source: 'Kantar, Lumo', title: 'Naming and terminology are inconsistent', body: 'Different terms are used for the same actions or sections (e.g. Register, Sign Up, VIP Customer, Log in).', impact: 'Inconsistent terminology reduces clarity and erodes user confidence.' },
+      { source: 'Kantar, Lumo', title: 'Registration flow messaging creates confusion', body: 'Messaging suggests users have a choice about joining as a VIP customer even though registration is required to complete a purchase.', impact: 'Creates uncertainty about whether joining is optional or mandatory.' },
+    ],
+    challenge: {
+      title: "People aren't always sure what they're signing up for",
+      body: "Before creating an account, users want to know:\nIs this just a shopping account?\nAm I committing to anything?\nWill someone contact me?\nIf those answers aren't obvious, they hesitate.",
+    },
+  },
+  {
+    id: 3,
+    icon: 'compass',
+    short: 'Browsing',
+    name: 'Browsing and Discovery',
+    objective: 'Make products easy to find and easy to choose.',
+    steps: [
+      'Explore navigation',
+      'Use filters, search or browse categories',
+      'Compare products',
+      'Look at reviews and ratings',
+      'Check images and descriptions',
+      'View associated offers',
+      'Decide whether to add to basket',
+    ],
+    kpis: [
+      { value: '-12.6%', label: 'decline in search volume', note: "Existing members convert via search — new users don't." },
+      { value: '+63.7%', label: 'ATC events from search', note: 'Data suggests that this is driven by existing members.' },
+      { value: '31%', label: 'of total web users visit product pages', note: '' },
+      { value: '11.91%', label: 'of sessions began specifically after interacting with a search', note: "This indicates that the user's primary intent upon arriving was likely to find specific content, products, or information." },
+    ],
+    drivers: [
+      { source: 'VOC, Lumo', title: 'Clear categories and search tools', body: 'Filters and search are available and considered simple to use.', impact: 'The basics are in place to support product exploration.' },
+    ],
+    barriers: [
+      { source: 'Kantar, Lumo', title: 'Printed catalogue signals \u201cold Oriflame\u201d', body: 'Focus on the printed catalogue (e-catalogue) is described as \u201cmostly ignored\u201d by new markets and can anchor the brand in the past.', impact: 'Legacy formats may reinforce a dated perception.' },
+      { source: 'Kantar, Lumo', title: 'Product benefits are not clear fast enough', body: 'Previous research notes that product details are easy to find, but the explanation of benefits is not always present.', impact: 'Functional information is there. Persuasive information is weaker.' },
+      { source: 'Kantar, Lumo', title: 'Savings feel passive', body: 'The savings are not amplified clearly (monetary saving + %), offers feel passive rather than urgent.', impact: 'The site shows deals — it is not clear whether it is meaningful.' },
+      { source: 'Kantar, Lumo', title: 'Offers are not consistently actionable', body: 'Some promotions shown on banners or listing pages cannot be accessed or redeemed from the product page.', impact: 'Creates confusion and breaks momentum.' },
+    ],
+    challenge: {
+      title: "Browsing doesn\u2019t consistently turn into buying",
+      body: "People can explore products.\nBut pricing, stock, membership language and benefit clarity create hesitation before checkout.",
+    },
+  },
+  {
+    id: 4,
+    icon: 'shopping-bag',
+    short: 'Purchase',
+    name: 'Purchase and Checkout',
+    objective: 'Make checkout clear and frictionless.',
+    steps: [
+      'Build Basket',
+      'Sign In / Register',
+      'Review Offers and Add on\u2019s',
+      'Specify Delivery Information',
+    ],
+    kpis: [
+      { value: '~86%', label: 'of users never reach Add To Basket', note: 'The biggest drop off is before purchase intent is signalled' },
+      { value: '-0.6% / +6.5%', label: 'YoY Purchases (\u20ac7.9M) / YoY Traffic', note: 'More visitors \u2260 more buyers' },
+      { value: '-26% (-\u20ac11.24)', label: 'Mobile AOV compared to desktop', note: 'This equates to \u20ac20\u201340M suppressed annual revenue.' },
+      { value: '4.8%', label: 'of total web users make a purchase', note: '' },
+    ],
+    drivers: [
+      { source: 'Kantar, Lumo', title: 'Functional familiar checkout', body: 'Checkout is structured in expected steps (basket \u2192 delivery \u2192 payment \u2192 place order) with mostly expected options.', impact: 'The flow is recognisable and technically workable.' },
+    ],
+    barriers: [
+      { source: 'Kantar, Lumo', title: 'Items appear in the basket without clear intent', body: 'Additional items (e.g. catalogues) can be added automatically, sometimes for a fee.', impact: 'Creates suspicion or confusion at checkout.' },
+      { source: 'Kantar, Lumo', title: 'Lack of explicit checkout button', body: 'On the basket, there is no explicit \u201cProceed to Checkout\u201d.', impact: 'Reframes checkout as account acquisition rather than transactional.' },
+      { source: 'Kantar, Lumo', title: 'Cumbersome to progress', body: 'After registration, the customer is sent back to the basket.\nAfter interacting with Offer PDPs, the customer is sent back to the basket.', impact: 'Checkout can appear clunky and the lack of progress can be frustrating.' },
+      { source: 'Kantar, Lumo', title: 'Phone verification appears mandatory', body: 'The presentation suggests phone verification is required to proceed. Also, the expected phone number format is not region specific.', impact: 'Adds perceived friction and may stop some users and may cause validation errors and slow form completion.' },
+    ],
+    challenge: {
+      title: 'Small surprises at checkout create disproportionate distrust',
+      body: 'Checkout is where trust is most fragile.\nEven minor uncertainty \u2014 price shifts, extra items, recurring language, verification prompts \u2014 can cause abandonment.',
+    },
+  },
+  {
+    id: 5,
+    icon: 'package',
+    short: 'Delivery',
+    name: 'Delivery & Unboxing',
+    objective: 'Deliver reliably and communicate clearly.',
+    steps: [
+      'Receive Confirmation Email',
+      'Monitor Delivery Updates',
+      'Receive Parcel',
+      'Unbox Products / Check Content',
+    ],
+    kpis: [],
+    drivers: [
+      { source: 'Kantar, Lumo', title: 'Proactive delivery notifications', body: 'Email, SMS and courier updates are used with some deliveries beating the stated timelines.', impact: 'Keeps customers informed during transit.' },
+    ],
+    barriers: [
+      { source: 'Lumo', title: 'Slow dispatch times', body: 'Orders are not always shipped quickly.', impact: 'Creates frustration before the parcel even moves.' },
+      { source: 'Kantar, Lumo', title: 'High delivery costs', body: 'When free delivery is not achieved, delivery pricing is perceived as expensive.', impact: 'Reduces perceived value of the purchase.' },
+      { source: 'Kantar, Lumo', title: 'False \u201cdelivery attempt\u201d claims', body: 'Reports of inaccurate courier delivery claims.', impact: 'Creates anger and distrust toward the brand (even if the fault of the courier).' },
+    ],
+    challenge: {
+      title: 'Delivery issues undo the goodwill built earlier in the journey',
+      body: 'Even if browsing and checkout go smoothly,\ndelays, damaged goods, or poor communication can redefine the entire experience.\nDelivery is the first real test of the brand promise.',
+    },
+  },
+  {
+    id: 6,
+    icon: 'heart',
+    short: 'Loyalty',
+    name: 'Post Purchase & Loyalty',
+    objective: 'Give customers a reason to return and share.',
+    steps: [
+      'Uses Products',
+      'Sees Results',
+      'Interacts With Community (optional)',
+      'Considers Next Purchase',
+      'Shares with Network',
+      'Considers Becoming Brand Partner',
+    ],
+    kpis: [],
+    drivers: [
+      { source: 'IBM, Lumo', title: 'Visible results', body: 'Customers have reported seeing results with some Oriflame products making it into the daily routine.', impact: 'Reinforces belief in product effectiveness.' },
+    ],
+    barriers: [
+      { source: 'Kantar, Lumo', title: 'Loyalty progress is not visible', body: 'Users do not clearly understand how rewards accumulate.', impact: 'Reduces motivation to purchase again.' },
+      { source: 'IBM, Lumo', title: 'Members lose motivation without Brand Partner contact', body: 'When connection to a Brand Partner weakens, purchase motivation drops.', impact: 'Retention depends on relationship, not just platform.' },
+      { source: 'IBM, Lumo', title: 'Complicated sharing mechanic', body: 'User feedback has shown low understanding of the \u201cSharing Bonus\u201d.', impact: 'The reasons to share are not clear.' },
+    ],
+    challenge: {
+      title: "After delivery, there isn\u2019t a strong reason to come back",
+      body: "If:\nLoyalty progress is unclear\nBenefits feel passive\nPromotions slow down\nCommunity relevance is weak as BP focused.\nThen the relationship resets after each order.\nRepeat purchase becomes incidental, not intentional.",
+    },
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
+   FEATHER SVG HELPER
+═══════════════════════════════════════════════════════ */
+function ico(name, size = 16, color = 'currentColor', sw = 1.75) {
+  if (!feather || !feather.icons[name]) return '';
+  return feather.icons[name].toSvg({ width: size, height: size, stroke: color, 'stroke-width': sw, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUILD KEY TAKEAWAYS
+═══════════════════════════════════════════════════════ */
+function buildKT() {
+  const el = document.getElementById('ktPills');
+  el.innerHTML = KEY_TAKEAWAYS.map(t => `<span class="ph-kt-pill">${t}</span>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUILD TOP NAV
+═══════════════════════════════════════════════════════ */
+function buildNav() {
+  const topNav   = document.getElementById('tnNav');
+  const modalNav = document.getElementById('mNavStages');
+
+  STAGES.forEach((s, i) => {
+    // Top nav: number + icon + first word of name
+    const topBtn = document.createElement('button');
+    topBtn.className = 'tn-btn';
+    topBtn.dataset.i = i;
+    topBtn.innerHTML = `<span class="n">0${s.id}</span>${ico(s.icon, 11, 'currentColor', 2)} ${s.name.split(' ')[0]}`;
+    topBtn.addEventListener('click', () => openModal(i));
+    topNav.appendChild(topBtn);
+
+    // Modal nav: full button — number + icon + short label
+    const modalBtn = document.createElement('button');
+    modalBtn.className = 'tn-btn';
+    modalBtn.dataset.i = i;
+    modalBtn.innerHTML = `<span class="n">0${s.id}</span>${ico(s.icon, 11, 'currentColor', 2)} ${s.short}`;
+    modalBtn.addEventListener('click', () => openModal(i));
+    modalNav.appendChild(modalBtn);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUILD OVERVIEW COLUMNS
+═══════════════════════════════════════════════════════ */
+function buildOverview() {
+  const grid = document.getElementById('stagesGrid');
+  STAGES.forEach((s, i) => {
+    const col = document.createElement('div');
+    col.className = 'stage-col';
+    col.dataset.i = i;
+
+    // KPI preview (first only, if any)
+    const kpiHTML = s.kpis.length ? `
+      <div class="sc-kpis">
+        ${s.kpis.slice(0, 2).map(k => `
+          <div class="sc-kpi">
+            <div class="sc-kpi-val">${k.value}</div>
+            <div class="sc-kpi-label">${k.label}</div>
+          </div>`).join('')}
+      </div>` : '';
+
+    col.innerHTML = `
+      <div class="sc-head">
+        <div class="sc-num">0${s.id} / 06</div>
+        <div class="sc-icon">${ico(s.icon, 16, '#333', 1.75)}</div>
+        <div class="sc-name">${s.name}</div>
+        <div class="sc-obj-label">Key objective</div>
+        <div class="sc-obj">${s.objective}</div>
+      </div>
+      <div class="sc-steps">
+        <div class="sc-steps-label">Possible Steps</div>
+        <div class="sc-chips">
+          ${s.steps.map(st => `<span class="sc-chip">${st.replace('\n', ' ')}</span>`).join('')}
+        </div>
+      </div>
+      ${kpiHTML}
+      <div class="sc-hint">
+        ${ico('arrow-right', 11, 'currentColor', 2)}
+        View full analysis
+      </div>`;
+
+    col.addEventListener('click', () => openModal(i));
+    grid.appendChild(col);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════ */
+let currentStage = 0;
+
+function openModal(idx) {
+  currentStage = idx;
+  renderModal(idx);
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('m-body') && (document.getElementById('m-body').scrollTop = 0);
+  document.querySelector('.m-body').scrollTop = 0;
+  document.querySelectorAll('.tn-btn').forEach(b => b.classList.toggle('active', +b.dataset.i === idx));
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.querySelectorAll('.tn-btn').forEach(b => b.classList.remove('active'));
+
+}
+
+const STAGE_TOUCH_POINTS = [
+  // Stage 1 — Awareness
+  ['Social media (Instagram, Facebook, TikTok)', 'Campaign Banners', 'Shared links or promo codes from Brand Partners', 'Website (direct walk-in)', 'Offline catalogue in some markets'],
+  // Stage 2 — Pre-Registration
+  ['Website (Landing / Registration Pages)', 'Social Media (Ongoing)', 'Shared links or email from Brand Partners'],
+  // Stage 3 — Browsing
+  ['Website (Product Pages, Search, Filters)', 'eCatalogue', 'Printed Catalogue', 'Social Media (Ambient, ongoing)', 'Brand Partners (informal where relationships exist)'],
+  // Stage 4 — Purchase
+  ['Website (Product Pages, Search, Filters)', 'eCatalogue', 'Printed Catalogue', 'Social Media (Ambient, ongoing)', 'Brand Partners (informal where relationships exist)'],
+  // Stage 5 — Delivery
+  ['Email', 'SMS', 'Courier Notifications'],
+  // Stage 6 — Loyalty
+  ['Actual Product', 'Community Forums / Events'],
+];
+
+const STAGE_IMAGES = [
+  ['assets/journey/s1_1.png','assets/journey/s1_2.png','assets/journey/s1_3.png'],
+  ['assets/journey/s2_1.png','assets/journey/s2_2.png','assets/journey/s2_3.png'],
+  ['assets/journey/s3_1.png','assets/journey/s3_2.png','assets/journey/s3_3.png'],
+  ['assets/journey/s4_1.png','assets/journey/s4_2.png','assets/journey/s4_3.png'],
+  ['assets/journey/s5_1.png','assets/journey/s5_2.png','assets/journey/s5_3.png'],
+  ['assets/journey/s6_1.png','assets/journey/s6_2.png','assets/journey/s6_3.png'],
+];
+
+function renderModal(idx) {
+  const s = STAGES[idx];
+
+  // Icon
+  const iconEl = document.getElementById('mIcon');
+  iconEl.innerHTML = ico(s.icon, 22, '#333', 1.75);
+
+  // Header text
+  document.getElementById('mLabel').textContent = `Stage 0${s.id} of 06`;
+  document.getElementById('mName').textContent = s.name;
+  document.getElementById('mObj').textContent = s.objective;
+
+  // Steps
+  document.getElementById('mChips').innerHTML = s.steps
+    .map(st => `<span class="m-chip">${st.replace('\n', ' ')}</span>`)
+    .join('');
+
+  // Dots
+  const dots = document.getElementById('mDots');
+  dots.innerHTML = STAGES.map((_, i) =>
+    `<div class="m-dot${i === idx ? ' active' : ''}" data-i="${i}"></div>`
+  ).join('');
+  dots.querySelectorAll('.m-dot').forEach(d =>
+    d.addEventListener('click', () => openModal(+d.dataset.i))
+  );
+
+  // Body
+  const body = document.getElementById('mBody');
+
+  // KPI section
+  const kpiSection = s.kpis.length ? `
+    <div class="m-kpi-row">
+      ${s.kpis.map(k => `
+        <div class="m-kpi-item">
+          <div class="m-kpi-val">${k.value}</div>
+          <div class="m-kpi-lbl">${k.label}</div>
+          ${k.note ? `<div class="m-kpi-note">${k.note}</div>` : ''}
+        </div>`).join('')}
+    </div>` : '';
+
+  // Driver cards
+  const driverCards = s.drivers.map(d => `
+    <div class="ev-card driver">
+      <div class="ev-title">${d.title}</div>
+      <div class="ev-body">${d.body}</div>
+      <div class="ev-impact-row">
+        <span class="ev-impact-label">Impact</span>
+        <span class="ev-impact-text">${d.impact}</span>
+      </div>
+      <div class="ev-source">Source: ${d.source}</div>
+    </div>`).join('');
+
+  // Barrier cards
+  const barrierCards = s.barriers.map(b => `
+    <div class="ev-card barrier">
+      <div class="ev-title">${b.title}</div>
+      <div class="ev-body">${b.body}</div>
+      <div class="ev-impact-row">
+        <span class="ev-impact-label">Impact</span>
+        <span class="ev-impact-text">${b.impact}</span>
+      </div>
+      <div class="ev-source">Source: ${b.source}</div>
+    </div>`).join('');
+
+  // Customer interaction points (screenshots + tags)
+  const imgs = STAGE_IMAGES[idx] || [];
+  const touchPoints = STAGE_TOUCH_POINTS[idx] || [];
+  const screenshotSection = imgs.length ? `
+    <div class="m-section full">
+      <div class="m-section-head">
+        <div class="m-section-icon">${ico('smartphone', 13, '#888', 2)}</div>
+        <div class="m-section-title">Customer interaction points</div>
+      </div>
+      <div class="m-img-rail">
+        ${imgs.map(src => `<img class="m-img-thumb" src="${src}" alt="Screen" onclick="document.getElementById('lbImg').src=this.src;document.getElementById('imgLightbox').classList.add('open')" />`).join('')}
+      </div>
+      ${touchPoints.length ? `
+      <div class="m-tp-row">
+        ${touchPoints.map(tp => `<span class="m-tp-chip">${tp}</span>`).join('')}
+      </div>` : ''}
+    </div>` : '';
+
+  // Challenge
+  const challengeSection = `
+    <div class="m-section full">
+      <div class="m-section-head">
+        <div class="m-section-icon">${ico('alert-triangle', 13, '#888', 2)}</div>
+        <div class="m-section-title">Biggest Challenge</div>
+      </div>
+      <div class="ev-card challenge">
+        <div class="ev-title">${s.challenge.title}</div>
+        <div class="ev-body">${s.challenge.body}</div>
+        ${s.challenge.note ? `<div class="ev-source">Supporting data: ${s.challenge.note}</div>` : ''}
+      </div>
+    </div>`;
+
+  body.innerHTML = `
+    ${kpiSection}
+    ${screenshotSection}
+    <div class="m-section">
+      <div class="m-section-head">
+        <div class="m-section-icon">${ico('trending-up', 13, '#888', 2)}</div>
+        <div class="m-section-title">Drivers</div>
+      </div>
+      ${driverCards}
+    </div>
+    <div class="m-section">
+      <div class="m-section-head">
+        <div class="m-section-icon">${ico('alert-circle', 13, '#888', 2)}</div>
+        <div class="m-section-title">Barriers</div>
+      </div>
+      ${barrierCards}
+    </div>
+    ${challengeSection}
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════
+   EVENTS
+═══════════════════════════════════════════════════════ */
+document.getElementById('mClose').addEventListener('click', closeModal);
+document.getElementById('mPrev').addEventListener('click', () =>
+  openModal((currentStage - 1 + STAGES.length) % STAGES.length));
+document.getElementById('mNext').addEventListener('click', () =>
+  openModal((currentStage + 1) % STAGES.length));
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('modal').classList.contains('open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft') openModal((currentStage - 1 + STAGES.length) % STAGES.length);
+  if (e.key === 'ArrowRight') openModal((currentStage + 1) % STAGES.length);
+});
+
+/* ═══════════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════════ */
+buildKT();
+buildNav();
+buildOverview();
+feather.replace();
+</script>
+</body>
+</html>
