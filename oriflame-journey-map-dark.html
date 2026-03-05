@@ -1301,12 +1301,12 @@ function renderModal(idx) {
 ═══════════════════════════════════════════════════════ */
 function buildSentimentWave() {
   const SENTIMENT = [
-    { label: 'Curious',     score: 60, desc: 'Interest peaks on arrival but brand clarity is low' },
-    { label: 'Uncertain',   score: 42, desc: 'Hesitation about what joining actually means' },
-    { label: 'Engaged',     score: 64, desc: 'Browsing works, but savings feel passive' },
-    { label: 'Frustrated',  score: 28, desc: 'Checkout friction creates distrust at the worst moment' },
-    { label: 'Relieved',    score: 52, desc: 'Delivery resolves concern — or reinforces it' },
-    { label: 'Disengaged',  score: 38, desc: 'No compelling reason surfaces to come back' },
+    { label: 'Curious',     score: 72, desc: 'Interest peaks on arrival but brand clarity is low' },
+    { label: 'Uncertain',   score: 28, desc: 'Hesitation about what joining actually means' },
+    { label: 'Engaged',     score: 78, desc: 'Browsing works, but savings feel passive' },
+    { label: 'Frustrated',  score: 12, desc: 'Checkout friction creates distrust at the worst moment' },
+    { label: 'Relieved',    score: 58, desc: 'Delivery resolves concern — or reinforces it' },
+    { label: 'Disengaged',  score: 20, desc: 'No compelling reason surfaces to come back' },
   ];
 
   const row = document.getElementById('sentimentRow');
@@ -1329,7 +1329,7 @@ function buildSentimentWave() {
 
   // --- SVG setup (append to DOM before measuring) ---
   const W = 600, H = 72;
-  const PAD = 8;
+  const PAD = 4;
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
