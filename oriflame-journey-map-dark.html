@@ -774,6 +774,267 @@
       color: var(--text);
       line-height: 1.45;
     }
+
+    /* ─── MOBILE-ONLY ELEMENTS (hidden on desktop) ─────── */
+    .sc-wave-strip { display: none; }
+    .mob-nav { display: none; }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE — overview as horizontal snap carousel
+    ═══════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Top nav: hide stage pills */
+      .tn-nav { display: none; }
+      .topnav { padding: 0 16px; }
+
+      /* Overview: flex column so mob-nav sticks to bottom */
+      .overview-wrap { display: flex; flex-direction: column; overflow: hidden; }
+
+      /* Page header: stack vertically */
+      .page-header { padding: 18px 20px 0; }
+      .page-header-inner { flex-direction: column; gap: 14px; padding-bottom: 16px; }
+      .ph-title { font-size: 20px; }
+      .ph-subtitle { font-size: 12px; }
+      .ph-right { max-width: 100%; }
+
+      /* Hide the desktop sentiment wave row */
+      .sw-row { display: none; }
+
+      /* Stages grid: horizontal scroll snap */
+      .stages-grid {
+        display: flex;
+        flex: 1;
+        min-height: 0;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0;
+        min-width: 0;
+        scrollbar-width: none;
+      }
+      .stages-grid::-webkit-scrollbar { display: none; }
+
+      /* Each column = one full screen pane */
+      .stage-col {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 100%;
+        scroll-snap-align: start;
+        overflow-y: auto;
+        border-right: none;
+        border-bottom: none;
+      }
+      .stage-col:first-child { border-left: none; }
+      .stage-col:last-child  { border-right: none; }
+
+      /* ── Mini sentiment wave strip (shown on mobile) ── */
+      .sc-wave-strip {
+        display: block;
+        position: relative;
+        height: 80px;
+        border-bottom: 1px solid var(--border);
+        overflow: visible;
+      }
+      /* SVG canvas fills the full strip */
+      .sc-wave-canvas {
+        position: absolute;
+        inset: 0;
+        overflow: visible;
+      }
+      .sc-wave-canvas svg { width: 100%; height: 100%; overflow: visible; }
+      /* Animated path draw */
+      .sc-wave-path {
+        stroke-dasharray: 300;
+        stroke-dashoffset: 300;
+        transition: stroke-dashoffset 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sc-wave-strip.active .sc-wave-path { stroke-dashoffset: 0; }
+      /* Node dot — absolutely positioned at the score's Y, centred horizontally */
+      .sc-wave-node {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .sc-wave-ring {
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        border: 1.5px solid #9CDABC;
+        opacity: 0;
+        transform: scale(0.4);
+        transition: opacity 0.3s ease 0.55s, transform 0.3s ease 0.55s;
+      }
+      .sc-wave-strip.active .sc-wave-ring { opacity: 0.65; transform: scale(1); }
+      .sc-wave-dot-inner {
+        position: absolute;
+        inset: 1px;
+        border-radius: 50%;
+        background: #9CDABC;
+        transform: scale(0);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s;
+      }
+      .sc-wave-strip.active .sc-wave-dot-inner { transform: scale(1); }
+      /* Label + score badge — bottom-right of the strip */
+      .sc-wave-info {
+        position: absolute;
+        bottom: 8px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        z-index: 3;
+      }
+      .sc-wave-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--mid);
+        letter-spacing: 0.3px;
+      }
+      .sc-wave-score {
+        font-size: 10px;
+        font-weight: 700;
+        color: #9CDABC;
+        background: rgba(156, 218, 188, 0.1);
+        border: 1px solid rgba(156, 218, 188, 0.22);
+        border-radius: 4px;
+        padding: 2px 7px;
+      }
+
+      /* ── Mobile nav strip ── */
+      .mob-nav {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+        gap: 12px;
+      }
+      .mob-nav-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--light);
+        border: 1px solid var(--border);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
+      .mob-nav-btn:disabled { opacity: 0.3; pointer-events: none; }
+      .mob-nav-btn:not(:disabled):active { background: var(--border); }
+      .mob-nav-center {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .mob-nav-stage-name {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+      }
+      .mob-nav-dots { display: flex; align-items: center; gap: 4px; }
+      .mob-dot {
+        height: 5px;
+        width: 5px;
+        border-radius: 3px;
+        background: var(--border);
+        transition: background 0.2s, width 0.2s;
+      }
+      .mob-dot.active { background: var(--mint); width: 18px; }
+
+      /* ── Modal on mobile: stack conventionally ── */
+      .m-nav-stages { display: none; }
+      .m-nav { padding: 0 16px; gap: 8px; }
+      .m-nav-title { display: none; }
+      .m-nav-right { margin-left: auto; }
+
+      /* Compact header so the body gets maximum space */
+      .m-head { padding: 16px 20px 12px; overflow: hidden; }
+      .m-head-top { gap: 12px; margin-bottom: 12px; }
+      .m-icon { width: 36px; height: 36px; flex-shrink: 0; }
+      /* Allow text column to shrink so it never overflows the header */
+      .m-head-text { flex: 1; min-width: 0; overflow: hidden; }
+      .m-stage-label { font-size: 8.5px; }
+      .m-stage-name { font-size: 18px; margin-bottom: 3px; word-break: break-word; }
+      .m-stage-obj {
+        font-size: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .m-steps-label { font-size: 8px; margin-bottom: 7px; }
+
+      /* Chips scroll horizontally — stops wrapping from making the header huge */
+      .m-chips {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        gap: 5px;
+        padding-bottom: 4px;
+      }
+      .m-chips::-webkit-scrollbar { display: none; }
+      .m-chip { flex-shrink: 0; font-size: 10.5px; padding: 5px 10px; }
+
+      /* Dots: slim row, wrap allowed */
+      .m-dots { margin-top: 12px; flex-wrap: wrap; gap: 4px; }
+      .m-dot { width: 16px; }
+      .m-dot.active { width: 26px; }
+
+      /* Body: single column, comfortable padding */
+      .m-body-inner {
+        grid-template-columns: 1fr;
+        padding: 16px 16px 48px;
+        gap: 12px;
+      }
+
+      /* KPIs: 2-up grid */
+      .m-kpi-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        padding: 0;
+        overflow: hidden; /* clips items to card border-radius */
+      }
+      .m-kpi-item {
+        padding: 18px 16px; /* restore even padding — override desktop's padding-left:0 */
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .m-kpi-item:nth-child(odd)  { border-right: 1px solid var(--border); }
+      .m-kpi-item:last-child       { border-bottom: none; }
+      .m-kpi-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+      .m-kpi-val { font-size: 22px; }
+      .m-kpi-lbl { font-size: 10px; }
+
+      /* Section cards: full width, slightly tighter */
+      .m-section { padding: 16px 16px; }
+      .m-section.full { grid-column: 1; }
+
+      /* Image rail: shorter thumbnails so it doesn't dominate the screen */
+      .m-img-thumb { height: 160px; }
+
+      /* Touch-point chips: allow wrap, smaller text */
+      .m-tp-chip { font-size: 10px; padding: 3px 8px; }
+
+      /* Evidence cards: tighter */
+      .ev-card { padding: 12px 14px; }
+      .ev-title { font-size: 12px; }
+      .ev-body  { font-size: 11px; }
+      .ev-impact-text { font-size: 11px; }
+    }
   </style>
 </head>
 <body>
@@ -812,6 +1073,7 @@
 
   <div class="sw-row" id="sentimentRow"></div>
   <div class="stages-grid" id="stagesGrid"></div>
+  <div class="mob-nav" id="mobNav"></div>
 
 </div>
 
@@ -862,6 +1124,15 @@ const KEY_TAKEAWAYS = [
   'Value is present but users don\'t always clearly understand or feel the benefit',
   'Trust is disrupted at sensitive moments',
   'Loyalty is not strong enough to drive repeat purchase',
+];
+
+const SENTIMENT = [
+  { label: 'Curious',     score: 72, desc: 'Interest peaks on arrival but brand clarity is low' },
+  { label: 'Uncertain',   score: 28, desc: 'Hesitation about what joining actually means' },
+  { label: 'Engaged',     score: 78, desc: 'Browsing works, but savings feel passive' },
+  { label: 'Frustrated',  score: 12, desc: 'Checkout friction creates distrust at the worst moment' },
+  { label: 'Relieved',    score: 58, desc: 'Delivery resolves concern — or reinforces it' },
+  { label: 'Disengaged',  score: 20, desc: 'No compelling reason surfaces to come back' },
 ];
 
 const STAGES = [
@@ -1110,7 +1381,29 @@ function buildOverview() {
           </div>`).join('')}
       </div>` : '';
 
+    // Build mini wave SVG for this column
+    const swH = 60, swPAD = 6;
+    const swNodeY = (swPAD + (1 - SENTIMENT[i].score / 100) * (swH - swPAD * 2)).toFixed(1);
+    const swMidY  = (swH / 2).toFixed(1);
+    const swPath  = `M 0 ${swMidY} C 26 ${swMidY} 30 ${swNodeY} 50 ${swNodeY} C 70 ${swNodeY} 74 ${swMidY} 100 ${swMidY}`;
+    const swNodeYPct = (parseFloat(swNodeY) / swH * 100).toFixed(1);
+
     col.innerHTML = `
+      <div class="sc-wave-strip">
+        <div class="sc-wave-canvas">
+          <svg viewBox="0 0 100 ${swH}" preserveAspectRatio="none">
+            <path class="sc-wave-path" d="${swPath}" fill="none" stroke="#80C5C9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="sc-wave-node" style="left:50%;top:${swNodeYPct}%">
+          <div class="sc-wave-ring"></div>
+          <div class="sc-wave-dot-inner"></div>
+        </div>
+        <div class="sc-wave-info">
+          <span class="sc-wave-lbl">${SENTIMENT[i].label}</span>
+          <span class="sc-wave-score">${SENTIMENT[i].score}%</span>
+        </div>
+      </div>
       <div class="sc-head">
         <div class="sc-num">0${s.id} / 06</div>
         <div class="sc-icon">${ico(s.icon, 16, '#333', 1.75)}</div>
@@ -1131,6 +1424,15 @@ function buildOverview() {
       </div>`;
 
     col.addEventListener('click', () => openModal(i));
+
+    // Mobile: animate wave strip as column scrolls into view
+    const strip = col.querySelector('.sc-wave-strip');
+    const waveObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) strip.classList.add('active');
+      else strip.classList.remove('active'); // re-animate on return
+    }, { threshold: 0.5 });
+    waveObs.observe(col);
+
     grid.appendChild(col);
   });
 }
@@ -1300,15 +1602,7 @@ function renderModal(idx) {
    SENTIMENT WAVE
 ═══════════════════════════════════════════════════════ */
 function buildSentimentWave() {
-  const SENTIMENT = [
-    { label: 'Curious',     score: 72, desc: 'Interest peaks on arrival but brand clarity is low' },
-    { label: 'Uncertain',   score: 28, desc: 'Hesitation about what joining actually means' },
-    { label: 'Engaged',     score: 78, desc: 'Browsing works, but savings feel passive' },
-    { label: 'Frustrated',  score: 12, desc: 'Checkout friction creates distrust at the worst moment' },
-    { label: 'Relieved',    score: 58, desc: 'Delivery resolves concern — or reinforces it' },
-    { label: 'Disengaged',  score: 20, desc: 'No compelling reason surfaces to come back' },
-  ];
-
+  // SENTIMENT is defined as a top-level constant
   const row = document.getElementById('sentimentRow');
 
   // Label
@@ -1502,12 +1796,61 @@ document.addEventListener('keydown', e => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════════════════ */
+function buildMobileNav() {
+  const nav  = document.getElementById('mobNav');
+  const grid = document.getElementById('stagesGrid');
+  if (!nav || !grid) return;
+
+  nav.innerHTML = `
+    <button class="mob-nav-btn" id="mobPrev" aria-label="Previous stage">${ico('chevron-left', 16, 'currentColor', 2)}</button>
+    <div class="mob-nav-center">
+      <div class="mob-nav-stage-name" id="mobStageName">${STAGES[0].name}</div>
+      <div class="mob-nav-dots" id="mobDots">
+        ${STAGES.map((_, i) => `<div class="mob-dot${i === 0 ? ' active' : ''}" data-i="${i}"></div>`).join('')}
+      </div>
+    </div>
+    <button class="mob-nav-btn" id="mobNext" aria-label="Next stage">${ico('chevron-right', 16, 'currentColor', 2)}</button>`;
+
+  const prevBtn   = document.getElementById('mobPrev');
+  const nextBtn   = document.getElementById('mobNext');
+  const stageName = document.getElementById('mobStageName');
+  let current = 0;
+
+  function update(i, scroll) {
+    current = Math.max(0, Math.min(STAGES.length - 1, i));
+    stageName.textContent = STAGES[current].name;
+    document.querySelectorAll('.mob-dot').forEach((d, j) => d.classList.toggle('active', j === current));
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === STAGES.length - 1;
+    if (scroll) grid.scrollTo({ left: current * grid.offsetWidth, behavior: 'smooth' });
+  }
+
+  prevBtn.addEventListener('click', () => update(current - 1, true));
+  nextBtn.addEventListener('click', () => update(current + 1, true));
+
+  // Keep dots in sync when user swipes
+  let scrollTimer;
+  grid.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const idx = Math.round(grid.scrollLeft / grid.offsetWidth);
+      if (idx !== current) update(idx, false);
+    }, 60);
+  });
+
+  update(0, false);
+}
+
+/* ═══════════════════════════════════════════════════════
    BOOT
 ═══════════════════════════════════════════════════════ */
 buildKT();
 buildNav();
 buildSentimentWave();
 buildOverview();
+buildMobileNav();
 feather.replace();
 </script>
 </body>
