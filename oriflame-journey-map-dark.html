@@ -20,16 +20,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --font: 'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --text:    #e8e8e8;
-      --mid:     #9a9a9a;
-      --faint:   #616161;
-      --white:   #141414;
-      --bg:      #141414;
-      --border:  #2b2b2b;
-      --light:   #1e1e1e;
-      --chip-bg: #232323;
-      --chip-bdr:#303030;
-      --mint:    #9CDABC;
+      --text:    #E0F5F5;   /* near-white with teal tint */
+      --mid:     #80C5C9;   /* mid teal */
+      --faint:   #4DA4A8;   /* muted teal */
+      --white:   #00464D;   /* base dark colour – cards & surfaces */
+      --bg:      #002B30;   /* darkest shade – body background */
+      --border:  #005560;   /* subtle teal border */
+      --light:   #003840;   /* mid shade – alternate surfaces */
+      --chip-bg: #003840;   /* chip fill */
+      --chip-bdr:#005060;   /* chip outline */
+      --mint:    #9CDABC;   /* keep mint accent */
     }
 
     html, body { height: 100%; overflow: hidden; }
@@ -48,7 +48,7 @@
     .topnav {
       flex-shrink: 0;
       height: 52px;
-      background: #111;
+      background: var(--bg);
       display: flex;
       align-items: center;
       padding: 0 28px;
@@ -117,6 +117,7 @@
     .page-header {
       padding: 36px 40px 0;
       border-bottom: 1px solid var(--border);
+      background: var(--white);
     }
     .page-header-inner {
       display: flex;
@@ -155,9 +156,9 @@
       color: var(--faint);
       margin-bottom: 10px;
     }
-    .ph-kt-pills { display: flex; flex-direction: column; gap: 6px; }
+    .ph-kt-pills { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .ph-kt-pill {
-      display: inline-flex;
+      display: flex;
       padding: 6px 12px;
       background: var(--light);
       border: 1px solid var(--border);
@@ -180,10 +181,11 @@
       border-right: 1px solid var(--border);
       cursor: pointer;
       transition: background .12s;
+      background: var(--bg);
     }
     .stage-col:last-child { border-right: 1px solid var(--border); }
     .stage-col:first-child { border-left: 1px solid var(--border); }
-    .stage-col:hover { background: #202020; }
+    .stage-col:hover { background: #001E22; }
 
     /* Stage column header */
     .sc-head {
@@ -207,7 +209,7 @@
       justify-content: center;
       margin-bottom: 12px;
     }
-    .sc-icon svg { display: block; }
+    .sc-icon svg { display: block; stroke: #ffffff; }
     .sc-name {
       font-size: 15px;
       font-weight: 700;
@@ -313,7 +315,7 @@
     .m-nav {
       flex-shrink: 0;
       height: 52px;
-      background: #111;
+      background: var(--bg);
       display: flex;
       align-items: center;
       padding: 0 20px;
@@ -401,7 +403,7 @@
       flex-shrink: 0;
       margin-top: 4px;
     }
-    .m-icon svg { display: block; }
+    .m-icon svg { display: block; stroke: #ffffff; }
     .m-head-text {}
     .m-stage-label {
       font-size: 9.5px;
@@ -530,7 +532,7 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .m-section-icon svg { display: block; }
+    .m-section-icon svg { display: block; stroke: #ffffff; }
     .m-section-title {
       font-size: 9.5px;
       font-weight: 700;
@@ -565,7 +567,7 @@
       border-radius: 10px;
       border: 1px solid var(--border);
       object-fit: contain;
-      background: #252525;
+      background: #003840;
       flex-shrink: 0;
       scroll-snap-align: start;
       cursor: zoom-in;
@@ -590,9 +592,9 @@
       font-size: 10.5px;
       font-weight: 500;
       letter-spacing: .3px;
-      background: #1a2040;
-      color: #8ba0e8;
-      border: 1px solid #2a3560;
+      background: #003840;
+      color: #80C5C9;
+      border: 1px solid #005560;
       white-space: nowrap;
     }
 
@@ -657,6 +659,121 @@
       color: var(--faint);
       letter-spacing: .5px;
     }
+
+    /* ─── SENTIMENT WAVE ─────────────────────────────── */
+    .sw-row {
+      position: relative;
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+      min-width: 960px;
+      height: 108px;
+      background: var(--white);
+      flex-shrink: 0;
+    }
+    .sw-label {
+      position: absolute;
+      left: 44px;
+      top: 10px;
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--faint);
+      pointer-events: none;
+    }
+    .sw-canvas {
+      position: absolute;
+      inset: 22px 0 14px;
+      overflow: visible;
+    }
+    .sw-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .sw-node-wrap {
+      position: absolute;
+      inset: 22px 0 14px;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .sw-node {
+      position: absolute;
+      pointer-events: all;
+      transform: translate(-50%, -50%);
+    }
+    .sw-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #9CDABC;
+      border: 2px solid var(--white);
+      position: relative;
+      z-index: 2;
+      transform: scale(0);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .sw-node.in .sw-dot { transform: scale(1); }
+    .sw-pulse-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid #9CDABC;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+    .sw-node.in .sw-pulse-ring { animation: sw-pulse 2.4s ease-out infinite; }
+    @keyframes sw-pulse {
+      0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.65; }
+      80%  { opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(3.2); opacity: 0; }
+    }
+    .sw-pop {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 13px;
+      width: 148px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      white-space: normal;
+      z-index: 20;
+    }
+    .sw-pop.show, .sw-node:hover .sw-pop {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .sw-pop-stage {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--faint);
+      margin-bottom: 3px;
+    }
+    .sw-pop-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #9CDABC;
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+    .sw-pop-score {
+      font-size: 10px;
+      color: var(--mid);
+      margin-bottom: 5px;
+    }
+    .sw-pop-desc {
+      font-size: 10.5px;
+      color: var(--text);
+      line-height: 1.45;
+    }
   </style>
 </head>
 <body>
@@ -693,6 +810,7 @@
     </div>
   </div>
 
+  <div class="sw-row" id="sentimentRow"></div>
   <div class="stages-grid" id="stagesGrid"></div>
 
 </div>
@@ -1179,6 +1297,195 @@ function renderModal(idx) {
 }
 
 /* ═══════════════════════════════════════════════════════
+   SENTIMENT WAVE
+═══════════════════════════════════════════════════════ */
+function buildSentimentWave() {
+  const SENTIMENT = [
+    { label: 'Curious',     score: 60, desc: 'Interest peaks on arrival but brand clarity is low' },
+    { label: 'Uncertain',   score: 42, desc: 'Hesitation about what joining actually means' },
+    { label: 'Engaged',     score: 64, desc: 'Browsing works, but savings feel passive' },
+    { label: 'Frustrated',  score: 28, desc: 'Checkout friction creates distrust at the worst moment' },
+    { label: 'Relieved',    score: 52, desc: 'Delivery resolves concern — or reinforces it' },
+    { label: 'Disengaged',  score: 38, desc: 'No compelling reason surfaces to come back' },
+  ];
+
+  const row = document.getElementById('sentimentRow');
+
+  // Label
+  const lbl = document.createElement('div');
+  lbl.className = 'sw-label';
+  lbl.textContent = 'Customer Sentiment';
+  row.appendChild(lbl);
+
+  // Canvas container (SVG lives here)
+  const canvas = document.createElement('div');
+  canvas.className = 'sw-canvas';
+  row.appendChild(canvas);
+
+  // Node overlay (sits exactly over SVG canvas)
+  const nodeWrap = document.createElement('div');
+  nodeWrap.className = 'sw-node-wrap';
+  row.appendChild(nodeWrap);
+
+  // --- SVG setup (append to DOM before measuring) ---
+  const W = 600, H = 72;
+  const PAD = 8;
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.setAttribute('class', 'sw-svg');
+
+  // Defs: gradients
+  const defs = document.createElementNS(NS, 'defs');
+  defs.innerHTML = `
+    <linearGradient id="swFillGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9CDABC" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#9CDABC" stop-opacity="0.0"/>
+    </linearGradient>
+    <linearGradient id="swLineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4DA4A8"/>
+      <stop offset="100%" stop-color="#9CDABC"/>
+    </linearGradient>`;
+  svg.appendChild(defs);
+  canvas.appendChild(svg);
+
+  // Catmull-Rom → cubic bezier path through a set of points
+  function buildCurve(pts) {
+    let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(i - 1, 0)];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[Math.min(i + 2, pts.length - 1)];
+      const cp1x = (p1[0] + (p2[0] - p0[0]) / 6).toFixed(2);
+      const cp1y = (p1[1] + (p2[1] - p0[1]) / 6).toFixed(2);
+      const cp2x = (p2[0] - (p3[0] - p1[0]) / 6).toFixed(2);
+      const cp2y = (p2[1] - (p3[1] - p1[1]) / 6).toFixed(2);
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+    }
+    return d;
+  }
+
+  // Measure actual row width in RAF so layout is complete, then build everything
+  requestAnimationFrame(() => {
+    const rowWidth = row.getBoundingClientRect().width || 1280;
+    const GRID_PAD = 40; // stages-grid has 40px side padding on each side
+    const colW_px = (rowWidth - 2 * GRID_PAD) / 6;
+
+    // xs in SVG viewBox space — nodes stay centred in each column
+    const xs = SENTIMENT.map((_, i) =>
+      ((GRID_PAD + (i + 0.5) * colW_px) / rowWidth) * W
+    );
+    const ys = SENTIMENT.map(s => PAD + (1 - s.score / 100) * (H - PAD * 2));
+
+    // Column dividers aligned to actual grid column boundaries
+    for (let i = 1; i < 6; i++) {
+      const divX = ((GRID_PAD + i * colW_px) / rowWidth) * W;
+      const l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', divX.toFixed(2));
+      l.setAttribute('y1', '0');
+      l.setAttribute('x2', divX.toFixed(2));
+      l.setAttribute('y2', H);
+      l.setAttribute('stroke', '#005560');
+      l.setAttribute('stroke-width', '1');
+      svg.appendChild(l);
+    }
+
+    const pts = xs.map((x, i) => [x, ys[i]]);
+    // Line: horizontal lead-in from left edge → curve through nodes → horizontal run to right edge
+    const curveSeg = buildCurve(pts).slice(buildCurve(pts).indexOf(' ')); // drop leading "M x y"
+    const linePath = `M 0 ${ys[0].toFixed(2)} L ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)}${curveSeg} L ${W} ${ys[5].toFixed(2)}`;
+    const fillPath = `${linePath} L ${W} ${H} L 0 ${H} Z`;
+
+    // Fill area (starts invisible)
+    const fillEl = document.createElementNS(NS, 'path');
+    fillEl.setAttribute('d', fillPath);
+    fillEl.setAttribute('fill', 'url(#swFillGrad)');
+    fillEl.style.opacity = '0';
+    svg.appendChild(fillEl);
+
+    // Wave line
+    const lineEl = document.createElementNS(NS, 'path');
+    lineEl.setAttribute('d', linePath);
+    lineEl.setAttribute('fill', 'none');
+    lineEl.setAttribute('stroke', 'url(#swLineGrad)');
+    lineEl.setAttribute('stroke-width', '2');
+    lineEl.setAttribute('stroke-linecap', 'round');
+    lineEl.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(lineEl);
+
+    const len = lineEl.getTotalLength();
+    lineEl.style.strokeDasharray = len;
+    lineEl.style.strokeDashoffset = len;
+
+    // Build nodes
+    const WAVE_DUR = 1800; // ms for line to draw
+    const nodeEls = SENTIMENT.map((s, i) => {
+      // Node position as % of the full-width nodeWrap (which matches canvas, 0→rowWidth)
+      const xPct = (xs[i] / W * 100).toFixed(3) + '%';
+      const yPct = (ys[i] / H * 100).toFixed(3) + '%';
+      const delay = i * (WAVE_DUR / 6); // stagger each node as line arrives
+
+      const node = document.createElement('div');
+      node.className = 'sw-node';
+      node.style.left = xPct;
+      node.style.top = yPct;
+
+      const ring = document.createElement('div');
+      ring.className = 'sw-pulse-ring';
+      ring.style.animationDelay = `${i * 0.35}s`;
+
+      const dot = document.createElement('div');
+      dot.className = 'sw-dot';
+
+      const pop = document.createElement('div');
+      pop.className = 'sw-pop';
+      pop.innerHTML = `
+        <div class="sw-pop-stage">${STAGES[i].short}</div>
+        <div class="sw-pop-label">${s.label}</div>
+        <div class="sw-pop-score">Sentiment ${s.score}%</div>
+        <div class="sw-pop-desc">${s.desc}</div>`;
+
+      node.appendChild(ring);
+      node.appendChild(dot);
+      node.appendChild(pop);
+      nodeWrap.appendChild(node);
+      return { el: node, pop, delay };
+    });
+
+    // Trigger animation once in view
+    let animated = false;
+    function runAnimation() {
+      if (animated) return;
+      animated = true;
+
+      // Draw line
+      lineEl.style.transition = `stroke-dashoffset ${WAVE_DUR}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+      lineEl.style.strokeDashoffset = '0';
+
+      // Fade in fill slightly after line starts
+      fillEl.style.transition = `opacity 1.0s ease ${WAVE_DUR * 0.5}ms`;
+      fillEl.style.opacity = '1';
+
+      // Stagger each node to appear as line arrives at its column
+      nodeEls.forEach(({ el, pop, delay }) => {
+        setTimeout(() => {
+          el.classList.add('in');
+          pop.classList.add('show');
+          setTimeout(() => pop.classList.remove('show'), 2400);
+        }, delay);
+      });
+    }
+
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { runAnimation(); obs.disconnect(); }
+    }, { threshold: 0.3 });
+    obs.observe(row);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
    EVENTS
 ═══════════════════════════════════════════════════════ */
 document.getElementById('mClose').addEventListener('click', closeModal);
@@ -1199,6 +1506,7 @@ document.addEventListener('keydown', e => {
 ═══════════════════════════════════════════════════════ */
 buildKT();
 buildNav();
+buildSentimentWave();
 buildOverview();
 feather.replace();
 </script>
