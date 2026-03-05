@@ -1014,7 +1014,13 @@
       .m-nav-right { margin-left: auto; }
 
       /* Compact header so the body gets maximum space */
-      .m-head { padding: 16px 20px 12px; overflow: hidden; }
+      .m-head {
+        padding: 16px 20px 12px;
+        overflow-x: hidden;
+        overflow-y: auto;          /* scroll within header if chips push it tall */
+        max-height: 52vh;          /* always leave at least ~48% for the body */
+        flex-shrink: 0;
+      }
       .m-head-top { gap: 12px; margin-bottom: 12px; }
       .m-icon { width: 36px; height: 36px; flex-shrink: 0; }
       /* Allow text column to shrink so it never overflows the header */
@@ -1030,17 +1036,27 @@
       }
       .m-steps-label { font-size: 8px; margin-bottom: 7px; }
 
-      /* Chips scroll horizontally — stops wrapping from making the header huge */
+      /* Chips: wrap into rows rather than scroll horizontally */
       .m-chips {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-        gap: 5px;
-        padding-bottom: 4px;
+        flex-wrap: wrap;
+        overflow-x: visible;
+        gap: 4px;
+        padding-bottom: 0;
       }
-      .m-chips::-webkit-scrollbar { display: none; }
-      .m-chip { flex-shrink: 0; font-size: 10.5px; padding: 5px 10px; }
+      .m-chip { flex-shrink: 0; font-size: 10px; padding: 4px 9px; }
+
+      /* Overview column steps: wrap horizontally instead of stacking vertically */
+      .sc-steps { padding: 12px 16px 14px; }
+      .sc-steps-label { margin-bottom: 7px; }
+      .sc-chips {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .sc-chip {
+        font-size: 10px;
+        padding: 4px 9px;
+      }
 
       /* Dots: slim row, wrap allowed */
       .m-dots { margin-top: 12px; flex-wrap: wrap; gap: 4px; }
@@ -1063,15 +1079,32 @@
         overflow: hidden; /* clips items to card border-radius */
       }
       .m-kpi-item {
-        padding: 18px 16px; /* restore even padding — override desktop's padding-left:0 */
+        padding: 18px 16px;
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
+      .m-kpi-item:first-child { padding-left: 16px; } /* cancel desktop's padding-left:0 */
       .m-kpi-item:nth-child(odd)  { border-right: 1px solid var(--border); }
       .m-kpi-item:last-child       { border-bottom: none; }
       .m-kpi-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
-      .m-kpi-val { font-size: 22px; }
+      .m-kpi-val { font-size: 33px; }
       .m-kpi-lbl { font-size: 10px; }
+
+      /* Overview column KPIs: horizontal row, larger values */
+      .sc-kpis {
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        gap: 0;
+      }
+      .sc-kpi {
+        flex: 1;
+        padding: 14px 16px;
+        margin-bottom: 0;
+        border-right: 1px solid var(--border);
+      }
+      .sc-kpi:last-child { border-right: none; }
+      .sc-kpi-val { font-size: 39px; }
 
       /* Section cards: full width, slightly tighter */
       .m-section { padding: 16px 16px; }
