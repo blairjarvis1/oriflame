@@ -287,12 +287,12 @@
     .sc-kpi-val {
       font-size: 26px;
       font-weight: 800;
-      color: var(--text);
+      color: #fff;
       line-height: 1.1;
     }
     .sc-kpi-label {
       font-size: 10px;
-      color: var(--mid);
+      color: #fff;
       line-height: 1.4;
       margin-top: 2px;
     }
@@ -514,12 +514,12 @@
     .m-kpi-val {
       font-size: 36px;
       font-weight: 800;
-      color: var(--text);
+      color: #fff;
       line-height: 1.1;
       margin-bottom: 4px;
       white-space: pre-line;
     }
-    .m-kpi-lbl { font-size: 11px; color: var(--mid); line-height: 1.4; margin-bottom: 4px; }
+    .m-kpi-lbl { font-size: 11px; color: #fff; line-height: 1.4; margin-bottom: 4px; }
     .m-kpi-note { font-size: 10.5px; color: var(--faint); line-height: 1.4; }
 
     /* Section card */
@@ -670,11 +670,38 @@
       line-height: 1.4;
       font-weight: 500;
     }
-    .ev-source {
-      font-size: 9px;
-      color: var(--faint);
-      letter-spacing: .5px;
+    .ev-source { display: none; } /* replaced by chip layout */
+    .ev-source-wrap {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
+    .ev-source-label {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--faint);
+    }
+    .ev-source-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .ev-src-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+    .ev-src-chip.lumo  { background: #ffcc00; color: #000; }
+    .ev-src-chip.kantar { background: #af52de; color: #fff; }
+    .ev-src-chip.ibm   { background: #5856d6; color: #fff; }
+    .ev-src-chip.voc   { background: #30b0c7; color: #fff; }
 
     /* ─── SENTIMENT WAVE ─────────────────────────────── */
     .sw-row {
@@ -1047,7 +1074,7 @@
       /* Allow text column to shrink so it never overflows the header */
       .m-head-text { flex: 1; min-width: 0; overflow: hidden; }
       .m-stage-label { font-size: 8px; }
-      .m-stage-name { font-size: 16px; margin-bottom: 2px; word-break: break-word; }
+      .m-stage-name { font-size: 19px; margin-bottom: 2px; word-break: break-word; }
       .m-stage-obj {
         font-size: 12px;
         display: -webkit-box;
@@ -1065,6 +1092,24 @@
         padding-bottom: 2px;
       }
       .m-chip { font-size: 10px; padding: 4px 10px; }
+
+      /* Collapse chips on scroll: animate max-height + opacity */
+      .m-steps-label,
+      .m-chips,
+      .m-dots {
+        max-height: 300px;
+        opacity: 1;
+        transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+        overflow: hidden;
+      }
+      .m-head.chips-hidden .m-steps-label,
+      .m-head.chips-hidden .m-chips,
+      .m-head.chips-hidden .m-dots {
+        max-height: 0;
+        opacity: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
 
       /* Overview header: icon + name side by side, 25% larger */
       .sc-head {
@@ -1635,6 +1680,17 @@ const STAGE_IMAGES = [
   ['assets/journey/s6_1.png','assets/journey/s6_2.png','assets/journey/s6_3.png'],
 ];
 
+const SOURCE_COLORS = { lumo: 'lumo', kantar: 'kantar', ibm: 'ibm', voc: 'voc' };
+function sourceChips(str) {
+  if (!str) return '';
+  const chips = str.split(',').map(s => s.trim()).map(s => {
+    const key = s.toLowerCase().replace(/[^a-z]/g, '');
+    const cls = SOURCE_COLORS[key] || '';
+    return `<span class="ev-src-chip ${cls}">${s}</span>`;
+  }).join('');
+  return `<div class="ev-source-wrap"><span class="ev-source-label">Source</span><div class="ev-source-chips">${chips}</div></div>`;
+}
+
 function renderModal(idx) {
   const s = STAGES[idx];
 
@@ -1684,7 +1740,7 @@ function renderModal(idx) {
         <span class="ev-impact-label">Impact</span>
         <span class="ev-impact-text">${d.impact}</span>
       </div>
-      <div class="ev-source">Source: ${d.source}</div>
+      ${sourceChips(d.source)}
     </div>`).join('');
 
   // Barrier cards
@@ -1696,7 +1752,7 @@ function renderModal(idx) {
         <span class="ev-impact-label">Impact</span>
         <span class="ev-impact-text">${b.impact}</span>
       </div>
-      <div class="ev-source">Source: ${b.source}</div>
+      ${sourceChips(b.source)}
     </div>`).join('');
 
   // Customer interaction points (screenshots + tags)
@@ -1727,7 +1783,7 @@ function renderModal(idx) {
       <div class="ev-card challenge">
         <div class="ev-title">${s.challenge.title}</div>
         <div class="ev-body">${s.challenge.body}</div>
-        ${s.challenge.note ? `<div class="ev-source">Supporting data: ${s.challenge.note}</div>` : ''}
+        ${s.challenge.note ? sourceChips(s.challenge.note) : ''}
       </div>
     </div>`;
 
@@ -1948,6 +2004,17 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') openModal((currentStage - 1 + STAGES.length) % STAGES.length);
   if (e.key === 'ArrowRight') openModal((currentStage + 1) % STAGES.length);
 });
+
+// Collapse Possible Steps chips when scrolling down on mobile
+(function() {
+  const mBodyEl = document.querySelector('.m-body');
+  const mHeadEl = document.querySelector('.m-head');
+  mBodyEl.addEventListener('scroll', function() {
+    if (window.innerWidth <= 768) {
+      mHeadEl.classList.toggle('chips-hidden', mBodyEl.scrollTop > 20);
+    }
+  });
+})();
 
 /* ═══════════════════════════════════════════════════════
    MOBILE NAV
