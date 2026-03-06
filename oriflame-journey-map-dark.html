@@ -1007,17 +1007,38 @@
       }
       .mob-dot.active { background: var(--mint); width: 18px; }
 
-      /* ── Modal on mobile: stack conventionally ── */
-      .m-nav-stages { display: none; }
-      .m-nav { padding: 0 16px; gap: 8px; }
-      .m-nav-title { display: none; }
-      .m-nav-right { margin-left: auto; }
+      /* ── Modal on mobile: collapse nav bar, fixed children still render ── */
+      .m-nav { height: 0; min-height: 0; padding: 0; overflow: hidden; }
+
+      /* Float prev/next/close as a pill at the bottom centre */
+      .m-nav-right {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(10, 38, 42, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 999px;
+        padding: 8px 16px;
+        box-shadow: 0 6px 24px rgba(0,0,0,.45);
+        z-index: 300;
+      }
+      .m-nav-right .m-ctrl {
+        width: 44px;
+        height: 44px;
+      }
 
       /* Compact header so the body gets maximum space */
       .m-head {
         padding: 14px 16px 10px;
         overflow-x: hidden;
-        overflow-y: hidden;        /* header is fixed height — no vertical scroll */
+        overflow-y: visible;
         max-height: none;
         flex-shrink: 0;
       }
@@ -1036,18 +1057,31 @@
       }
       .m-steps-label { font-size: 8px; margin-bottom: 6px; }
 
-      /* Chips: single horizontal scrolling row — no vertical stacking */
+      /* Chips: wrap to fit viewport width */
       .m-chips {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        flex-wrap: wrap;
+        overflow-x: hidden;
         gap: 6px;
         padding-bottom: 2px;
       }
-      .m-chips::-webkit-scrollbar { display: none; }
-      .m-chip { flex-shrink: 0; font-size: 10px; padding: 4px 10px; white-space: nowrap; }
+      .m-chip { font-size: 10px; padding: 4px 10px; }
+
+      /* Overview header: icon + name side by side, 25% larger */
+      .sc-head {
+        display: grid;
+        grid-template-areas:
+          "num  num"
+          "icon name"
+          "lbl  lbl"
+          "obj  obj";
+        grid-template-columns: 40px 1fr;
+        column-gap: 12px;
+      }
+      .sc-num  { grid-area: num; }
+      .sc-icon { grid-area: icon; width: 40px; height: 40px; align-self: center; margin-bottom: 0; }
+      .sc-name { grid-area: name; font-size: 19px; align-self: center; margin-bottom: 0; }
+      .sc-obj-label { grid-area: lbl; margin-top: 14px; }
+      .sc-obj  { grid-area: obj; }
 
       /* Overview column steps: wrap horizontally instead of stacking vertically */
       .sc-steps { padding: 12px 16px 14px; }
@@ -1068,8 +1102,9 @@
       .m-dot.active { width: 26px; }
 
       /* Body: single column, comfortable padding */
+      /* minmax(0,1fr) prevents the implicit auto minimum from blowing out past 375px */
       .m-body-inner {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         padding: 16px 16px 48px;
         gap: 12px;
       }
@@ -1114,8 +1149,14 @@
       .m-section { padding: 16px 16px; }
       .m-section.full { grid-column: 1; }
 
-      /* Image rail: shorter thumbnails so it doesn't dominate the screen */
-      .m-img-thumb { height: 160px; }
+      /* Image rail: all 3 images share the row, scaled to fit */
+      .m-img-rail { overflow-x: hidden; }
+      .m-img-thumb {
+        flex: 1 1 0%;
+        min-width: 0;
+        height: 120px;
+        object-fit: cover;
+      }
 
       /* Touch-point chips: allow wrap, smaller text */
       .m-tp-chip { font-size: 10px; padding: 3px 8px; }
