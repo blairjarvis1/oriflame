@@ -152,7 +152,54 @@
       gap: 40px;
       padding-bottom: 28px;
     }
-    .ph-left {}
+    /* ─── PAGE HEADER AVATAR ────────────────────────────── */
+    .ph-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .ph-avatar-wrap {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+    }
+    .ph-avatar-wrap svg {
+      position: absolute;
+      inset: 0;
+      width: 70px;
+      height: 70px;
+      pointer-events: none;
+    }
+    .ph-avatar-ring {
+      fill: none;
+      stroke: var(--mint);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 201.06;   /* 2π × 32 */
+      stroke-dashoffset: 201.06;
+      transform-origin: 35px 35px;
+      transform: rotate(-90deg);
+    }
+    @keyframes ph-draw-ring {
+      from { stroke-dashoffset: 201.06; }
+      to   { stroke-dashoffset: 0; }
+    }
+    .ph-avatar-ring.drawn {
+      animation: ph-draw-ring .9s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .ph-avatar-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .ph-title-block {}
+
     .ph-label {
       font-size: 10px;
       font-weight: 700;
@@ -1264,9 +1311,17 @@
   <div class="page-header">
     <div class="page-header-inner">
       <div class="ph-left">
-        <div class="ph-label">Oriflame Sweden</div>
-        <div class="ph-title" id="phTitle">Members Digital Experience Map</div>
-        <div class="ph-subtitle" id="phSubtitle">Light Touch</div>
+        <div class="ph-avatar-wrap">
+          <svg viewBox="0 0 70 70" width="70" height="70" aria-hidden="true">
+            <circle class="ph-avatar-ring" id="phAvatarRing" cx="35" cy="35" r="32" />
+          </svg>
+          <img id="phAvatar" class="ph-avatar-img" src="assets/images/avatar-map1.png" alt="Persona" />
+        </div>
+        <div class="ph-title-block">
+          <div class="ph-label">Oriflame Sweden</div>
+          <div class="ph-title" id="phTitle">Members Digital Experience Map</div>
+          <div class="ph-subtitle" id="phSubtitle">Light Touch</div>
+        </div>
       </div>
       <div class="ph-right">
         <button class="ph-kt-toggle" id="ktToggle" aria-expanded="false">
@@ -1769,6 +1824,31 @@ const db = window.supabase.createClient(
 );
 
 let currentMapId = null;
+let MAP_LIST = []; // populated by buildSwitcher
+
+// Per-map avatar image + ring colour (index matches Supabase created_at order)
+const MAP_CONFIGS = [
+  { avatar: 'assets/images/avatar-map1.png', ring: '#9BDBBC', subtitleColor: '',        subtitle: null          }, // Members
+  { avatar: 'assets/images/avatar-map2.png', ring: '#D69FC3', subtitleColor: '#D69FC3', subtitle: 'Light Touch'  }, // Brand Partners
+];
+
+function setHeaderAvatar(mapIndex) {
+  const cfg      = MAP_CONFIGS[mapIndex] || MAP_CONFIGS[0];
+  const img      = document.getElementById('phAvatar');
+  const ring     = document.getElementById('phAvatarRing');
+  const subtitle = document.getElementById('phSubtitle');
+  if (!img || !ring) return;
+  img.src = cfg.avatar;
+  ring.style.stroke = cfg.ring;
+  if (subtitle) {
+    if (cfg.subtitle) subtitle.textContent = cfg.subtitle;
+    subtitle.style.color = cfg.subtitleColor || '';
+  }
+  // Re-trigger draw animation
+  ring.classList.remove('drawn');
+  void ring.offsetWidth;
+  setTimeout(() => ring.classList.add('drawn'), 60);
+}
 
 async function fetchData(mapId) {
   const mapQuery = mapId
@@ -2214,13 +2294,21 @@ async function buildSwitcher() {
   const { data: maps } = await db.from('journey_maps').select('id, title').order('created_at');
   if (!maps || maps.length <= 1) return; // only show if more than one version exists
 
+  MAP_LIST = maps;
+
+  // Set the avatar for whichever map loaded first
+  const activeIndex = maps.findIndex(m => m.id === currentMapId);
+  setHeaderAvatar(activeIndex >= 0 ? activeIndex : 0);
+
   const el = document.getElementById('tnSwitcher');
   el.innerHTML = `<select class="tn-version-select" id="versionSelect">
     ${maps.map(m => `<option value="${m.id}"${m.id === currentMapId ? ' selected' : ''}>${m.title}</option>`).join('')}
   </select>`;
 
   document.getElementById('versionSelect').addEventListener('change', async e => {
+    const idx = maps.findIndex(m => m.id === e.target.value);
     await fetchData(e.target.value);
+    setHeaderAvatar(idx >= 0 ? idx : 0);
     // Clear and rebuild all dynamic sections
     document.getElementById('ktPills').innerHTML    = '';
     document.getElementById('tnNav').innerHTML      = '';
