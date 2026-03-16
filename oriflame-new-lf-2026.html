@@ -103,12 +103,10 @@
 
     .card-r1 {
       background-color: #A8D5BA;
-      cursor: default;
     }
 
     .card-r2 {
       background-color: #EDE3E1;
-      cursor: default;
     }
 
     .card.is-hovered {
@@ -568,7 +566,7 @@
       </a>
 
       <!-- Card 2: Flourish X -->
-      <div class="card card-r2">
+      <a href="https://www.figma.com/design/DUx6KIprUA1ADdhT0wramk/Oriflame---New-L-F---2026?node-id=7-18812&t=W6eHufXEqSBn6L9I-11" target="_blank" class="card card-r2">
         <div class="card-title">Flourish <sup>X</sup></div>
         <img src="assets/new_images/Icon Button.svg" class="card-icon-btn" alt="">
         <div class="card-hover-content">
@@ -583,7 +581,7 @@
             <li>Adding richer design elements across pages</li>
           </ul>
         </div>
-      </div>
+      </a>
 
     </div>
 
@@ -862,16 +860,8 @@
     if (e.key === 'Escape') closeModal();
   });
 
-  // Hover fires only when mouse is directly over the icon button
   document.querySelectorAll('.card').forEach(card => {
-    const btn = card.querySelector('.card-icon-btn');
-    if (!btn) return;
-    card.addEventListener('mousemove', e => {
-      const r = btn.getBoundingClientRect();
-      const over = e.clientX >= r.left && e.clientX <= r.right
-                && e.clientY >= r.top  && e.clientY <= r.bottom;
-      card.classList.toggle('is-hovered', over);
-    });
+    card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
     card.addEventListener('mouseleave', () => card.classList.remove('is-hovered'));
   });
 
