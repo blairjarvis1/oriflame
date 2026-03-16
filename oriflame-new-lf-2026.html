@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oriflame — New L+F / 03/26</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+      background: #F9F6EE;
+      color: #111111;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* ───────────────────────────────
+       MAIN PAGE
+    ─────────────────────────────── */
+
+    .page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding: 10.05vh 7.34vw 6.05vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Watermark */
+    .watermark-logo {
+      position: absolute;
+      left: 3.07vw;
+      bottom: -6vh;
+      width: 95.16vw;
+      height: auto;
+      opacity: 0.05;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+
+    .logo-svg {
+      height: 2.5vw;
+      width: auto;
+      display: block;
+    }
+
+    .modal-header .logo-svg {
+      height: 1.4vw;
+    }
+
+    .tagline {
+      font-size: 2.92vw;
+      font-weight: 300;
+      color: #1E1E1E;
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      gap: 2.6vh;
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      gap: 32px;
+    }
+
+    .card {
+      flex: 1;
+      height: 46vh;
+      padding: 2.08vw;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.35s ease;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-r1 {
+      background-color: #A8D5BA;
+      cursor: default;
+    }
+
+    .card-r2 {
+      background-color: #EDE3E1;
+      cursor: default;
+    }
+
+    .card.is-hovered {
+      background-color: #FFFFFF;
+    }
+
+    .card-title {
+      position: absolute;
+      top: 2.08vw;
+      left: 2.08vw;
+      right: 2.08vw;
+      font-size: 3.75vw;
+      font-weight: 500;
+      line-height: 1;
+      color: #111;
+      letter-spacing: -0.04em;
+      transition: opacity 0.25s ease;
+    }
+
+    .card.is-hovered .card-title { opacity: 0; }
+
+    .card-icon-btn {
+      position: absolute;
+      bottom: 2.08vw;
+      right: 2.08vw;
+      width: 3.75vw;
+      height: 3.75vw;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .card-title sup {
+      font-size: 0.5em;
+      vertical-align: super;
+      line-height: 0;
+      font-weight: 500;
+    }
+
+    .card-hover-content {
+      position: absolute;
+      top: 2.08vw;
+      left: 2.08vw;
+      right: 2.08vw;
+      bottom: 2.08vw;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease 0.05s;
+    }
+
+    .card.is-hovered .card-hover-content {
+      opacity: 1;
+    }
+
+    .card-desc {
+      font-size: 1.56vw;
+      font-weight: 400;
+      line-height: 1.45;
+      margin-bottom: 1.5vh;
+    }
+
+    .card-desc strong { font-weight: 600; }
+
+    .card-bullets {
+      list-style: none;
+      font-size: 1.1vw;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .card-bullets li::before { content: '– '; }
+
+    /* Labels */
+    .card-labels {
+      display: flex;
+      gap: 40px;
+    }
+
+    .card-label {
+      flex: 1;
+      font-size: 1.46vw;
+      font-weight: 400;
+    }
+
+    .card-label strong { font-weight: 700; }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: 3vh;
+    }
+
+    .figma-link-group {
+      display: flex;
+      align-items: center;
+      gap: 1vw;
+    }
+
+    .figma-icon {
+      width: 2.97vw;
+      height: auto;
+      flex-shrink: 0;
+    }
+
+    .figma-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5vw;
+      font-size: 1.46vw;
+      font-weight: 400;
+      color: #111;
+      text-decoration: underline;
+      text-decoration-color: rgba(17, 17, 17, 0.5);
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+
+    .figma-link:hover { text-decoration-color: #111; }
+
+    .arrow-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.77vw;
+      height: 1.77vw;
+      border: 1.5px solid #111;
+      border-radius: 50%;
+      font-size: 0.75vw;
+      flex-shrink: 0;
+    }
+
+    .creative-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.83vw;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1.46vw;
+      font-weight: 400;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #111;
+      text-decoration: underline;
+      text-decoration-color: rgba(17, 17, 17, 0.5);
+      text-underline-offset: 4px;
+    }
+
+    .creative-btn:hover { text-decoration-color: #111; }
+
+    .eye-btn {
+      width: 2.86vw;
+      height: 2.86vw;
+      border: 1.5px solid #111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ───────────────────────────────
+       MODAL: Creative Direction
+    ─────────────────────────────── */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: #F9F6EE;
+      z-index: 200;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .modal.open { display: block; }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: #F9F6EE;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5vh 4.17vw;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    }
+
+    .modal-header .logo { font-size: 1.56vw; }
+
+    .modal-center-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.46vw;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .modal-close-btn {
+      position: relative;
+      z-index: 1;
+      width: 3vw;
+      height: 3vw;
+      border: 1.5px solid #111;
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1vw;
+      color: #111;
+      font-family: inherit;
+    }
+
+    .modal-body {
+      padding: 6vh 4.17vw 14vh;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .modal-intro {
+      font-size: 2.92vw;
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 8vh;
+    }
+
+    .m-section {
+      padding-top: 5vh;
+      margin-bottom: 9vh;
+      border-top: 1px solid rgba(17, 17, 17, 0.12);
+    }
+
+    .m-section-title {
+      font-size: 2.5vw;
+      font-weight: 400;
+      margin-bottom: 2vh;
+    }
+
+    .m-section-intro {
+      font-size: 2.08vw;
+      font-weight: 300;
+      line-height: 1.45;
+      margin-bottom: 5vh;
+    }
+
+    .m-subsection { margin-bottom: 5vh; }
+
+    .m-sub-title {
+      font-size: 1.46vw;
+      font-weight: 400;
+      margin-bottom: 1.5vh;
+    }
+
+    .m-sub-body {
+      font-size: 1.56vw;
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 3vh;
+    }
+
+    .m-h3 {
+      font-size: 1.875vw;
+      font-weight: 400;
+      margin-bottom: 1.5vh;
+    }
+
+    /* Colour bars */
+    .colour-label {
+      font-size: 1.46vw;
+      font-weight: 400;
+      margin-bottom: 1.5vh;
+    }
+
+    .colour-bars {
+      display: flex;
+      height: 595px;
+      margin-bottom: 2vh;
+    }
+
+    .cb {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 1.2vw;
+      font-size: 48pt;
+      font-weight: 300;
+    }
+
+    .cb-black  { background: #111111; color: #fff; width: 42%; }
+    .cb-white  { background: #ffffff; color: #111; width: 42%; border: 1px solid rgba(0,0,0,0.08); }
+    .cb-thirds { width: 16%; display: flex; flex-direction: column; }
+    .cb-gray   { background: #f5f5f5; color: #111; flex: 1; }
+    .cb-brand1 { background: #a8d5ba; color: #111; height: 78px; flex: none; align-items: center; }
+    .cb-brand2 { background: #f9f6ee; color: #111; height: 73px; flex: none; align-items: center; border: 1px solid rgba(0,0,0,0.08); }
+
+    .colour-caption {
+      font-size: 1.25vw;
+      font-weight: 300;
+      line-height: 1.55;
+    }
+
+    /* Image compare pairs */
+    .img-pair {
+      display: flex;
+      gap: 1vw;
+      margin: 2vh 0;
+    }
+
+    .img-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vh;
+    }
+
+    .img-badge-above {
+      display: flex;
+      align-items: center;
+    }
+
+    .img-badge-above svg {
+      width: 2.5vw;
+      height: 2.5vw;
+    }
+
+    .img-pair img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .img-pair img.portrait { aspect-ratio: 1/1; }
+    .img-pair img.wide     { aspect-ratio: 1/1; }
+
+    /* Typography examples grid */
+    .typo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5vw;
+      margin: 3vh 0;
+    }
+
+    .typo-ex {
+      padding: 1.5vw;
+      min-height: 17vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 0.5vw;
+    }
+
+    .typo-ex.old { background: #EDE3E1; }
+    .typo-ex.new { background: #A8D5BA; }
+
+    .typo-eyebrow {
+      font-size: 0.7vw;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .typo-hl {
+      font-size: 1.8vw;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .typo-hl.bold-caps {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 2.2vw;
+    }
+
+    .typo-sub {
+      font-size: 0.78vw;
+      font-weight: 300;
+      opacity: 0.8;
+    }
+
+    .colour-img-strip {
+      display: flex;
+      gap: 0.25vw;
+      margin-top: 3vh;
+    }
+
+    .colour-img-strip img {
+      flex: 1;
+      min-width: 0;
+      width: 0;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .typo-img-pair img {
+      border: 1px solid #e0e0e0;
+    }
+
+    .modal-watermark {
+      display: block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95.16vw;
+      height: auto;
+      opacity: 0.05;
+      pointer-events: none;
+      user-select: none;
+      margin-top: 6vh;
+      margin-bottom: -30vh;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     MAIN PAGE
+════════════════════════════════ -->
+<div class="page">
+
+  <img src="assets/oriflame-logo.svg" class="watermark-logo" alt="">
+
+  <header>
+    <img src="assets/oriflame-logo.svg" class="logo-svg" alt="ORIFLAME">
+    <div class="tagline">New L+F /&nbsp;&nbsp;&nbsp;03/26</div>
+  </header>
+
+  <div class="main-content">
+
+    <div class="cards">
+
+      <!-- Card 1: Flourish +1 — links to oriflame-homepage.html -->
+      <a href="oriflame-homepage.html" target="_blank" class="card card-r1">
+        <div class="card-title">Flourish <sup>+1</sup></div>
+        <img src="assets/new_images/Icon Button.svg" class="card-icon-btn" alt="">
+        <div class="card-hover-content">
+          <p class="card-desc"><strong>Route #1</strong> is an evolution of the current site design and patterns to make it more premium in feel by making simple site-wide core CSS and visual changes.</p>
+          <ul class="card-bullets">
+            <li>Establishing new rules for art direction</li>
+            <li>Adding UX / Content enhancements in select places</li>
+            <li>Creating better TOV in selective places</li>
+            <li>Looking at the grid/spacing across components + pages</li>
+            <li>Finessing the UI and design patterns</li>
+            <li>Reducing the colour palette usage in components</li>
+          </ul>
+        </div>
+      </a>
+
+      <!-- Card 2: Flourish X -->
+      <div class="card card-r2">
+        <div class="card-title">Flourish <sup>X</sup></div>
+        <img src="assets/new_images/Icon Button.svg" class="card-icon-btn" alt="">
+        <div class="card-hover-content">
+          <p class="card-desc"><strong>Route #2</strong> is a more dramatic redesign inline with the recent refreshed brand identity, leaning into the company heritage and more premium design.</p>
+          <ul class="card-bullets">
+            <li>Establishing new rules for art direction</li>
+            <li>Adding UX / Content enhancements in select places</li>
+            <li>Creating better TOV in selective places</li>
+            <li>Looking at new grids and spacing</li>
+            <li>Finessing the UI and design patterns</li>
+            <li>Adding more crafted components and layouts</li>
+            <li>Adding richer design elements across pages</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card-labels">
+      <div class="card-label"><strong>What</strong> we can do now.</div>
+      <div class="card-label"><strong>Where</strong> we can take the brand forward.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <button class="creative-btn" onclick="openModal()">
+      CREATIVE DIRECTION
+      <span class="eye-btn">
+        <svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="#111" stroke-width="1.5"/>
+        </svg>
+      </span>
+    </button>
+
+    <div class="figma-link-group">
+
+
+      <a href="https://www.figma.com/design/DUx6KIprUA1ADdhT0wramk/Oriflame---New-L-F---2026?node-id=0-1&t=nhuOlE0CgY6Pfubn-1" target="_blank" class="figma-link">
+        All the design development is available in this Figma file
+      </a>
+            <!-- Figma logo -->
+      <svg class="figma-icon" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.5 57C14.747 57 19 52.747 19 47.5V38H9.5C4.253 38 0 42.253 0 47.5C0 52.747 4.253 57 9.5 57Z" fill="#0ACF83"/>
+        <path d="M0 28.5C0 23.253 4.253 19 9.5 19H19V38H9.5C4.253 38 0 33.747 0 28.5Z" fill="#A259FF"/>
+        <path d="M0 9.5C0 4.253 4.253 0 9.5 0H19V19H9.5C4.253 19 0 14.747 0 9.5Z" fill="#F24E1E"/>
+        <path d="M19 0H28.5C33.747 0 38 4.253 38 9.5C38 14.747 33.747 19 28.5 19H19V0Z" fill="#FF7262"/>
+        <path d="M38 28.5C38 33.747 33.747 38 28.5 38C23.253 38 19 33.747 19 28.5C19 23.253 23.253 19 28.5 19C33.747 19 38 23.253 38 28.5Z" fill="#1ABCFE"/>
+      </svg>
+    </div>
+  </footer>
+
+</div>
+
+
+<!-- ════════════════════════════════
+     MODAL: Creative Direction
+════════════════════════════════ -->
+<div class="modal" id="modal">
+
+
+  <div class="modal-header">
+    <img src="assets/oriflame-logo.svg" class="logo-svg" alt="ORIFLAME">
+    <div class="modal-center-title">CREATIVE DIRECTION</div>
+    <button class="modal-close-btn" onclick="closeModal()">✕</button>
+  </div>
+
+  <div class="modal-body">
+
+    <p class="modal-intro">Core art direction + design principles for more premium / luxury beauty and fashion brands.</p>
+
+    <!-- ── Colour ───────────────── -->
+    <section class="m-section">
+      <h2 class="m-section-title">Colour</h2>
+      <p class="m-section-intro">Almost all luxury brands drastically reduce their colour palette to a more minimal range across design elements and page furniture. Often the primary colours are just Black, White, Grey and one/two lightly used Brand Colours.</p>
+
+      <p class="colour-label">Colour intensity</p>
+      <div class="colour-bars">
+        <div class="cb cb-white">40%</div>
+        <div class="cb cb-black">40%</div>
+        <div class="cb-thirds">
+          <div class="cb cb-gray">12%</div>
+          <div class="cb cb-brand1">4%</div>
+          <div class="cb cb-brand2">4%</div>
+        </div>
+      </div>
+      <p class="colour-caption">This allows colour to be provided by the products and the main focus to be on them, not the brand.</p>
+
+      <div class="colour-img-strip">
+        <img src="assets/new_images/img-colour-1.png" alt="">
+        <img src="assets/new_images/img-colour-2.png" alt="">
+        <img src="assets/new_images/img-colour-3.png" alt="">
+        <img src="assets/new_images/img-colour-4.png" alt="">
+      </div>
+    </section>
+
+    <!-- ── Photography ──────────── -->
+    <section class="m-section">
+      <h2 class="m-section-title">Photography</h2>
+      <p class="m-section-intro">We can improve the overall design of the site by focussing on the art direction of both model and product photography.</p>
+
+      <div class="m-subsection">
+        <h3 class="m-sub-title">Models (Smiling)</h3>
+        <p class="m-sub-body">Most luxury brands don't use people smiling. It somehow makes brands look 'cheaper' or more 'lower-end'.</p>
+        <div class="img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-smile-bad.png" class="portrait" alt="Model smiling — avoid">
+          </div>
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-smile-good.png" class="portrait" alt="Model serene — preferred">
+          </div>
+        </div>
+      </div>
+
+      <div class="m-subsection">
+        <h3 class="m-sub-title">Model POV (eyes)</h3>
+        <p class="m-sub-body">Rather counter-intuitively it's not encouraged for models to be looking directly to camera when designing for luxury. They should if possible be looking slightly off-camera, or if they are looking towards camera it should be from an angle, or a side view.</p>
+        <p class="m-sub-body">There is significant empirical research, in fashion photography specifically, that suggests there can be up to a 20% increase in user clickthroughs with models that are looking <b>'1) away from camera'</b>, compared to <b>'2) looking directly to camera'</b>. This has been attributed to<b> 2) being more aspirational</b>, therefore more enticing. </p>
+        <p class="m-sub-body"> <b>Try to find or use images that follow these rules and it will increase the overall premium quality of design.</b></p>
+        <div class="img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-pov-bad.png" class="portrait" alt="Model looking at camera — avoid">
+          </div>
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-pov-good.png" class="portrait" alt="Model looking away — preferred">
+          </div>
+        </div>
+      </div>
+
+      <div class="m-subsection">
+        <h3 class="m-sub-title">Cropping</h3>
+        <p class="m-sub-body">Close cropping is always encouraged on models and also product art.</p>
+        <div class="img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-crop-bad.png" class="portrait" alt="Uncropped — avoid">
+          </div>
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-crop-good.png" class="portrait" alt="Close cropped — preferred">
+          </div>
+        </div>
+          <div class="img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-crop-bad-1.png" class="portrait" alt="Uncropped — avoid">
+          </div>
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-crop-good-1.png" class="portrait" alt="Close cropped — preferred">
+          </div>
+        </div>
+      </div>
+
+      <div class="m-subsection">
+        <h3 class="m-sub-title">Sizing</h3>
+        <p class="m-sub-body">Within product listings and product cards, the product imagery is too closely sized and scaled. We should try and allow more 'air' around product cards when grouped together so they stand out from each other.</p>
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-size-bad.png" class="wide" alt="Tight product spacing — avoid">
+          </div>
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-size-good.png" class="wide" alt="Airy product spacing — preferred">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Typography + Copy ─────── -->
+    <section class="m-section">
+      <h2 class="m-section-title">Typography + Copy</h2>
+      <p class="m-section-intro">We can improve the overall premium design of the site by creating better type hierarchy and also creating better, and more importantly shorter, copy headlines.</p>
+
+      <div class="m-subsection">
+        <h3 class="m-h3">Create better type hierarchy</h3>
+        <p class="m-sub-body">A better use of the Bold and Regular versions of the Oriflame 3.0 fonts. We would advise avoiding using the Bold version unless it is within copy, or used to highlight text. The Regular (or lighter) of the font is more elegant. There is a widespread use of CAPS and lowercase throughout – it needs to be standardised. And there are lots of inconsistencies of the Type Kerning and Spacing.</p>
+      </div>
+
+      <div class="m-subsection">
+        <h3 class="m-h3">Create better and shorter copy headlines</h3>
+        <p class="m-sub-body">We can improve headlines and design in general by shortening and rearranging focus of the copy.</p>
+        <!-- Example 1 -->
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/img-type-1-bad.png" alt="Uncropped — avoid">
+          </div>
+
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/img-type-1-good.png" alt="Close cropped — preferred">
+          </div>
+        </div>
+          <!-- Example 2 -->
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+
+            <img src="assets/new_images/img-type-2-bad.png" alt="Uncropped — avoid">
+          </div>
+        <div class="img-col">
+
+            <img src="assets/new_images/img-type-2-good.png" alt="Close cropped — preferred">
+          </div>
+        </div>
+        <!-- Example 3 -->
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+            <img src="assets/new_images/img-type-3-bad.png" alt="Uncropped — avoid">
+          </div>
+          <div class="img-col">
+            <img src="assets/new_images/img-type-3-good.png" alt="Close cropped — preferred">
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- ── Page Grids ────────────── -->
+    <section class="m-section">
+      <h2 class="m-section-title">Page Grids, Layouts + Components</h2>
+      <p class="m-section-intro">We can improve the overall premium design feel of the site by adjusting the page grid structure, and increasing spacing and sizing throughout.</p>
+
+      <div class="m-subsection">
+        <!-- Example 1 -->
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/grid_bad.png" alt="Uncropped — avoid">
+          </div>
+
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/grid_good.png" alt="Close cropped — preferred">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Motion ────────────── -->
+    <section class="m-section">
+      <h2 class="m-section-title">Motion + micro-interactions</h2>
+      <p class="m-section-intro">We can further improve the overall premium design feel of the site by adding subtle motion in page scrolling and micro-interactions across components and user engagement.</p>
+      <p class="m-section-intro">This all adds to the luxury feel of the brand and experience.</p>
+
+      <div class="m-subsection">
+        <h3 class="m-h3">Page scroll parallax effects</h3>
+        <p class="m-sub-body">A simple thing we can add is section parallax effects - fade up on scroll appear - is one of the simplest and most effective techniques used by luxury brands.<br><br>Adding micro-interactions and ‘<b>moments of delight</b>’ for users during interactions can help to enhance the experience.</p>
+      </div>
+
+      <div class="m-subsection">
+        <!-- Example 1 -->
+        <div class="img-pair typo-img-pair">
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.9395 10.9395C35.5252 10.3537 36.4748 10.3537 37.0605 10.9395C37.6462 11.5252 37.6463 12.4748 37.0605 13.0605L26.1211 24L37.0605 34.9395C37.6462 35.5252 37.6463 36.4748 37.0605 37.0605C36.4748 37.6463 35.5252 37.6462 34.9395 37.0605L24 26.1211L13.0605 37.0605C12.4748 37.6463 11.5252 37.6462 10.9395 37.0605C10.3537 36.4748 10.3537 35.5252 10.9395 34.9395L21.8789 24L10.9395 13.0605C10.3537 12.4748 10.3537 11.5252 10.9395 10.9395C11.5252 10.3537 12.4748 10.3537 13.0605 10.9395L24 21.8789L34.9395 10.9395Z" fill="#EB001B"/></svg></div>
+            <img src="assets/new_images/motion-bad.png" alt="Uncropped — avoid">
+          </div>
+
+          <div class="img-col">
+            <div class="img-badge-above"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.9395 10.9395C39.5252 10.3537 40.4748 10.3537 41.0605 10.9395C41.6461 11.5253 41.6462 12.4749 41.0605 13.0605L19.0605 35.0605C18.4748 35.6462 17.5252 35.646 16.9395 35.0605L6.93945 25.0605C6.35369 24.4748 6.35373 23.5252 6.93945 22.9395C7.52524 22.3537 8.47476 22.3537 9.06055 22.9395L18 31.8789L38.9395 10.9395Z" fill="#34A853"/></svg></div>
+            <img src="assets/new_images/motion-good.png" alt="Close cropped — preferred">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <img src="assets/oriflame-logo.svg" class="modal-watermark" alt="">
+
+  </div><!-- /modal-body -->
+
+</div><!-- /modal -->
+
+<script>
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.classList.remove('open');
+    modal.scrollTop = 0;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Hover fires only when mouse is directly over the icon button
+  document.querySelectorAll('.card').forEach(card => {
+    const btn = card.querySelector('.card-icon-btn');
+    if (!btn) return;
+    card.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const over = e.clientX >= r.left && e.clientX <= r.right
+                && e.clientY >= r.top  && e.clientY <= r.bottom;
+      card.classList.toggle('is-hovered', over);
+    });
+    card.addEventListener('mouseleave', () => card.classList.remove('is-hovered'));
+  });
+
+</script>
+
+</body>
+</html>

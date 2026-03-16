@@ -24,7 +24,7 @@
       --light:  #F0F0F0;
       --red:    #DA3A00;
       --border: #E5E5E5;
-      --cream:  #F8F3EE;
+      --cream:  #F9F6EE;
       --white:  #ffffff;
       --black:  #000000;
       --font:   'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -35,54 +35,123 @@
     ul { list-style: none; }
     button { cursor: pointer; font-family: var(--font); }
 
-    /* ── ANNOUNCEMENT BAR ── */
-    .ann-bar { background: var(--mint); text-align: center; padding: 9px 16px; font-size: 13px; font-weight: 500; color: var(--dark); letter-spacing: 0.2px; }
+    /* ── ANNOUNCEMENT BAR ─────────────────────────────────────────── */
+    .ann-bar { background: var(--mint); padding: 9px 16px; font-size: 13px; font-weight: 500; color: var(--dark); letter-spacing: 0.2px; display: flex; align-items: center; justify-content: center; gap: 20px; overflow: hidden; }
+    .ann-bar-track { position: relative; height: 1.5em; flex: 1; max-width: 620px; overflow: hidden; }
+    .ann-bar-msg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.45s ease; }
+    .ann-bar-msg.active { opacity: 1; pointer-events: auto; }
+    .ann-bar-btn { background: none; border: none; cursor: pointer; color: var(--dark); padding: 4px; font-size: 16px; line-height: 1; }
 
-    /* ── HEADER ── */
+    /* ── HEADER ─────────────────────────────────────────────────────── */
     #site-header { position: sticky; top: 0; z-index: 500; background: var(--white); border-bottom: 1px solid var(--border); }
-    .header-top { display: flex; align-items: center; gap: 28px; padding: 0 48px; height: 80px; }
-    .hamburger { display: flex; flex-direction: column; gap: 5px; padding: 4px; border: none; background: none; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
+    #site-header.search-open .top-nav, #site-header.search-open .logo, #site-header.search-open .header-icons { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .top-nav, .logo, .header-icons { transition: opacity 0.25s ease; }
+    .search-takeover { position: absolute; top: 0; left: 0; right: 0; height: 80px; background: var(--white); display: flex; align-items: center; padding: 0 20px 0 18px; gap: 18px; opacity: 0; pointer-events: none; transition: opacity 0.28s ease; z-index: 10; }
+    .search-takeover.open { opacity: 1; pointer-events: auto; }
+    .search-takeover-icon { flex-shrink: 0; display: flex; align-items: center; }
+    .search-takeover-content { flex: 1; display: flex; align-items: center; gap: 10px; overflow: hidden; opacity: 0; transform: translateX(14px); transition: opacity 0.32s ease 0.12s, transform 0.32s cubic-bezier(0.4,0,0.2,1) 0.12s; }
+    .search-takeover.open .search-takeover-content { opacity: 1; transform: translateX(0); }
+    .search-takeover-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
+    .search-takeover-input { flex: 1; border: none; outline: none; font-family: var(--font); font-size: 14px; color: var(--dark); background: transparent; caret-color: var(--dark); letter-spacing: 0.03em; min-width: 0; }
+    .search-takeover-input::placeholder { color: var(--mid); }
+    .search-takeover-label { font-size: 13px; font-weight: 700; color: var(--dark); white-space: nowrap; letter-spacing: 0.12em; text-transform: uppercase; flex-shrink: 0; pointer-events: none; user-select: none; }
+    .search-takeover-close { flex-shrink: 0; background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transform: rotate(-90deg) scale(0.8); transition: opacity 0.25s ease 0.2s, transform 0.3s cubic-bezier(0.4,0,0.2,1) 0.2s; }
+    .search-takeover.open .search-takeover-close { opacity: 1; transform: rotate(0deg) scale(1); }
+    .header-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 48px; height: 80px; }
     .logo { display: flex; flex-direction: column; align-items: center; line-height: 1; white-space: nowrap; gap: 3px; padding: 0 16px; }
-    .logo-main { font-size: 20px; font-weight: 700; letter-spacing: 3px; }
-    .logo-sub  { font-size: 8px; font-weight: 400; letter-spacing: 4px; color: var(--mid); }
-    .top-nav { display: flex; gap: 0; margin-left: 20px; align-self: stretch; }
-    .top-nav a { font-size: 14px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--dark); white-space: nowrap; display: flex; align-items: center; padding: 0 32px; transition: background 0.18s ease; }
+    .top-nav { display: flex; gap: 0; align-self: stretch; margin-left: -26px; }
+    .top-nav a { font-size: 16px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); white-space: nowrap; display: flex; align-items: center; padding: 0 18px; transition: background 0.18s ease; }
     .top-nav a:hover, .top-nav a.active { background: #F5F5F5; }
-    .search-wrap { flex: 1; max-width: 500px; margin-left: auto; position: relative; }
-    .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mid); pointer-events: none; }
-    .search-wrap input { width: 100%; padding: 10px 16px 10px 42px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; background: #F8F8F8; color: var(--mid); outline: none; font-family: var(--font); transition: border-color .2s; }
-    .search-wrap input:focus { border-color: var(--mint); }
-    .header-icons { display: flex; align-items: center; gap: 22px; margin-left: 20px; }
-    .header-icons a, .header-icons button { font-size: 20px; color: var(--dark); position: relative; background: none; border: none; }
-    .cart-badge { position: absolute; top: -5px; right: -6px; background: var(--mint); color: var(--dark); font-size: 9px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .header-icons { display: flex; align-items: center; gap: 22px; margin-left: auto; }
+    .header-icons a { font-size: 20px; color: var(--dark); position: relative; }
+    .cart-badge { position: absolute; top: -8px; right: -8px; background: var(--mint); color: var(--dark); font-size: 13px; font-weight: 400; font-family: var(--font); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    button#cartBtn { background: none; border: none; cursor: pointer; color: var(--dark); position: relative; padding: 0; display: flex; align-items: center; }
 
-    /* ── CATEGORY NAV ── */
-    .cat-nav-wrap { border-top: 1px solid var(--border); padding: 0 48px; display: flex; align-items: center; }
-    .cat-nav { display: flex; align-items: center; flex: 1; }
-    .cat-nav a { padding: 13px 16px; font-size: 14px; color: var(--dark); white-space: nowrap; position: relative; transition: color .15s; }
-    .cat-nav a:hover { font-weight: 600; }
-    .cat-nav a.active { font-weight: 700; }
-    .cat-nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--dark); }
-    .cat-divider { width: 1px; height: 18px; background: var(--border); margin: 0 6px; }
-    .member-btn { background: var(--dark); color: var(--white); padding: 9px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; margin-left: 16px; transition: background .2s; }
-    .member-btn:hover { background: var(--black); }
+    /* ── MEGA MENU ────────────────────────────────────────────────── */
+    .mega-overlay { position: fixed; top: var(--header-bottom, 0); left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0); pointer-events: none; z-index: 399; transition: background .32s cubic-bezier(0.4,0,0.2,1); }
+    .mega-overlay.active { background: rgba(0,0,0,.45); pointer-events: auto; }
+    .mega-menu { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); box-shadow: 0 16px 40px rgba(0,0,0,.08); z-index: 400; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-10px); transition: opacity .32s cubic-bezier(0.4,0,0.2,1), visibility .32s, transform .32s cubic-bezier(0.4,0,0.2,1); }
+    .mega-menu.open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+    .mega-cat-bar { display: flex; align-items: center; padding: 0 48px 0 20px; border-bottom: 1px solid var(--border); }
+    .mega-cat-items { display: flex; align-items: center; }
+    .mega-cat-link { display: inline-block; padding: 18px 20px; font-size: 14px; color: var(--dark); text-decoration: none; position: relative; white-space: nowrap; transition: opacity .15s; }
+    .mega-cat-link:hover { opacity: .6; }
+    .mega-cat-link.active { font-weight: 700; }
+    .mega-cat-link.active::after { content: ''; position: absolute; bottom: 0; left: 20px; right: 20px; height: 2px; background: var(--dark); }
+    .mega-cat-divider { width: 1px; height: 24px; background: var(--border); margin: 0 8px 0 24px; flex-shrink: 0; }
+    .mega-cat-right { display: flex; align-items: center; }
+    .mega-member-btn { display: inline-block; margin-left: 16px; padding: 8px 20px; border: 1.5px solid var(--dark); border-radius: 100px; font-size: 13px; color: var(--dark); text-decoration: none; white-space: nowrap; transition: background .2s, color .2s; }
+    .mega-member-btn:hover { background: var(--dark); color: var(--white); }
+    .mega-panel { display: none; }
+    .mega-panel.active { display: block; }
+    .mega-panel-inner { display: grid; grid-template-columns: 289px 1.6fr 1fr 1fr; column-gap: 8px; align-items: start; }
+    .mega-concerns { align-self: stretch; padding: 64px 20px 36px 40px; }
+    .mega-concerns h4 { font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 24px; }
+    .mega-concerns ul { list-style: none; padding: 0; margin: 0; }
+    .mega-concerns ul li { margin-bottom: 16px; }
+    .mega-concerns ul li a { font-size: 16px; color: var(--dark); text-decoration: none; transition: color .15s; }
+    .mega-concerns ul li a:hover { color: var(--mid); }
+    .mega-panel-hero { position: relative; overflow: hidden; align-self: stretch; }
+    .mega-panel-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+    .mega-hero-overlay { position: absolute; bottom: 36px; left: 0; right: 0; padding: 0 36px; color: #fff; }
+    .mega-hero-label { font-size: 18pt; font-weight: 400; letter-spacing: 0.12em; margin-bottom: 0; line-height: 1.1; }
+    .mega-hero-title-row { display: flex; align-items: center; justify-content: space-between; }
+    .mega-hero-title { font-size: 26pt; font-weight: 400; letter-spacing: 0.06em; margin: 0; line-height: 1.1; }
+    .mega-hero-cta { display: inline-block; padding: 13px 52px; background: var(--dark); color: var(--white); font-size: 12px; letter-spacing: 0.1em; font-weight: 600; text-decoration: none; border-radius: 100px; transition: background .2s; }
+    .mega-hero-cta:hover { background: #333; }
+    .mega-promo-img { display: flex; flex-direction: column; overflow: hidden; }
+    .mega-promo-img img { width: 100%; display: block; object-fit: cover; }
+    .mega-panel-inner > div:nth-child(3) img { aspect-ratio: 1/1; }
+    .mega-panel-inner > div:nth-child(4) img { aspect-ratio: 5/6; object-position: center top; }
+    .mega-promo-caption { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 16px; background: var(--white); flex-shrink: 0; }
+    .mega-promo-caption p { padding: 0; margin: 0; font-size: 16px; color: var(--dark); }
+    .mega-promo-shop { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--dark); text-decoration: none; border-bottom: 1px solid var(--dark); white-space: nowrap; padding-bottom: 1px; transition: opacity .15s; }
+    .mega-promo-shop:hover { opacity: 0.6; }
+    .mega-panel-inner--makeup { grid-template-columns: repeat(4, 1fr) 1.1fr 1.1fr; column-gap: 0; align-items: stretch; }
+    .mega-cat-col { padding: 52px 28px 52px 40px; }
+    .mega-cat-group { margin-bottom: 32px; }
+    .mega-cat-group h5 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+    .mega-cat-group ul { list-style: none; padding: 0; margin: 0; }
+    .mega-cat-group ul li { margin-bottom: 10px; }
+    .mega-cat-group ul li a { font-size: 14px; color: var(--dark); text-decoration: none; transition: color .15s; }
+    .mega-cat-group ul li a:hover { color: var(--mid); }
+    .mega-promo-img--makeup { display: flex; flex-direction: column; overflow: hidden; }
+    .mega-promo-img--makeup.gap-right { margin-right: 8px; }
+    .mega-promo-img--makeup img { width: 100%; flex: 1; object-fit: cover; aspect-ratio: 3/4; display: block; }
+    .mega-promo-img--makeup p { padding: 16px 20px 18px; font-size: 14px; color: var(--dark); background: var(--white); flex-shrink: 0; }
 
-    /* ── MEGA MENU ── */
-    .mega-menu { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); box-shadow: 0 12px 32px rgba(0,0,0,.09); z-index: 400; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
-    .mega-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
-    .mega-inner { max-width: 1440px; margin: 0 auto; padding: 36px 48px; display: grid; grid-template-columns: 1.1fr 1.2fr 1fr 0.8fr 220px 220px; gap: 32px; }
-    .mega-col h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 13px; }
-    .mega-col ul li { margin-bottom: 9px; }
-    .mega-col ul li a { font-size: 13px; color: var(--dark); transition: color .15s; }
-    .mega-col ul li a:hover { color: var(--mid); }
-    .mega-col ul li a.mega-active { font-weight: 700; }
-    .mega-spacer { margin-top: 20px; }
-    .mega-img img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; background: var(--light); }
-    .mega-img p { font-size: 13px; font-weight: 600; margin-top: 10px; }
+    /* ── SEARCH RESULTS PANEL ─────────────────────────────────────── */
+    .search-results-panel { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); box-shadow: 0 16px 40px rgba(0,0,0,.10); z-index: 401; display: none; }
+    .search-results-panel.open { display: grid; grid-template-columns: 380px 1fr; }
+    .srp-left { padding: 40px 52px; border-right: 1px solid var(--border); }
+    .srp-right { padding: 40px 52px; }
+    .srp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .srp-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .srp-clear { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--dark); padding: 0; font-family: var(--font); }
+    .srp-view-all { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dark); display: flex; align-items: center; gap: 4px; }
+    .srp-recent { list-style: none; }
+    .srp-recent li { font-size: 14px; padding: 9px 0; cursor: pointer; transition: opacity .15s; }
+    .srp-recent li:hover { opacity: .45; }
+    .srp-products { display: flex; flex-direction: column; }
+    .srp-product { display: grid; grid-template-columns: 96px 1fr auto 52px; gap: 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .srp-product:last-child { border-bottom: none; }
+    .srp-prod-img { width: 96px; height: 96px; background: var(--cream); border-radius: 6px; overflow: hidden; flex-shrink: 0; display: block; }
+    .srp-prod-img img { width: 100%; height: 100%; object-fit: cover; }
+    .srp-prod-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px; }
+    .srp-prod-name { font-size: 14px; line-height: 1.4; margin-bottom: 5px; }
+    .srp-prod-code { font-size: 12px; color: var(--mid); }
+    .srp-swatches { display: flex; align-items: center; gap: 4px; margin-top: 7px; }
+    .srp-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; }
+    .srp-swatch-more { font-size: 11px; color: var(--mid); margin-left: 2px; }
+    .srp-price { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; white-space: nowrap; }
+    .srp-price-now { font-size: 14px; font-weight: 600; }
+    .srp-price-now.sale { color: var(--red); }
+    .srp-price-was { font-size: 12px; color: var(--mid); text-decoration: line-through; }
+    .srp-add { width: 44px; height: 44px; border-radius: 50%; background: var(--light); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; }
+    .srp-add:hover { background: var(--border); }
 
     /* ── BREADCRUMB ── */
-    .breadcrumb { padding: 16px 64px; font-size: 12px; color: var(--mid); display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--border); }
+    .breadcrumb { padding: 16px 64px 16px 40px; font-size: 12px; color: var(--mid); display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--border); }
     .breadcrumb a { color: var(--mid); transition: color .15s; }
     .breadcrumb a:hover { color: var(--dark); }
     .breadcrumb-sep { color: #ccc; }
@@ -148,23 +217,23 @@
 
     .order-summary-body { padding: 20px 24px; }
     .order-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 14px; color: var(--dark); }
-    .order-summary-row .label { color: var(--mid); }
+    .order-summary-row .label { color: var(--mid); text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; }
     .order-free { color: #3a8a5c; font-size: 13px; font-weight: 500; }
 
     .promo-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
-    .promo-label { font-size: 13px; color: var(--mid); margin-bottom: 8px; }
+    .promo-label { font-size: 11px; color: var(--mid); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
     .promo-row { display: flex; gap: 8px; }
     .promo-input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); font-size: 13px; font-family: var(--font); color: var(--dark); outline: none; background: var(--white); transition: border-color 0.2s; }
     .promo-input:focus { border-color: var(--dark); }
-    .promo-btn { padding: 10px 16px; background: var(--light); border: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--dark); font-family: var(--font); transition: background 0.15s; white-space: nowrap; }
+    .promo-btn { padding: 10px 16px; background: var(--light); border: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--dark); font-family: var(--font); transition: background 0.15s; white-space: nowrap; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em; }
     .promo-btn:hover { background: #e0e0e0; }
 
     .order-total-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px 14px; border-top: 1px solid var(--border); margin-top: 4px; }
-    .order-total-label { font-size: 16px; font-weight: 700; color: var(--dark); }
+    .order-total-label { font-size: 14px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.08em; }
     .order-total-value { font-size: 22px; font-weight: 400; color: var(--dark); }
 
     .order-ctas { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 10px; }
-    .btn-checkout { display: block; text-align: center; padding: 15px; background: var(--dark); color: var(--white); font-size: 15px; font-weight: 600; font-family: var(--font); border: none; transition: background 0.2s; letter-spacing: 0.3px; }
+    .btn-checkout { display: block; text-align: center; padding: 15px; background: var(--dark); color: var(--white); font-size: 15px; font-weight: 600; font-family: var(--font); border: none; transition: background 0.2s; letter-spacing: 0.08em; border-radius: 999px; text-transform: uppercase; }
     .btn-checkout:hover { background: var(--black); cursor: pointer; }
 
     .order-trust { padding: 18px 24px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
@@ -219,153 +288,236 @@
     .basket-free { color: #4caf50; font-size: 13px; }
     .basket-total-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; margin-top: 8px; border-top: 1px solid var(--border); font-size: 16px; font-weight: 400; color: var(--dark); }
     .basket-ctas { padding: 16px 28px 28px; display: flex; flex-direction: column; gap: 10px; background: var(--white); flex-shrink: 0; }
-    .btn-basket-view { display: block; text-align: center; padding: 14px; border: 1px solid var(--dark); color: var(--dark); font-size: 14px; font-family: var(--font); text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .btn-basket-view { display: block; text-align: center; padding: 14px; border: 1px solid var(--dark); color: var(--dark); font-size: 14px; font-family: var(--font); text-decoration: none; transition: background 0.2s, color 0.2s; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em; }
     .btn-basket-view:hover { background: var(--dark); color: var(--white); }
-    .btn-basket-checkout { display: block; text-align: center; padding: 14px; background: var(--dark); color: var(--white); font-size: 14px; font-family: var(--font); text-decoration: none; transition: opacity 0.2s; }
+    .btn-basket-checkout { display: block; text-align: center; padding: 14px; background: var(--dark); color: var(--white); font-size: 14px; font-family: var(--font); text-decoration: none; transition: opacity 0.2s; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em; }
     .btn-basket-checkout:hover { opacity: 0.82; }
 
     /* ── FOOTER ── */
-    .site-footer { background: var(--dark); color: var(--white); font-size: 13px; }
-    .newsletter { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 36px 64px; border-bottom: 1px solid rgba(255,255,255,.08); }
-    .newsletter h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-    .newsletter p { color: rgba(255,255,255,.6); font-size: 13px; }
-    .newsletter-form { display: flex; gap: 0; flex-shrink: 0; }
-    .newsletter-form input { padding: 11px 18px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: var(--white); font-size: 13px; font-family: var(--font); outline: none; width: 260px; }
-    .newsletter-form input::placeholder { color: rgba(255,255,255,.4); }
-    .newsletter-form button { padding: 11px 22px; background: var(--mint); border: none; color: var(--dark); font-size: 13px; font-weight: 700; font-family: var(--font); cursor: pointer; transition: opacity .2s; }
-    .newsletter-form button:hover { opacity: 0.85; }
-    .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding: 40px 64px; }
-    .footer-col h4 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; text-transform: uppercase; }
-    .footer-col ul li { margin-bottom: 9px; }
-    .footer-col ul li a { color: rgba(255,255,255,.6); transition: color .15s; }
+    .site-footer { background: #1a1a1a; color: var(--white); }
+    .footer-join { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--white); border-top: 4px solid var(--white); }
+    .footer-join-panel { padding: 56px 80px 56px 64px; background: var(--cream); position: relative; display: block; text-decoration: none; transition: background 0.3s ease; }
+    .footer-join-panel:hover { background: #ede9de; }
+    .footer-join-panel h3 { font-size: 40px; font-weight: 400; color: var(--dark); margin-bottom: 12px; }
+    .footer-join-panel p { font-size: 14px; color: var(--mid); max-width: 420px; }
+    .footer-join-arrow { position: absolute; top: 56px; right: 80px; width: 48px; height: 48px; display: block; transform: rotate(45deg); transition: transform 0.3s ease; }
+    .footer-join-panel:hover .footer-join-arrow { transform: rotate(0deg); }
+    .newsletter-v { background: #1a1a1a; padding: 56px 64px; }
+    .newsletter-v h3 { font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+    .newsletter-v p { font-size: 14px; color: #999; margin-bottom: 24px; }
+    .newsletter-v-form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+    .newsletter-v-form input { width: 100%; padding: 12px 16px; border: 1px solid #3a3a3a; background: transparent; color: var(--white); font-size: 14px; font-family: var(--font); outline: none; border-radius: 4px; }
+    .newsletter-v-form input::placeholder { color: #666; }
+    .newsletter-v-form input:focus { border-color: var(--mint); }
+    .newsletter-v-form button { padding: 13px; background: var(--white); color: var(--dark); border: none; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 1px; font-family: var(--font); cursor: pointer; transition: opacity .2s; }
+    .newsletter-v-form button:hover { opacity: .85; }
+    .footer-cols { padding: 52px 64px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 40px; }
+    .footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; margin-bottom: 18px; }
+    .footer-col ul li { margin-bottom: 11px; }
+    .footer-col ul li a { font-size: 13px; color: #777; transition: color .15s; }
     .footer-col ul li a:hover { color: var(--white); }
     .app-badges { display: flex; flex-direction: column; gap: 10px; }
-    .app-badge { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; color: var(--white); transition: background .2s; }
-    .app-badge:hover { background: rgba(255,255,255,.06); }
-    .app-badge .icon { font-size: 20px; }
-    .app-badge .label { font-size: 10px; color: rgba(255,255,255,.5); display: block; }
-    .app-badge .store { font-size: 14px; font-weight: 700; display: block; }
-    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 20px 64px; border-top: 1px solid rgba(255,255,255,.08); }
-    .footer-logo { font-size: 16px; font-weight: 700; letter-spacing: 3px; margin-bottom: 4px; }
-    .footer-copy { font-size: 11px; color: rgba(255,255,255,.4); }
-    .social-row { display: flex; gap: 10px; }
-    .social-link { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); font-size: 13px; transition: all .2s; }
-    .social-link:hover { background: rgba(255,255,255,.1); color: var(--white); }
+    .app-badge { display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px; border: 1px solid #3a3a3a; border-radius: 10px; color: var(--white); white-space: nowrap; transition: border-color .15s; }
+    .app-badge:hover { border-color: var(--mint); }
+    .app-badge .icon { font-size: 22px; }
+    .app-badge .label { font-size: 10px; color: #888; display: block; }
+    .app-badge .store { font-size: 14px; font-weight: 600; display: block; }
+    .footer-bottom-2 { border-top: 1px solid #2d2d2d; padding: 20px 64px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: #1a1a1a; }
+    .footer-copy { font-size: 12px; color: #555; margin-top: 4px; }
+    .footer-payments { display: flex; align-items: center; gap: 10px; }
+    .footer-change-country { font-size: 11px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; text-decoration: none; }
+    .social-row { display: flex; gap: 12px; }
+    .social-link { width: 34px; height: 34px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--dark); transition: background .2s, color .2s; }
+    .social-link:hover { background: var(--mint); color: var(--dark); }
+    .footer-watermark { background: #1a1a1a; overflow: hidden; height: 220px; padding: 0 24px; user-select: none; pointer-events: none; display: flex; align-items: flex-end; }
+    .footer-watermark img { width: 100%; display: block; opacity: 0.08; filter: brightness(0) invert(1); transform: translateY(23%); }
   </style>
 </head>
 <body>
 
-<!-- ─── ANNOUNCEMENT BAR ── -->
-<div class="ann-bar">Enjoy free shipping over £45 as a VIP!</div>
+<!-- ─── ANNOUNCEMENT BAR ──────────────────────────────────────────── -->
+<div class="ann-bar">
+  <button class="ann-bar-btn" id="annPrev">&#8249;</button>
+  <div class="ann-bar-track" id="annTrack">
+    <span class="ann-bar-msg">ENJOY FREE SHIPPING ON ORDERS OVER £45, AS A VIP!</span>
+    <span class="ann-bar-msg">NEW MEMBER? GET 20% OFF YOUR FIRST ORDER — JOIN FREE TODAY</span>
+    <span class="ann-bar-msg">EARN POINTS WITH EVERY PURCHASE · REDEEM FOR REWARDS</span>
+  </div>
+  <button class="ann-bar-btn" id="annNext">&#8250;</button>
+</div>
 
-<!-- ─── HEADER ── -->
+<!-- ─── HEADER ───────────────────────────────────────────────────── -->
 <header id="site-header">
   <div class="header-top">
-    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a href="oriflame-homepage.html" class="logo">
-      <svg width="120" height="27" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M70.9061 35.5793L68.9555 29.5502H67.757L65.8064 35.5793L63.8583 29.5429H62.354L65.0519 37.6816H66.2503L68.3489 31.9525L70.2934 37.6816H71.4919L74.1824 29.5429H72.6904L70.9061 35.5793ZM1.63123 33.0184H42.4164V34.2232H1.63123V33.0184ZM52.1608 2.41826H54.8598V20.3554H52.1571V2.41826H52.1608ZM65.0555 20.3554H67.7546V12.8191H77.0514V10.257H67.7448V4.8316H78.0909V2.41703H65.0543L65.0555 20.3554ZM10.1796 20.6542C15.8785 20.6542 20.5257 15.9824 20.5257 10.2533C20.5257 4.67916 15.8785 2.11459 12.4298 2.11459C5.68162 2.11459 5.23158 8.74852 5.23158 8.74852H5.39056C5.39056 8.74852 6.58904 3.92552 11.2362 3.92552C14.9907 3.92552 17.8401 6.48763 17.8401 10.1058C17.8401 14.3227 14.3914 17.7896 10.1967 17.7896C6.14878 17.7896 2.40413 14.7776 2.40413 9.34356C2.40413 5.11437 4.65435 1.64742 8.55187 0.14753V0C3.60384 0.749943 0.00349326 5.12666 0.00349326 10.241C-0.145706 15.9701 4.50392 20.6419 10.2004 20.6419L10.1796 20.6542ZM55.1595 33.0172C53.6614 32.716 53.2113 32.4148 53.2113 31.8123C53.2113 31.2099 53.6638 30.9063 54.5688 30.9063C55.327 30.9063 56.073 31.2013 56.6722 31.6562L57.4268 30.6112C56.6771 30.0088 55.6291 29.5539 54.5773 29.5539C52.9264 29.5539 51.8783 30.4637 51.8783 31.9636C51.8783 33.4635 52.7711 33.9306 54.5688 34.3732C56.0608 34.6806 56.3665 34.9756 56.3665 35.578C56.3665 36.1805 55.7673 36.6353 55.0213 36.6353C53.9695 36.6353 53.2235 36.1805 52.4653 35.578L51.5603 36.6353C52.4592 37.5451 53.6589 38 54.8574 38C56.5084 38 57.7069 37.1025 57.7069 35.5903C57.7069 33.9306 56.8043 33.3282 55.1558 33.0332L55.1595 33.0172ZM43.7653 20.3542L38.3672 13.1203C41.0663 12.3704 42.8652 10.4156 42.8652 7.84613C42.8652 4.539 40.1747 2.27688 36.2736 2.27688H28.4712V20.214H31.1617V13.5752H35.5031L40.456 20.214L43.758 20.369L43.7653 20.3542ZM31.169 11.1582V4.8316H36.1182C38.6669 4.8316 40.1662 5.8889 40.1662 7.84736C40.1662 9.80582 38.5152 11.0131 36.1182 11.0131H31.169V11.1582ZM80.9501 34.222H84.9981V32.8672H80.9501V30.9075H85.4481V29.5515H79.6024V37.5402H85.4481V36.3354H80.9587L80.9501 34.222ZM112.287 2.26704L104.191 20.3554H107.04L109.138 15.6837H117.833L119.783 20.3554H122.782L114.687 2.26704H112.287ZM110.039 13.2703L113.329 5.584L116.619 13.2801H110.015L110.039 13.2703ZM132.223 7.09127L137.922 15.5324L138.216 15.9849L138.509 15.5423L144.056 7.10848V20.3739H146.756V2.42441H144.207L138.21 11.468L132.21 2.42441H129.666V20.3616H132.216L132.223 7.09127ZM132.223 33.0172H170V34.222H132.223V33.0172ZM159.36 17.7933V12.5191H168.655V9.9558H159.36V4.82914H169.853V2.41949H156.67V20.3567H169.865V17.7896L159.36 17.7933ZM120.986 35.1244L116.636 29.5502H115.287V37.539H116.786V31.9623L121.127 37.539H122.326V29.5502H120.981L120.986 35.1244ZM89.1964 2.41949H86.6478V20.3567H98.9433V17.7946H89.1964V2.41949ZM105.241 34.2245H109.289V32.8684H105.241V30.9075H109.738V29.5515H103.889V37.5402H109.887V36.3354H105.228L105.241 34.2245ZM93.994 29.5527H90.9868V37.5402H93.9867C96.5341 37.5402 98.1838 35.733 98.1838 33.4708C98.333 31.3599 96.5329 29.5515 93.9843 29.5515L93.994 29.5527ZM93.994 36.3341H92.3431V30.9075H93.994C95.645 30.9075 96.6845 32.1123 96.6845 33.6196C96.8313 35.1269 95.6328 36.3329 93.9818 36.3329L93.994 36.3341Z" fill="#333333"/></svg>
-    </a>
     <nav class="top-nav">
-      <a href="#" class="active">Members Shop</a>
-      <a href="#">Brand Partners</a>
-      <a href="#">Join Us</a>
+      <a href="#" id="shopNavLink">SHOP</a>
+      <a href="#">MEMBERS</a>
+      <a href="#">BRAND PARTNERS</a>
     </nav>
-    <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" placeholder="Search 60+ brands, 1000+ beauty and nutrition products">
-    </div>
+    <a href="oriflame-homepage.html" class="logo">
+      <img src="assets/oriflame_new_logo.svg" width="200" height="auto" alt="Oriflame">
+    </a>
+
     <div class="header-icons">
+      <button id="searchBtn" aria-label="Search" style="background:none;border:none;cursor:pointer;color:var(--dark);padding:0;display:flex;align-items:center;">
+        <img src="assets/Search.svg" width="32" height="32" alt="Search">
+      </button>
       <a href="#" aria-label="Account">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <img src="assets/User.svg" width="32" height="32" alt="Account">
       </a>
-      <a href="#" aria-label="Gifts">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-      </a>
-      <button id="cartBtn" aria-label="Open basket" style="background:none;border:none;color:var(--dark);position:relative;cursor:pointer;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span class="cart-badge" id="cartBadge">0</span>
+      <button id="cartBtn" aria-label="Open basket">
+        <img src="assets/Basket.svg" width="32" height="32" alt="Basket">
+        <span class="cart-badge" id="cartBadge">3</span>
+      </button>
+    </div>
+
+    <!-- Search takeover -->
+    <div class="search-takeover" id="searchTakeover">
+      <span class="search-takeover-icon">
+        <img src="assets/Search.svg" width="32" height="32" alt="">
+      </span>
+      <div class="search-takeover-content">
+        <span class="search-takeover-label">SEARCH</span>
+        <div class="search-takeover-divider"></div>
+        <input class="search-takeover-input" id="searchInput" type="text" placeholder="60+ brands, 1000+ beauty and nutrition products" autocomplete="off">
+      </div>
+      <button class="search-takeover-close" id="searchClose" aria-label="Close search">
+        <img src="assets/close.svg" width="44" height="44" alt="Close">
       </button>
     </div>
   </div>
-  <div class="cat-nav-wrap">
-    <nav class="cat-nav" id="catNav">
-      <a href="#" data-menu="none">Nutrition</a>
-      <a href="#" data-menu="skincare">Skincare</a>
-      <a href="#" data-menu="none">Makeup</a>
-      <a href="#" data-menu="none">Fragrance</a>
-      <a href="#" data-menu="none">Bath &amp; Body</a>
-      <a href="#" data-menu="none">Hair</a>
-      <a href="#" data-menu="none">Accessories</a>
-      <a href="#" data-menu="none">Men</a>
-      <div class="cat-divider"></div>
-      <a href="#" data-menu="none">New Arrivals</a>
-      <a href="#" data-menu="none">Icons</a>
-      <a href="#" data-menu="none">Sample Shop</a>
-      <a href="#" data-menu="none">Oriflame Outlet</a>
-    </nav>
-    <a href="#" class="member-btn">Become a member &rsaquo;</a>
-  </div>
+
+  <div class="mega-overlay" id="megaOverlay"></div>
+
+  <!-- ─── MEGA MENU ──────────────────────────────────────────────── -->
   <nav class="mega-menu" id="megaMenu">
-    <div class="mega-inner">
-      <div class="mega-col">
-        <h4>Concerns</h4>
-        <ul>
-          <li><a href="plp-anti-aging-skincare.html" class="mega-active">Anti-aging Skincare</a></li>
-          <li><a href="#">Dark circles and Puffiness</a></li>
-          <li><a href="#">Dark spots and...</a></li>
-          <li><a href="#">Dehydrated skin</a></li>
-          <li><a href="#">Dull skin</a></li>
-          <li><a href="#">Lack of firmness</a></li>
-          <li><a href="#">Oily skin</a></li>
-          <li><a href="#">Sensitive skin</a></li>
-        </ul>
+    <div class="mega-cat-bar">
+      <div class="mega-cat-items">
+        <a href="#" class="mega-cat-link active" data-panel="skincare">Skincare</a>
+        <a href="#" class="mega-cat-link" data-panel="makeup">Makeup</a>
+        <a href="#" class="mega-cat-link" data-panel="nutrition">Nutrition</a>
+        <a href="#" class="mega-cat-link" data-panel="fragrance">Fragrance</a>
+        <a href="#" class="mega-cat-link" data-panel="bath-body">Bath &amp; Body</a>
+        <a href="#" class="mega-cat-link" data-panel="hair">Hair</a>
+        <a href="#" class="mega-cat-link" data-panel="accessories">Accessories</a>
+        <a href="#" class="mega-cat-link" data-panel="men">Men</a>
       </div>
-      <div class="mega-col">
-        <h4>Skincare tools</h4>
-        <ul>
-          <li><a href="#">Cleansing tools</a></li>
-          <li><a href="#">Facial massagers</a></li>
-          <li><a href="#">Skincare brushes</a></li>
-        </ul>
-        <div class="mega-spacer">
-          <h4>Treatments</h4>
+      <div class="mega-cat-divider"></div>
+      <div class="mega-cat-right">
+        <a href="#" class="mega-cat-link">New Arrivals</a>
+        <a href="#" class="mega-cat-link">Icons</a>
+        <a href="#" class="mega-cat-link">Sample Shop</a>
+        <a href="#" class="mega-cat-link">Oriflame Outlet</a>
+        <a href="#" class="mega-member-btn">Become a member &rsaquo;</a>
+      </div>
+    </div>
+    <div class="mega-panel active" id="panel-skincare">
+      <div class="mega-panel-inner">
+        <div class="mega-concerns">
+          <h4>Concerns</h4>
           <ul>
-            <li><a href="#">Exfoliator</a></li>
-            <li><a href="#">Facial oil</a></li>
-            <li><a href="#">Serum and booster</a></li>
+            <li><a href="plp-anti-aging-skincare.html">Anti-aging Skincare</a></li>
+            <li><a href="#">Dark circles and Puffiness</a></li>
+            <li><a href="#">Dark spots and...</a></li>
+            <li><a href="#">Dehydrated skin</a></li>
+            <li><a href="#">Dull skin</a></li>
+            <li><a href="#">Lack of firmness</a></li>
+            <li><a href="#">Menopausal skin</a></li>
+            <li><a href="#">Oily skin</a></li>
+            <li><a href="#">Pores, Acne and Blemishes</a></li>
+            <li><a href="#">Sensitive skin</a></li>
+            <li><a href="#">Stressed skin</a></li>
+            <li><a href="#">Sunburns photoaging</a></li>
           </ul>
         </div>
-      </div>
-      <div class="mega-col">
-        <h4>Sun care</h4>
-        <ul>
-          <li><a href="#">After sun and Self tanning</a></li>
-          <li><a href="#">Face sunscreen</a></li>
-          <li><a href="#">Kids Suncare</a></li>
-        </ul>
-        <div class="mega-spacer"><h4>Eye care</h4></div>
-        <div class="mega-spacer"><h4>Cleansers</h4></div>
-      </div>
-      <div class="mega-col">
-        <h4>Mask</h4>
-        <div class="mega-spacer"><h4>Skincare routines</h4></div>
-        <div class="mega-spacer"><h4>Skincare Gifts</h4></div>
-      </div>
-      <div class="mega-col">
-        <div class="mega-img">
-          <img src="assets/images/mega-skincare-1.png" alt="Your skincare routine">
-          <p>Your skincare routine</p>
+        <div class="mega-panel-hero">
+          <img src="assets/images/mega-skincare-1.png" alt="New Skin Retoucher">
+          <div class="mega-hero-overlay">
+            <p class="mega-hero-label">NEW</p>
+            <div class="mega-hero-title-row">
+              <p class="mega-hero-title">SLEEPING BEAUTY</p>
+              <a href="#" class="mega-hero-cta">SHOP NOW</a>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="mega-col">
-        <div class="mega-img">
+        <div class="mega-promo-img">
           <img src="assets/images/mega-skincare-2.png" alt="Skincare products">
-          <p>Skincare products for a fresher look</p>
+          <div class="mega-promo-caption">
+            <p>Skincare products for a fresher look</p>
+            <a href="#" class="mega-promo-shop">SHOP NOW</a>
+          </div>
+        </div>
+        <div class="mega-promo-img">
+          <img src="assets/images/mega-skincare-3.png" alt="Your skincare routine">
+          <div class="mega-promo-caption">
+            <p>Your skincare routine</p>
+            <a href="#" class="mega-promo-shop">LEARN MORE</a>
+          </div>
         </div>
       </div>
     </div>
+    <div class="mega-panel" id="panel-makeup">
+      <div class="mega-panel-inner mega-panel-inner--makeup">
+        <div class="mega-cat-col">
+          <div class="mega-cat-group"><h5>Face makeup</h5><ul><li><a href="#">Foundation</a></li><li><a href="#">BB and CC Creams</a></li><li><a href="#">Blusher</a></li><li><a href="#">Bronzer</a></li><li><a href="#">Concealer</a></li><li><a href="#">Highlighter</a></li><li><a href="#">Powder</a></li><li><a href="#">Primer</a></li></ul></div>
+        </div>
+        <div class="mega-cat-col">
+          <div class="mega-cat-group"><h5>Eyes makeup</h5><ul><li><a href="#">Mascara</a></li><li><a href="#">Eyeliner</a></li><li><a href="#">Eyeshadow</a></li><li><a href="#">Eyebrows</a></li><li><a href="#">Eye makeup remover</a></li></ul></div>
+        </div>
+        <div class="mega-cat-col">
+          <div class="mega-cat-group"><h5>Nails</h5><ul><li><a href="#">Nail polish</a></li><li><a href="#">Gel nail polish</a></li><li><a href="#">Nail care</a></li></ul></div>
+        </div>
+        <div class="mega-cat-col">
+          <div class="mega-cat-group"><h5>Lips makeup</h5><ul><li><a href="#">Lipstick</a></li><li><a href="#">Lip gloss</a></li><li><a href="#">Lip liner</a></li><li><a href="#">Lip care</a></li></ul></div>
+        </div>
+        <div class="mega-promo-img--makeup gap-right"><img src="assets/images/mega-skincare-3.png" alt=""><p>Your skincare routine</p></div>
+        <div class="mega-promo-img--makeup"><img src="assets/images/mega-skincare-2.png" alt=""><p>Skincare products</p></div>
+      </div>
+    </div>
   </nav>
-</header>
+
+  <!-- Search Results Panel -->
+  <div class="search-results-panel" id="searchResultsPanel">
+    <div class="srp-left">
+      <div class="srp-head">
+        <span class="srp-label">Recent Searches</span>
+        <button class="srp-clear" id="srpClear">Clear</button>
+      </div>
+      <ul class="srp-recent">
+        <li>shade finder</li>
+        <li>Everlasting Sync Foundation SPF 20</li>
+        <li>creams</li>
+        <li>radiant gel</li>
+      </ul>
+    </div>
+    <div class="srp-right">
+      <div class="srp-head">
+        <span class="srp-label">Popular Products</span>
+        <a href="#" class="srp-view-all">View All &rsaquo;</a>
+      </div>
+      <div class="srp-products">
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-1.jpg" alt="Beauty Collagen Complex"></a>
+          <div><p class="srp-prod-brand">Wellosophy</p><p class="srp-prod-name">Beauty Collagen Complex</p><p class="srp-prod-code">45356</p></div>
+          <div class="srp-price"><span class="srp-price-now">£29.99</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-2.jpg" alt="You Eau de Parfum"></a>
+          <div><p class="srp-prod-brand">Infinita</p><p class="srp-prod-name">You Eau de Parfum</p><p class="srp-prod-code">47713</p></div>
+          <div class="srp-price"><span class="srp-price-now sale">£22.99</span><span class="srp-price-was">£37.00</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-3.jpg" alt="Age Defying Foundation"></a>
+          <div><p class="srp-prod-brand">Giordani Gold</p><p class="srp-prod-name">Age Defying Serum Boost Foundation SPF 12</p><p class="srp-prod-code">42236</p></div>
+          <div class="srp-price"><span class="srp-price-now sale">£9.99</span><span class="srp-price-was">£19.00</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header><!-- /site-header -->
 
 
 <!-- ─── BREADCRUMB ── -->
@@ -443,74 +595,115 @@
 
 
 <!-- ─── FOOTER ── -->
-<footer class="site-footer">
-  <div class="newsletter">
-    <div>
+<footer>
+
+  <!-- Join panels -->
+  <div class="footer-join">
+    <a href="#" class="footer-join-panel">
+      <img class="footer-join-arrow" src="assets/arrow-circle.svg" alt="">
+      <h3>Become a member</h3>
+      <p>At Oriflame, we call our registered customers VIPs— because that's exactly how we treat you.</p>
+    </a>
+    <a href="#" class="footer-join-panel">
+      <img class="footer-join-arrow" src="assets/arrow-circle.svg" alt="">
+      <h3>Become a partner</h3>
+      <p>As a Brand Partner, you can make money in your own time, from home or on the move.</p>
+    </a>
+  </div>
+
+  <!-- Dark footer body -->
+  <div style="background:#1a1a1a; display:grid; grid-template-columns:400px 1fr; align-items:start;">
+
+    <!-- Newsletter column -->
+    <div class="newsletter-v">
       <h3>Join our newsletter!</h3>
       <p>Sign up today and be the first to get our best offers, latest news &amp; beauty tips.</p>
+      <form class="newsletter-v-form" onsubmit="return false;">
+        <input type="email" placeholder="Your e-mail">
+        <button type="submit">SUBSCRIBE</button>
+      </form>
     </div>
-    <form class="newsletter-form" onsubmit="return false;">
-      <input type="email" placeholder="Your e-mail">
-      <button type="submit">Subscribe</button>
-    </form>
-  </div>
-  <div class="footer-cols">
-    <div class="footer-col">
-      <h4>Support / Help</h4>
-      <ul>
-        <li><a href="#">Support Centre</a></li>
-        <li><a href="#">Track your order</a></li>
-        <li><a href="#">Claims &amp; returns</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Corporate Info</h4>
-      <ul>
-        <li><a href="#">Work With Us</a></li>
-        <li><a href="#">Reach Your Happy Place</a></li>
-        <li><a href="#">Sustainability</a></li>
-        <li><a href="#">Investor Relations</a></li>
-        <li><a href="#">Oriflame.com</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Discover</h4>
-      <ul>
-        <li><a href="#">Join us as a Brand Partner</a></li>
-        <li><a href="#">Join us as a VIP Customer</a></li>
-        <li><a href="#">eCatalogue</a></li>
-        <li><a href="#">Explore Our Apps</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Explore Our Apps</h4>
-      <div class="app-badges">
-        <a href="#" class="app-badge">
-          <span class="icon">&#63743;</span>
-          <div><span class="label">Download on the</span><span class="store">App Store</span></div>
-        </a>
-        <a href="#" class="app-badge">
-          <span class="icon">&#9654;</span>
-          <div><span class="label">Get it on</span><span class="store">Google Play</span></div>
-        </a>
+
+    <!-- Footer columns -->
+    <div class="footer-cols" style="padding:52px 64px; grid-template-columns:1fr 1fr 1fr auto;">
+      <div class="footer-col">
+        <h4>Support / Help</h4>
+        <ul>
+          <li><a href="#">Support Centre</a></li>
+          <li><a href="#">Track your order</a></li>
+          <li><a href="#">Claims &amp; returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Corporate Info</h4>
+        <ul>
+          <li><a href="#">Work With Us</a></li>
+          <li><a href="#">Reach Your Happy Place</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Oriflame.com</a></li>
+          <li><a href="#">EU Declarations of Conformity</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="#">Join us as a Brand Partner</a></li>
+          <li><a href="#">Join us as a VIP Customer</a></li>
+          <li><a href="#">eCatalogue</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore Our Apps</h4>
+        <div class="app-badges">
+          <a href="#" class="app-badge">
+            <span class="icon">&#63743;</span>
+            <div><span class="label">Download on the</span><span class="store">App Store</span></div>
+          </a>
+          <a href="#" class="app-badge">
+            <span class="icon">&#9654;</span>
+            <div><span class="label">Get it on</span><span class="store">Google Play</span></div>
+          </a>
+        </div>
+        <a href="#" style="font-size:11px;color:#777;letter-spacing:0.5px;margin-top:14px;display:block;">EXPLORE OUR APPS &rsaquo;</a>
       </div>
     </div>
+
   </div>
-  <div class="footer-bottom">
-    <div>
-      <div class="footer-logo">ORIFLAME</div>
-      <div class="footer-copy">© Oriflame is a beauty company selling direct. Copyright © 2026 Oriflame Cosmetics AG. All rights reserved.</div>
+
+  <!-- Legal bar -->
+  <div class="footer-bottom-2" style="background:#1a1a1a; align-items:flex-start;">
+    <div style="display:flex; align-items:flex-start; gap:24px;">
+      <div class="footer-payments">
+        <img src="assets/images/visa.png" alt="Visa" style="height:24px;border-radius:4px;">
+        <img src="assets/images/mastercard.png" alt="Mastercard" style="height:24px;border-radius:4px;">
+        <img src="assets/images/paypal.png" alt="PayPal" style="height:24px;border-radius:4px;">
+        <img src="assets/images/gpay.png" alt="Google Pay" style="height:24px;border-radius:4px;">
+      </div>
+      <div class="footer-copy" style="color:#555;">Oriflame is a leading beauty company selling direct. Copyright &copy; 2026 Oriflame Cosmetics Global SA. All rights reserved.</div>
     </div>
-    <div class="social-row">
-      <a href="#" class="social-link" aria-label="Facebook">f</a>
-      <a href="#" class="social-link" aria-label="Instagram">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a href="#" class="social-link" aria-label="YouTube">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.7 12 2.7 12 2.7s-4.3 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.2c0 2.2.3 4.5.3 4.5s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.3 12 22.3 12 22.3s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.2C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/></svg>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:14px;">
+      <div class="social-row">
+        <a href="#" class="social-link" aria-label="Facebook">f</a>
+        <a href="#" class="social-link" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.7 12 2.7 12 2.7s-4.3 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.2c0 2.2.3 4.5.3 4.5s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.3 12 22.3 12 22.3s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.2C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+      <a href="#" class="footer-change-country" style="color:var(--white);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        CHANGE COUNTRY
       </a>
     </div>
   </div>
+
+  <!-- Watermark -->
+  <div class="footer-watermark">
+    <img src="assets/oriflame_new_logo.svg" alt="">
+  </div>
+
 </footer>
 
 <!-- ─── BASKET DRAWER (for cart icon) ── -->
@@ -717,24 +910,107 @@ basketClose.addEventListener('click', closeBasket);
 basketOverlay.addEventListener('click', closeBasket);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBasket(); });
 
+// ── Announcement bar rotator ─────────────────────────────────────
+(function() {
+  const msgs = document.querySelectorAll('.ann-bar-msg');
+  const prevBtn = document.getElementById('annPrev');
+  const nextBtn = document.getElementById('annNext');
+  if (!msgs.length) return;
+  let cur = 0;
+  msgs[cur].classList.add('active');
+  function show(n) {
+    msgs[cur].classList.remove('active');
+    cur = (n + msgs.length) % msgs.length;
+    msgs[cur].classList.add('active');
+  }
+  if (prevBtn) prevBtn.addEventListener('click', () => show(cur - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => show(cur + 1));
+  setInterval(() => show(cur + 1), 5000);
+})();
+
 // ── Mega menu ────────────────────────────────────────────────────
-const megaMenu = document.getElementById('megaMenu');
-const catLinks = document.querySelectorAll('#catNav a');
-let closeTimer;
-catLinks.forEach(link => {
-  link.addEventListener('mouseenter', () => {
-    clearTimeout(closeTimer);
-    catLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
-    if (link.dataset.menu === 'skincare') { megaMenu.classList.add('open'); }
-    else { megaMenu.classList.remove('open'); }
+(function() {
+  const siteHeader  = document.getElementById('site-header');
+  const megaMenu    = document.getElementById('megaMenu');
+  const megaOverlay = document.getElementById('megaOverlay');
+  const shopNavLink = document.getElementById('shopNavLink');
+  const catTabLinks = document.querySelectorAll('.mega-cat-link[data-panel]');
+  let megaCloseTimer;
+
+  function openMega() {
+    clearTimeout(megaCloseTimer);
+    megaMenu.classList.add('open');
+    megaOverlay.classList.add('active');
+    const hb = siteHeader.getBoundingClientRect();
+    document.documentElement.style.setProperty('--header-bottom', hb.bottom + 'px');
+    megaOverlay.style.top = hb.bottom + 'px';
+  }
+  function closeMega() {
+    megaMenu.classList.remove('open');
+    megaOverlay.classList.remove('active');
+  }
+  function delayClose() { megaCloseTimer = setTimeout(closeMega, 150); }
+  function cancelClose() { clearTimeout(megaCloseTimer); }
+
+  // Top-nav SHOP link triggers mega
+  if (shopNavLink) {
+    shopNavLink.addEventListener('mouseenter', openMega);
+    shopNavLink.addEventListener('mouseleave', delayClose);
+  }
+  megaMenu.addEventListener('mouseenter', cancelClose);
+  megaMenu.addEventListener('mouseleave', delayClose);
+  megaOverlay.addEventListener('click', closeMega);
+
+  // Category tab switching inside mega
+  catTabLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      catTabLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      document.querySelectorAll('.mega-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('panel-' + link.dataset.panel);
+      if (panel) panel.classList.add('active');
+    });
+    link.addEventListener('mouseenter', () => {
+      catTabLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      document.querySelectorAll('.mega-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('panel-' + link.dataset.panel);
+      if (panel) panel.classList.add('active');
+    });
   });
-  link.addEventListener('mouseleave', () => {
-    closeTimer = setTimeout(() => { if (!megaMenu.matches(':hover')) megaMenu.classList.remove('open'); }, 120);
+})();
+
+// ── Search takeover ───────────────────────────────────────────────
+(function() {
+  const siteHeader       = document.getElementById('site-header');
+  const searchBtn        = document.getElementById('searchBtn');
+  const searchClose      = document.getElementById('searchClose');
+  const searchTakeover   = document.getElementById('searchTakeover');
+  const searchInput      = document.getElementById('searchInput');
+  const searchResultsPanel = document.getElementById('searchResultsPanel');
+  const srpClear         = document.getElementById('srpClear');
+
+  function openSearch() {
+    siteHeader.classList.add('search-open');
+    searchTakeover.classList.add('open');
+    setTimeout(() => searchInput && searchInput.focus(), 320);
+    if (searchResultsPanel) searchResultsPanel.classList.add('open');
+  }
+  function closeSearch() {
+    siteHeader.classList.remove('search-open');
+    searchTakeover.classList.remove('open');
+    if (searchResultsPanel) searchResultsPanel.classList.remove('open');
+  }
+
+  if (searchBtn)   searchBtn.addEventListener('click', openSearch);
+  if (searchClose) searchClose.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+  if (srpClear) srpClear.addEventListener('click', () => {
+    const list = document.querySelector('.srp-recent');
+    if (list) list.innerHTML = '';
   });
-});
-megaMenu.addEventListener('mouseenter', () => clearTimeout(closeTimer));
-megaMenu.addEventListener('mouseleave', () => { closeTimer = setTimeout(() => megaMenu.classList.remove('open'), 120); });
+})();
 
 // ── Boot ─────────────────────────────────────────────────────────
 renderPage();

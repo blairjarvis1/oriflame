@@ -218,11 +218,9 @@
       height: 80px;
     }
 
-    /* hamburger — hidden on desktop, shown via mobile media query */
-    .hamburger { display: none; flex-direction: column; gap: 7px; padding: 4px; border: none; background: none; cursor: pointer; }
-    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dark); border-radius: 2px; }
-    /* Mobile nav — hidden on desktop */
-    .mob-nav-overlay, .mob-nav-drawer { display: none; }
+    /* hamburger */
+    .hamburger { display: flex; flex-direction: column; gap: 5px; padding: 4px; border: none; background: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
 
     /* logo */
     .logo {
@@ -611,10 +609,9 @@
     .hero-arrow svg { width: 100%; height: 100%; }
     .hero-content a:hover .hero-arrow,
     .hero-panel:has(a:hover) .hero-arrow { transform: rotate(-45deg); }
-    .hc-track { position: relative; width: 100%; height: 100%; }
-    .hc-fade-veil { display: none; }
-    .hc-slide { position: absolute; inset: 0; display: flex; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity 0.9s ease; }
-    .hc-slide.hc-slide--active { opacity: 1; pointer-events: auto; }
+    .hc-track { display: flex; height: 100%; transition: transform 0.85s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+    .hc-fade-veil { position: absolute; inset: 0; z-index: 40; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+    .hc-slide { width: 100%; flex-shrink: 0; position: relative; display: flex; height: 100%; overflow: hidden; }
     .hc-slide--two-col { gap: 6px; }
     .hc-slide--three-col { gap: 4px; }
 
@@ -623,11 +620,9 @@
     .hc-slide--two-col .hc-panel { flex: 0 0 calc(50% - 3px); }
     .hc-slide--three-col .hc-panel { flex: 0 0 calc(33.333% - 3px); }
     .hc-panel img, .hc-panel video,
-    .hc-slide--full > img, .hc-slide--full > video, .hc-slide--full > picture {
+    .hc-slide--full > img, .hc-slide--full > video {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     }
-    .hc-slide--full > picture { object-fit: unset; }
-    .hc-slide--full > picture img { width: 100%; height: 100%; object-fit: cover; }
 
     /* Coloured text panels */
     .hc-panel--text {
@@ -903,11 +898,11 @@
     .product-card:hover .wishlist-btn { opacity: 0; }
     .product-img:not(:hover) .wishlist-btn { opacity: 0; }
     .plp-card-actions {
-      position: absolute; bottom: 16px; right: 16px;
+      position: absolute; bottom: 22px; right: 22px;
       display: flex; flex-direction: column; gap: 6px; z-index: 2;
     }
     .product-view-btn {
-      position: absolute; bottom: 16px; left: 12px; right: 72px;
+      position: absolute; bottom: 22px; left: 22px; right: 74px;
       height: 44px;
       background: var(--dark); color: var(--white);
       border: none; border-radius: 100px;
@@ -925,11 +920,10 @@
       width: 44px; height: 44px; border-radius: 50%;
       border: none; background: rgba(255,255,255,0.88);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: #666; cursor: pointer;
+      font-size: 18px; color: #666; cursor: pointer;
       transition: color .2s, background .2s;
       box-shadow: 0 1px 4px rgba(0,0,0,.1);
     }
-    .plp-card-add-btn svg { width: 22px; height: 22px; }
     .plp-card-wishlist:hover,
     .plp-card-wishlist.active,
     .plp-card-add-btn:hover { color: #fff; background: var(--dark); box-shadow: none; }
@@ -946,7 +940,7 @@
     .offers-section { padding: 80px 32px; }
     .offers-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
     .offers-header h2 { font-size: 48px; font-weight: 400; color: var(--dark); }
-    .offers-nav { display: flex; gap: 6px; }
+    .offers-nav { display: flex; gap: 15px; }
     .offers-nav-btn {
       width: 36px; height: 36px; border-radius: 50%;
       background: transparent; border: 1.5px solid var(--dark); cursor: pointer;
@@ -961,13 +955,13 @@
       display: grid;
       grid-template-columns: 816fr 780fr;
       gap: 24px;
-      align-items: stretch;
+      height: 804px;
     }
-    .offer-main { position: relative; overflow: hidden; aspect-ratio: 1/1; cursor: pointer; }
+    .offer-main { position: relative; overflow: hidden; height: 100%; cursor: pointer; }
     .offer-main img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
     .offer-main:hover img { transform: scale(1.1); }
     .offer-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.35) 0%, transparent 55%); }
-    .offer-main-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px; color: var(--white); }
+    .offer-main-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px; color: var(--white); }
     .offer-main-content h3 { font-size: 64px; font-weight: 400; line-height: 1.1; margin-bottom: 24px; }
     .offer-2x2 { display: flex; flex-direction: column; gap: 24px; height: 100%; }
     .offer-row { display: flex; gap: 0; flex: 1; cursor: pointer; }
@@ -1567,345 +1561,6 @@
       transform: translateY(23%);
     }
 
-  /* ═══════════════════════════════════════════════════════════════
-     MOBILE  ≤ 768px
-     ═══════════════════════════════════════════════════════════════ */
-  @media (max-width: 768px) {
-
-    /* ── Prevent horizontal overflow ───────────────────────────── */
-    html { overflow-x: clip; }
-    /* Hide mega menu entirely on mobile — it causes page-level overflow */
-    .mega-menu { display: none !important; }
-
-    /* ── Announcement bar ──────────────────────────────────────── */
-    .ann-bar { font-size: 11px; padding: 8px 10px; gap: 8px; }
-    .ann-bar-track { max-width: 100%; }
-
-    /* ── Header ────────────────────────────────────────────────── */
-    #site-header { position: sticky !important; top: 0 !important; z-index: 500 !important; }
-    .header-top { display: flex; padding: 0 16px; height: 58px; gap: 0; position: relative; }
-    .top-nav { display: none; }
-    .cat-nav-wrap { display: none; }
-    .hamburger { display: flex; order: -1; flex-shrink: 0; }
-    .mob-nav-overlay { display: block; }
-    .mob-nav-drawer { display: flex; }
-    .logo {
-      position: absolute; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      padding: 0; pointer-events: auto;
-    }
-    .logo img { width: 120px; }
-    .header-icons { margin-left: auto; gap: 12px; }
-    .header-icons img { width: 26px; height: 26px; }
-    /* hide search + user from header bar on mobile — they live in the drawer */
-    #searchBtn { display: none !important; }
-    .header-icons > a[aria-label="Account"] { display: none !important; }
-    #cartBtn { background: none; border: none; padding: 0; position: relative; }
-    .cart-badge { width: 20px; height: 20px; font-size: 11px; top: -6px; right: -6px; }
-    .search-takeover { height: 58px; padding: 0 16px 0 14px; }
-
-    /* ── Mobile nav drawer ─────────────────────────────────────── */
-    .mob-nav-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5); z-index: 600;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .mob-nav-overlay.open { opacity: 1; pointer-events: auto; }
-    .mob-nav-drawer {
-      position: fixed; top: 0; left: 0; bottom: 0;
-      width: 82vw; max-width: 320px;
-      background: var(--white); z-index: 601;
-      transform: translateX(-100%);
-      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-      display: flex; flex-direction: column; overflow-y: auto;
-    }
-    .mob-nav-drawer.open { transform: translateX(0); }
-    .mob-nav-head {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px; flex-shrink: 0;
-    }
-    .mob-nav-search-trigger {
-      display: flex; align-items: center; gap: 10px;
-      background: none; border: none; cursor: pointer;
-      color: var(--dark); padding: 0;
-      font-family: var(--font); font-size: 13px; font-weight: 700;
-      letter-spacing: 0.12em;
-    }
-    .mob-nav-close {
-      background: none; border: none; font-size: 22px;
-      cursor: pointer; color: var(--dark); padding: 4px; line-height: 1;
-    }
-    .mob-nav-user-bar {
-      padding: 0 20px; flex-shrink: 0;
-    }
-    .mob-nav-user-link {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0; text-decoration: none;
-      color: var(--dark); font-size: 13px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-    }
-    .mob-nav-divider {
-      border: none; border-top: 1px solid var(--border);
-      margin: 0 20px; flex-shrink: 0;
-    }
-    .mob-nav-divider-full {
-      border: none; border-top: 1px solid var(--border);
-      margin: 0; flex-shrink: 0;
-    }
-    .mob-nav-section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      color: var(--mid); padding: 14px 20px 4px;
-      text-transform: uppercase; display: block;
-    }
-    .mob-nav-links a {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 15px; color: var(--dark); padding: 3px 20px;
-      border-bottom: none; text-decoration: none;
-    }
-    .mob-nav-links a .mob-nav-arrow { font-size: 18px; color: var(--mid); }
-    .mob-nav-accordion {
-      display: flex; align-items: center; justify-content: space-between;
-      width: 100%; padding: 14px 20px;
-      background: none; border: none; cursor: pointer;
-      font-family: var(--font); font-size: 10px; font-weight: 700;
-      letter-spacing: 2px; color: var(--mid); text-transform: uppercase;
-    }
-    .mob-nav-chevron {
-      color: var(--mid); flex-shrink: 0;
-      transition: transform 0.25s ease;
-    }
-    .mob-nav-accordion.open .mob-nav-chevron { transform: rotate(180deg); }
-    .mob-nav-acc-body {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.3s ease;
-    }
-    .mob-nav-acc-body.open { max-height: 300px; }
-    .mob-nav-links a.mob-nav-member {
-      margin: 20px 20px 0;
-      display: block; padding: 14px; text-align: center;
-      background: var(--dark); color: var(--white) !important;
-      border-radius: 999px; font-size: 11px; font-weight: 400;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      text-decoration: none !important;
-      border-bottom: none !important;
-    }
-
-    /* ── Hero → fade carousel on mobile ────────────────────────── */
-    /* height: auto — slide 0 in flow sets the height (2 × 88vw panels) */
-    .hero-carousel { height: auto; overflow: hidden; }
-    .hc-track { /* fade mode — no transform needed */ }
-    /* Slide 0: in document flow to drive carousel height */
-    .hc-slide:first-child { position: relative !important; flex-direction: column; gap: 3px; }
-    /* All slides: stacked vertically */
-    .hc-slide { flex-direction: column; }
-    /* Panels fill equally in each slide */
-    .hc-panel { flex: 1; width: 100%; min-height: 56vw; }
-    .hc-slide--three-col .hc-panel { min-height: 52vw; }
-    .hc-panel--text { flex: 1; padding: 24px 20px; justify-content: flex-end; }
-    /* Slide 0 panels: fixed 88vw height each */
-    .hc-slide:first-child .hero-panel { height: 88vw; flex: 0 0 auto; width: 100%; }
-    /* Counter: below carousel, static flow, dark grey */
-    .hc-counter {
-      position: static; display: flex; justify-content: center;
-      padding: 14px 0; transform: none; left: auto;
-      background: #fff;
-    }
-    .hc-dot { background: rgba(40,40,40,0.15); width: 16px; height: 2px; }
-    .hc-dot-fill { background: rgba(40,40,40,0.7); }
-    .hc-dot:hover { background: rgba(40,40,40,0.3); }
-    /* ── Slide 0 (Members / Partners) type ─────────────────────── */
-    .hero-content { padding: 18px 20px 22px; }
-    .hero-content h2 { font-size: 42px; }
-    .hero-content a { font-size: 14px; }
-    .hero-desc { font-size: 12px; line-height: 1.6; margin-bottom: 12px; max-width: 100%; }
-    .hero-icon { top: 16px; left: 16px; width: 30px; height: 30px; }
-    .hero-panel--right .hero-icon { left: auto; right: 16px; }
-    .hero-panel--right .hero-content { text-align: left; padding-left: 20px; padding-right: 20px; }
-    .hero-panel--right .hero-desc { margin-left: 0; }
-    /* ── Carousel slides 1-10 type ──────────────────────────────── */
-    .hc-h2 { font-size: 51px; margin-bottom: 10px; }
-    .hc-desc { font-size: 12px; line-height: 1.55; max-width: 100%; margin-bottom: 12px; }
-    .hc-link { font-size: 13px; }
-    .hc-panel--text { padding: 22px 20px; }
-    .hc-img-label { bottom: 20px; }
-    .hc-img-label p { font-size: 16px; }
-    .hc-shop-bar { width: 78%; font-size: 11px; padding: 11px 0; bottom: 20px; }
-    .hc-full-text { padding: 20px; max-width: 100%; }
-    .hc-full-text--tl { top: 20px; }
-    .hc-full-text--bl { bottom: 20px; padding-bottom: 20px; }
-    .hc-arrow-btn { width: 30px; height: 30px; top: 14px; left: 14px; }
-    .hc-arrow-btn img { width: 30px; height: 30px; }
-    .hc-arrow-btn--bl { top: auto; bottom: 14px; }
-    /* Slide 7: Shop Now bar — centred over the gap between the 2 stacked panels */
-    .hc-slide > .hc-shop-bar {
-      top: 50%; bottom: auto;
-      transform: translate(-50%, -50%);
-      width: 88%;
-    }
-    /* Slide 10: text ranged to top */
-    .hc-slide:nth-child(4) .hc-full-text--tl { max-width: 52vw; top: 24px; }
-    .hc-slide:nth-child(4) .hc-h2 { white-space: normal; max-width: none; }
-    .hc-slide:nth-child(4) .hc-arrow-btn { display: none; }
-    .hc-slide:nth-child(9) .hc-full-text--bl,
-    .hc-slide:nth-child(10) .hc-full-text--bl {
-      bottom: auto; top: 20px; padding-bottom: 0; max-width: 270px;
-    }
-    .hc-slide:nth-child(9) .hc-arrow-btn,
-    .hc-slide:nth-child(10) .hc-arrow-btn { display: none; }
-    .hc-slide:nth-child(9) .hc-h2 { white-space: normal !important; max-width: 220px; }
-    .hc-slide:nth-child(10) .hc-h2 { white-space: normal !important; max-width: 220px; }
-    /* Slide 11: dark gradient behind label text in top panel */
-    .hc-slide:nth-child(8) .hc-panel:last-child::after,
-    .hc-slide:nth-child(11) .hc-panel:first-child::after {
-      content: ''; position: absolute; inset: auto 0 0 0;
-      height: 50%; z-index: 1;
-      background: linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%);
-    }
-
-    /* ── Shared section padding ─────────────────────────────────── */
-    .section, .section-full { padding: 40px 16px; }
-    .section-title { font-size: 22px; margin-bottom: 28px; }
-
-    /* ── New In: tabs swipe ─────────────────────────────────────── */
-    .tabs {
-      justify-content: flex-start; overflow-x: auto;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      margin-left: -16px; margin-right: -16px; padding-left: 16px;
-      padding-right: 16px; margin-bottom: 24px;
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab { padding: 11px 20px; font-size: 11px; white-space: nowrap; flex-shrink: 0; letter-spacing: 1.2px; }
-
-    /* ── New In: product cards swipe row ────────────────────────── */
-    .product-grid {
-      display: flex !important;
-      grid-template-columns: unset !important;
-      gap: 10px !important;
-      overflow-x: auto; overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-      margin-left: -16px; margin-right: -16px;
-      padding-left: 16px; padding-right: 16px; padding-bottom: 4px;
-    }
-    .product-grid::-webkit-scrollbar { display: none; }
-    .product-grid .product-card { flex: 0 0 57vw; min-width: 0; scroll-snap-align: start; }
-    .p-name { font-size: 13px; }
-    /* Always show card actions on touch */
-    .plp-card-actions { opacity: 1 !important; bottom: 8px; right: 8px; gap: 5px; }
-    .plp-card-wishlist, .plp-card-add-btn { width: 30px; height: 30px; font-size: 13px; }
-    .plp-card-add-btn svg { width: 15px; height: 15px; }
-    .product-view-btn { display: none; }
-
-    /* ── Categories: swipe row ──────────────────────────────────── */
-    .cat-section { padding: 36px 0; }
-    .cat-section-header { padding: 0 20px; }
-    .cat-grid {
-      padding: 0 0 0 20px; gap: 10px; flex-wrap: nowrap;
-      overflow-x: auto; overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scroll-padding-left: 20px;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    }
-    .cat-grid::-webkit-scrollbar { display: none; }
-    /* 3.5 items: (100vw - 20px left pad - 3×10px gaps) ÷ 3.5 */
-    .cat-item { flex: 0 0 calc((100vw - 50px) / 3.5); scroll-snap-align: start; }
-    .cat-circle { width: 100%; aspect-ratio: 1/1; min-width: unset; }
-    .cat-item span { font-size: 9px; letter-spacing: 1px; }
-
-    /* ── Offers: single column stack ────────────────────────────── */
-    .offers-section { padding: 40px 0; }
-    .offers-header { padding: 0 16px; }
-    .offers-header h2 { font-size: 23px; }
-    .offers-grid { grid-template-columns: 1fr; height: auto; gap: 10px; }
-    .offer-main { aspect-ratio: 1/1; width: 100vw; }
-    .offer-main-content { padding: 14px 16px; }
-    .offer-main-content h3 { font-size: 26px; }
-    .offer-2x2 { gap: 10px; }
-    .offer-row { height: auto; flex: none; }
-    .offer-cell { padding: 14px 16px; aspect-ratio: 1/1; flex: 1; justify-content: stretch; }
-    .offer-cell-content { display: flex; flex-direction: column; justify-content: space-between; flex: 1; height: 100%; }
-    .offer-cell-content h3 { font-size: 15px !important; margin-bottom: 0; }
-    .btn-offer-pill { font-size: 11px; padding: 7px 12px; }
-
-    /* ── Brands ticker ──────────────────────────────────────────── */
-    .brands-section { padding: 24px 0; }
-    .brands-section-header { padding: 0 20px; }
-    .brands-ticker { padding-left: 20px; }
-    .brand-logo-wrap { width: 100px; }
-
-    /* ── The ONE promo: stacked ─────────────────────────────────── */
-    .fwpromo-theone { grid-template-columns: 1fr !important; }
-    .fwpromo-theone-text { padding: 40px 24px 48px; order: 2; }
-    .fwpromo-theone-text .t-top { font-size: 18px; }
-    .fwpromo-theone-text .t-brand { font-size: 52px !important; white-space: nowrap; }
-    .fwpromo-theone-text .t-sub { font-size: 36px; }
-    .fwpromo-theone-photo { order: 1; aspect-ratio: 3/4; margin: 0 !important; }
-    .fwpromo-theone-product { display: none; }
-
-    /* ── UGC: 2-col static grid ─────────────────────────────────── */
-    .ugc-section { padding: 40px 0; }
-    .ugc-hashtag { font-size: 10vw !important; }
-    .ugc-scatter {
-      position: static; aspect-ratio: unset;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px; padding: 0 16px;
-    }
-    .ugc-center {
-      position: static; width: auto; left: auto; top: auto;
-      grid-column: 1 / -1; text-align: center; padding-bottom: 8px;
-    }
-    .ugc-card { position: static; left: auto !important; top: auto !important; width: auto !important; }
-    .ugc-card-1 { grid-column: 1 / -1; }
-    .ugc-card-1 .ugc-img-wrap { aspect-ratio: 16/9; }
-    .ugc-card-6, .ugc-card-7 { display: none; }
-
-    /* ── Wellbeing: stacked ─────────────────────────────────────── */
-    .wellbeing-section { grid-template-columns: 1fr; aspect-ratio: unset; }
-    .wellbeing-photo { height: 72vw; }
-    .wellbeing-photo-cta { padding: 14px 44px; font-size: 12px; bottom: 28px; white-space: nowrap; }
-    .wellbeing-content { padding: 36px 16px 48px; }
-    .wellbeing-top { margin-bottom: 24px; }
-    .wellbeing-top h2 { font-size: 17px !important; white-space: normal !important; }
-    .wellbeing-prod-grid { grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 10px; }
-    .wellbeing-prod-card--stagger { top: 0; margin-bottom: 0; }
-
-    /* ── Mission: stacked ───────────────────────────────────────── */
-    .mission-section { flex-direction: column; padding: 56px 20px 64px; gap: 36px; margin-top: 0; }
-    .mission-left { flex: none; max-width: 100%; gap: 28px; }
-    .mission-text { font-size: 20px; line-height: 1.5; }
-    .mission-body { font-size: 14px; }
-    .mission-eyebrow { font-size: 15px; }
-    .mission-seal { width: min(78vw, 280px); height: min(78vw, 280px); margin: 0 auto; }
-
-    /* ── Footer join: stacked ───────────────────────────────────── */
-    .footer-join { grid-template-columns: 1fr; gap: 3px; }
-    .footer-join-panel { padding: 40px 24px; }
-    .footer-join-panel h3 { font-size: 26px; }
-    .footer-join-arrow { top: 38px; right: 24px; width: 34px; height: 34px; }
-
-    /* ── Footer dark body: single column ────────────────────────── */
-    .footer-dark-body { grid-template-columns: 1fr !important; }
-    .newsletter-v { padding: 40px 20px; }
-    .newsletter-v-form { max-width: 100%; }
-    .footer-cols {
-      padding: 32px 20px 40px !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 24px;
-    }
-    .footer-bottom-2 {
-      padding: 20px 20px; flex-direction: column;
-      gap: 16px; align-items: flex-start !important;
-    }
-    .footer-payments-copy { flex-direction: column !important; gap: 10px !important; }
-    .footer-payments { flex-wrap: wrap; gap: 8px; }
-    .footer-copy { font-size: 11px; }
-    .footer-watermark { height: 80px; }
-    .social-row { gap: 10px; }
-
-  } /* end @media mobile */
-
   /* ── SEARCH RESULTS PANEL ─────────────────────────────────────── */
   .search-results-panel { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); box-shadow: 0 16px 40px rgba(0,0,0,.10); z-index: 401; display: none; }
   .search-results-panel.open { display: grid; grid-template-columns: 380px 1fr; }
@@ -1953,9 +1608,6 @@
 <!-- ─── HEADER ───────────────────────────────────────────────────── -->
 <header id="site-header">
   <div class="header-top">
-    <button class="hamburger" id="mobileMenuBtn" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
     <nav class="top-nav">
       <a href="#" id="shopNavLink">SHOP</a>
       <a href="#">MEMBERS</a>
@@ -2240,58 +1892,6 @@
   </div>
 </header><!-- /site-header -->
 
-<!-- ─── MOBILE NAV DRAWER ──────────────────────────────────────── -->
-<div class="mob-nav-overlay" id="mobNavOverlay"></div>
-<div class="mob-nav-drawer" id="mobNavDrawer">
-  <div class="mob-nav-head">
-    <button class="mob-nav-search-trigger" id="mobNavSearchBtn" aria-label="Search">
-      <img src="assets/Search.svg" width="22" height="22" alt="">
-      <span>SEARCH</span>
-    </button>
-    <button class="mob-nav-close" id="mobNavClose" aria-label="Close menu">&#x2715;</button>
-  </div>
-  <hr class="mob-nav-divider-full">
-  <div class="mob-nav-user-bar">
-    <a href="#" class="mob-nav-user-link">
-      <img src="assets/User.svg" width="18" height="18" alt="">
-      <span>LOGIN</span>
-    </a>
-  </div>
-  <hr class="mob-nav-divider-full">
-  <div class="mob-nav-links">
-    <span class="mob-nav-section-label">Shop Categories</span>
-    <a href="#">Skincare <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Makeup <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Nutrition <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Fragrance <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Bath &amp; Body <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Hair <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Accessories <span class="mob-nav-arrow">›</span></a>
-    <a href="#">Men <span class="mob-nav-arrow">›</span></a>
-    <hr class="mob-nav-divider">
-    <button class="mob-nav-accordion" data-target="acc-explore">
-      <span>Explore</span>
-      <svg class="mob-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="mob-nav-acc-body" id="acc-explore">
-      <a href="#">New Arrivals <span class="mob-nav-arrow">›</span></a>
-      <a href="#">Icons <span class="mob-nav-arrow">›</span></a>
-      <a href="#">Oriflame Outlet <span class="mob-nav-arrow">›</span></a>
-    </div>
-    <hr class="mob-nav-divider">
-    <button class="mob-nav-accordion" data-target="acc-community">
-      <span>Community</span>
-      <svg class="mob-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <hr class="mob-nav-divider">
-    <div class="mob-nav-acc-body" id="acc-community">
-      <a href="#">Members <span class="mob-nav-arrow">›</span></a>
-      <a href="#">Brand Partners <span class="mob-nav-arrow">›</span></a>
-    </div>
-    <a href="#" class="mob-nav-member">Become a member</a>
-  </div>
-</div>
-
 <div class="mega-overlay" id="megaOverlay"></div>
 
 <!-- ─── HERO CAROUSEL ─────────────────────────────────────────── -->
@@ -2360,10 +1960,7 @@
 
     <!-- ── Slide 3: Full-width — product image · text top-left · arrow bottom-left ── -->
     <div class="hc-slide hc-slide--full">
-      <picture>
-        <source media="(max-width: 768px)" srcset="assets/images/hero-4-mobile.jpg">
-        <img src="assets/new_images/hero-carousel/hero3.jpg" alt="Optimals range">
-      </picture>
+      <img src="assets/new_images/hero-carousel/hero3.jpg" alt="Optimals range">
       <a href="#" class="hc-arrow-btn hc-arrow-btn--dark hc-arrow-btn--bl"><img src="assets/arrow-circle.svg" alt=""></a>
       <div class="hc-full-text hc-full-text--tl">
         <p class="hc-desc">This creamy facial scrub deeply cleanses, effectively exfoliates, unclogs pores and works to promote surface cell renewal for a visibly refined, smooth, even-looking and glowing complexion.</p>
@@ -2430,10 +2027,7 @@
 
     <!-- ── Slide 8: Full-width — The One · text bottom-left · arrow top-left ── -->
     <div class="hc-slide hc-slide--full">
-      <picture>
-        <source media="(max-width: 768px)" srcset="assets/images/hero-9-mobile.jpg">
-        <img src="assets/new_images/hero-carousel/hero8.jpg" alt="The One Foundation">
-      </picture>
+      <img src="assets/new_images/hero-carousel/hero8.jpg" alt="The One Foundation">
       <a href="#" class="hc-arrow-btn hc-arrow-btn--dark"><img src="assets/arrow-circle.svg" alt=""></a>
       <div class="hc-full-text hc-full-text--bl">
         <p class="hc-desc" style="max-width: 380px;">Wake up to the most flawless, glowing skin with the Woke Up Like This Skin Retoucher! This beautifying primer cream delivers an instant no-make-up make-up look, giving you a radiant, all-day glow and deep hydration.</p>
@@ -2443,6 +2037,7 @@
     </div>
 
     <!-- ── Slide 9: Full-width VIDEO — The One ── -->
+    <!-- VIDEO: set src="assets/videos/hero-9.mp4" when ready -->
     <div class="hc-slide hc-slide--full">
       <img class="hc-video-poster" src="assets/images/hero9-poster.jpg" alt="The One Foundation">
       <video class="hc-video" id="heroVid9" src="assets/new_images/hero-carousel/hero-9.mp4" autoplay muted loop playsinline></video>
@@ -2455,10 +2050,11 @@
     </div>
 
     <!-- ── Slide 10: Two panels — product left · VIDEO right ── -->
+    <!-- VIDEO: set src="assets/videos/hero-10.mp4" when ready -->
     <div class="hc-slide hc-slide--two-col">
       <div class="hc-panel">
         <img class="hc-video-poster" src="assets/new_images/hero-carousel/hero10-poster.jpg" alt="Optimals skincare">
-        <video class="hc-video" id="heroVid10a" src="assets/new_images/hero-carousel/hero-10-product.mp4" autoplay muted loop playsinline></video>
+        <video class="hc-video" id="heroVid10" src="assets/new_images/hero-carousel/hero-10-product.mp4" autoplay muted loop playsinline></video>
         <div class="hc-img-label">
           <p>NEW! RE-PLUMP CREAM</p>
           <p>YOUR OPTIMAL</p>
@@ -2466,7 +2062,7 @@
       </div>
       <div class="hc-panel">
         <img class="hc-video-poster" src="assets/new_images/hero-carousel/hero10-poster.jpg" alt="Optimals skincare">
-        <video class="hc-video" id="heroVid10b" src="assets/new_images/hero-carousel/hero-10.mp4" autoplay muted loop playsinline></video>
+        <video class="hc-video" id="heroVid10" src="assets/new_images/hero-carousel/hero-10.mp4" autoplay muted loop playsinline></video>
         <a href="#" class="hc-shop-bar">SHOP NOW</a>
       </div>
     </div>
@@ -2568,7 +2164,7 @@
       <div class="p-price"><span class="p-now">£6.99</span><span class="p-was">£12.00</span></div>
     </div>
   </div>
-  <div class="view-all-wrap" data-reveal data-delay="500"><a href="plp-anti-aging-skincare.html" class="btn-outline">VIEW ALL</a></div>
+  <div class="view-all-wrap" data-reveal data-delay="500"><a href="#" class="btn-outline">VIEW ALL</a></div>
 </div>
 
 
@@ -2927,7 +2523,7 @@
 
   <!-- Dark footer body -->
   <div data-reveal data-delay="600">
-  <div class="footer-dark-body" style="background:#1a1a1a; display:grid; grid-template-columns:400px 1fr; align-items:start;">
+  <div style="background:#1a1a1a; display:grid; grid-template-columns:400px 1fr; align-items:start;">
 
     <!-- Newsletter column -->
     <div class="newsletter-v" data-reveal data-style="fade" data-delay="800">
@@ -2989,7 +2585,7 @@
 
   <!-- Legal bar -->
   <div class="footer-bottom-2" style="background:#1a1a1a; align-items:flex-start;" data-reveal data-style="fade" data-delay="1000">
-    <div class="footer-payments-copy" style="display:flex; align-items:flex-start; gap:24px;">
+    <div style="display:flex; align-items:flex-start; gap:24px;">
       <div class="footer-payments">
         <img src="assets/images/visa.png" alt="Visa" style="height:24px;border-radius:4px;">
         <img src="assets/images/mastercard.png" alt="Mastercard" style="height:24px;border-radius:4px;">
@@ -3283,7 +2879,7 @@
   (function () {
     const HC_COUNT = 11;
     const HC_DELAY = 5000;
-    const slides  = Array.from(document.querySelectorAll('#hcTrack .hc-slide'));
+    const track   = document.getElementById('hcTrack');
     const dots    = Array.from(document.querySelectorAll('#hcCounter .hc-dot'));
     const carousel = document.getElementById('heroCarousel');
     let current = 0;
@@ -3291,10 +2887,12 @@
 
     carousel.style.setProperty('--hc-delay', HC_DELAY + 'ms');
 
+    const veil = document.getElementById('hcFadeVeil');
+
     function goTo(index) {
-      // Fade slides
-      slides[current].classList.remove('hc-slide--active');
-      slides[index].classList.add('hc-slide--active');
+      // Fade veil in
+      veil.style.opacity = '0.22';
+      setTimeout(function () { veil.style.opacity = '0'; }, 420);
 
       // Update dots
       dots.forEach((d, i) => {
@@ -3304,7 +2902,8 @@
       // Restart active dot animation via reflow
       void dots[index].offsetWidth;
       dots[index].classList.add('hc-dot--active');
-
+      // Slide track
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
       current = index;
     }
 
@@ -3324,7 +2923,7 @@
     carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
     carousel.addEventListener('mouseleave', function () { startTimer(); });
 
-    // Init — disable carousel auto-advance on mobile
+    // Init
     goTo(0);
     startTimer();
   }());
@@ -3351,53 +2950,5 @@
   }());
 </script>
 
-<script>
-  /* ── MOBILE NAV DRAWER ──────────────────────────────────────────── */
-  (function () {
-    const btn     = document.getElementById('mobileMenuBtn');
-    const drawer  = document.getElementById('mobNavDrawer');
-    const overlay = document.getElementById('mobNavOverlay');
-    const close   = document.getElementById('mobNavClose');
-    if (!btn) return;
-
-    function openDrawer() {
-      drawer.classList.add('open');
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeDrawer() {
-      drawer.classList.remove('open');
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    btn.addEventListener('click', openDrawer);
-    close.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-
-    // Search trigger inside drawer — close drawer then open search takeover
-    const drawerSearch = document.getElementById('mobNavSearchBtn');
-    if (drawerSearch) {
-      drawerSearch.addEventListener('click', function () {
-        closeDrawer();
-        // slight delay so drawer closes first before search opens
-        setTimeout(function () {
-          const searchBtn = document.getElementById('searchBtn');
-          if (searchBtn) searchBtn.click();
-        }, 300);
-      });
-    }
-  }());
-
-  // ── Mobile nav accordions ──────────────────────────────────────
-  document.querySelectorAll('.mob-nav-accordion').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      const body = document.getElementById(btn.dataset.target);
-      const isOpen = btn.classList.contains('open');
-      btn.classList.toggle('open', !isOpen);
-      body.classList.toggle('open', !isOpen);
-    });
-  });
-</script>
 </body>
 </html>

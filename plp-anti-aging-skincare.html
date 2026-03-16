@@ -29,7 +29,7 @@
       --light:   #F0F0F0;
       --red:     #DA3A00;
       --border:  #E5E5E5;
-      --cream:   #F8F3EE;
+      --cream:   #F9F6EE;
       --white:   #ffffff;
       --black:   #000000;
       --font:    'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -41,15 +41,73 @@
     ul { list-style: none; }
     button { cursor: pointer; font-family: var(--font); }
 
+    /* ── SCROLL REVEAL ────────────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(100px);
+      transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+    [data-reveal][data-delay="100"] { transition-delay: 100ms; }
+    [data-reveal][data-delay="200"] { transition-delay: 200ms; }
+    [data-reveal][data-delay="300"] { transition-delay: 300ms; }
+    [data-reveal][data-delay="400"] { transition-delay: 400ms; }
+    [data-reveal][data-delay="500"] { transition-delay: 500ms; }
+    [data-reveal][data-delay="600"] { transition-delay: 600ms; }
+    [data-reveal][data-delay="700"] { transition-delay: 700ms; }
+    [data-reveal][data-delay="800"] { transition-delay: 800ms; }
+    [data-reveal][data-delay="1000"] { transition-delay: 1000ms; }
+    [data-reveal][data-delay="1200"] { transition-delay: 1200ms; }
+    [data-reveal][data-delay="1400"] { transition-delay: 1400ms; }
+    [data-reveal][data-delay="1600"] { transition-delay: 1600ms; }
+    /* Fade-only variant — no translate, just opacity */
+    [data-reveal][data-style="fade"] {
+      transform: none;
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-reveal][data-style="fade"].is-visible { opacity: 1; transform: none; }
+    /* Slow fade — longer duration, for join panels */
+    [data-reveal][data-style="fade-slow"] {
+      transform: none;
+      transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-reveal][data-style="fade-slow"].is-visible { opacity: 1; transform: none; }
     /* ── ANNOUNCEMENT BAR ─────────────────────────────────────────── */
     .ann-bar {
       background: var(--mint);
-      text-align: center;
       padding: 9px 16px;
       font-size: 13px;
       font-weight: 500;
       color: var(--dark);
       letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      overflow: hidden;
+    }
+    .ann-bar-track {
+      position: relative;
+      height: 1.5em;
+      flex: 1;
+      max-width: 620px;
+      overflow: hidden;
+    }
+    .ann-bar-msg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease;
+    }
+    .ann-bar-msg.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     /* ── HEADER ───────────────────────────────────────────────────── */
@@ -60,6 +118,116 @@
       background: var(--white);
       border-bottom: 1px solid var(--border);
     }
+
+    /* ── SEARCH TAKEOVER ──────────────────────────────────────────── */
+    /* Header fades out when search opens */
+    #site-header.search-open .top-nav,
+    #site-header.search-open .logo,
+    #site-header.search-open .header-icons {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .top-nav, .logo, .header-icons {
+      transition: opacity 0.25s ease;
+    }
+
+    .search-takeover {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 80px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 18px;
+      gap: 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+      z-index: 10;
+    }
+    .search-takeover.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Icon slides in via JS FLIP — no default transition here */
+    .search-takeover-icon {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      will-change: transform;
+    }
+
+    /* Content elements stagger in */
+    .search-takeover-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(14px);
+      transition: opacity 0.32s ease 0.12s, transform 0.32s cubic-bezier(0.4,0,0.2,1) 0.12s;
+    }
+    .search-takeover.open .search-takeover-content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .search-takeover-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .search-takeover-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--dark);
+      background: transparent;
+      caret-color: var(--dark);
+      letter-spacing: 0.03em;
+      min-width: 0;
+    }
+    .search-takeover-input::placeholder {
+      color: var(--mid);
+    }
+    .search-takeover-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      white-space: nowrap;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .search-takeover-close {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.8);
+      transition: opacity 0.25s ease 0.2s, transform 0.3s cubic-bezier(0.4,0,0.2,1) 0.2s;
+    }
+    .search-takeover.open .search-takeover-close {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+
     .header-top {
       display: flex;
       align-items: center;
@@ -67,75 +235,336 @@
       padding: 0 48px;
       height: 80px;
     }
-    .hamburger { display: flex; flex-direction: column; gap: 5px; padding: 4px; border: none; background: none; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
-    .logo { display: flex; flex-direction: column; align-items: center; line-height: 1; white-space: nowrap; gap: 3px; padding: 0 16px; }
+
+    /* hamburger — hidden on desktop, shown via mobile media query */
+    .hamburger { display: none; flex-direction: column; gap: 7px; padding: 4px; border: none; background: none; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dark); border-radius: 2px; }
+    /* Mobile nav — hidden on desktop */
+    .mob-nav-overlay, .mob-nav-drawer { display: none; }
+
+    /* logo */
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+      white-space: nowrap;
+      gap: 3px;
+      padding: 0 16px;
+    }
     .logo-main { font-size: 20px; font-weight: 700; letter-spacing: 3px; }
     .logo-sub  { font-size: 8px;  font-weight: 400; letter-spacing: 4px; color: var(--mid); }
+
+    /* top nav */
     .top-nav { display: flex; gap: 0; margin-left: 20px; align-self: stretch; }
     .top-nav a {
-      font-size: 14px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      font-size: 16px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--dark); white-space: nowrap;
-      display: flex; align-items: center; padding: 0 32px;
+      display: flex; align-items: center; padding: 0 18px;
       transition: background 0.18s ease;
     }
     .top-nav a:hover, .top-nav a.active { background: #F5F5F5; }
+
+    /* search */
     .search-wrap { flex: 1; max-width: 500px; margin-left: auto; position: relative; }
     .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--mid); pointer-events: none; }
     .search-wrap input {
-      width: 100%; padding: 10px 16px 10px 42px;
-      border: 1px solid var(--border); border-radius: 999px;
-      font-size: 13px; background: #F8F8F8; color: var(--mid);
-      outline: none; font-family: var(--font); transition: border-color .2s;
+      width: 100%;
+      padding: 10px 16px 10px 42px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 13px;
+      background: #F8F8F8;
+      color: var(--mid);
+      outline: none;
+      font-family: var(--font);
+      transition: border-color .2s;
     }
     .search-wrap input:focus { border-color: var(--mint); }
+
+    /* icon strip */
     .header-icons { display: flex; align-items: center; gap: 22px; margin-left: 20px; }
     .header-icons a { font-size: 20px; color: var(--dark); position: relative; }
+
+    /* ── ANN-BAR BUTTONS ─────────────────────────────────────────── */
+    .ann-bar-btn { background: none; border: none; cursor: pointer; color: var(--dark); padding: 4px; font-size: 16px; line-height: 1; }
+
+    /* ── HEADER 3-col grid ────────────────────────────────────────── */
+    .header-top {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 48px;
+      height: 80px;
+    }
+    .top-nav { display: flex; gap: 0; align-self: stretch; margin-left: -26px; }
+    .header-icons { display: flex; align-items: center; gap: 22px; margin-left: auto; }
     .cart-badge {
-      position: absolute; top: -5px; right: -6px;
+      position: absolute; top: -8px; right: -8px;
       background: var(--mint); color: var(--dark);
-      font-size: 9px; font-weight: 700;
-      width: 16px; height: 16px; border-radius: 50%;
+      font-size: 13px; font-weight: 400; font-family: var(--font);
+      width: 24px; height: 24px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
     }
 
     /* ── CATEGORY NAV ─────────────────────────────────────────────── */
-    .cat-nav-wrap { border-top: 1px solid var(--border); padding: 0 48px; display: flex; align-items: center; }
+    .cat-nav-wrap {
+      border-top: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+    }
     .cat-nav { display: flex; align-items: center; flex: 1; }
-    .cat-nav a { padding: 13px 16px; font-size: 14px; color: var(--dark); white-space: nowrap; position: relative; transition: color .15s; }
+    .cat-nav a {
+      padding: 13px 16px;
+      font-size: 14px;
+      color: var(--dark);
+      white-space: nowrap;
+      position: relative;
+      transition: color .15s;
+    }
     .cat-nav a:hover { font-weight: 600; }
     .cat-nav a.active { font-weight: 700; }
-    .cat-nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--dark); }
+    .cat-nav a.active::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--dark);
+    }
     .cat-divider { width: 1px; height: 18px; background: var(--border); margin: 0 6px; }
     .member-btn {
       background: var(--dark); color: var(--white);
       padding: 9px 20px; border-radius: 999px;
-      font-size: 13px; font-weight: 600; white-space: nowrap;
-      margin-left: 16px; transition: background .2s;
+      font-size: 13px; font-weight: 600;
+      white-space: nowrap; margin-left: 16px;
+      transition: background .2s;
     }
     .member-btn:hover { background: var(--black); }
 
     /* ── MEGA MENU ────────────────────────────────────────────────── */
+    .mega-overlay {
+      position: fixed;
+      top: var(--header-bottom, 0);
+      left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0);
+      pointer-events: none;
+      z-index: 399;
+      transition: background .32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mega-overlay.active {
+      background: rgba(0,0,0,.45);
+      pointer-events: auto;
+    }
     .mega-menu {
-      position: absolute; top: 100%; left: 0; right: 0;
-      background: var(--white); border-top: 1px solid var(--border);
-      box-shadow: 0 12px 32px rgba(0,0,0,.09);
-      z-index: 400; opacity: 0; visibility: hidden;
-      pointer-events: none; transition: opacity .18s ease, visibility .18s ease;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--white);
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+      z-index: 400;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: opacity .32s cubic-bezier(0.4,0,0.2,1),
+                  visibility .32s,
+                  transform .32s cubic-bezier(0.4,0,0.2,1);
     }
-    .mega-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
-    .mega-inner {
-      max-width: 1440px; margin: 0 auto; padding: 36px 48px;
-      display: grid; grid-template-columns: 1.1fr 1.2fr 1fr 0.8fr 220px 220px; gap: 32px;
+    .mega-menu.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
-    .mega-col h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 13px; }
-    .mega-col ul li { margin-bottom: 9px; }
-    .mega-col ul li a { font-size: 13px; color: var(--dark); transition: color .15s; }
-    .mega-col ul li a:hover { color: var(--mid); }
-    .mega-col ul li a.mega-active { font-weight: 700; }
-    .mega-spacer { margin-top: 20px; }
-    .mega-img img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; background: var(--light); }
-    .mega-img p { font-size: 13px; font-weight: 600; margin-top: 10px; }
+    /* Level 1: category tab bar */
+    .mega-cat-bar {
+      display: flex;
+      align-items: center;
+      padding: 0 48px 0 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .mega-cat-items { display: flex; align-items: center; }
+    .mega-cat-link {
+      display: inline-block;
+      padding: 18px 20px;
+      font-size: 14px;
+      color: var(--dark);
+      text-decoration: none;
+      position: relative;
+      white-space: nowrap;
+      transition: opacity .15s;
+    }
+    .mega-cat-link:hover { opacity: .6; }
+    .mega-cat-link.active { font-weight: 700; }
+    .mega-cat-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 20px; right: 20px;
+      height: 2px;
+      background: var(--dark);
+    }
+    .mega-cat-divider {
+      width: 1px; height: 24px;
+      background: var(--border);
+      margin: 0 8px 0 24px;
+      flex-shrink: 0;
+    }
+    .mega-cat-right { display: flex; align-items: center; }
+    .mega-member-btn {
+      display: inline-block;
+      margin-left: 16px;
+      padding: 8px 20px;
+      border: 1.5px solid var(--dark);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--dark);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background .2s, color .2s;
+    }
+    .mega-member-btn:hover { background: var(--dark); color: var(--white); }
+    /* Level 2: content panels */
+    @keyframes megaPanelIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .mega-panel { display: none; }
+    .mega-panel.active {
+      display: block;
+      animation: megaPanelIn .9s ease forwards;
+    }
+    .mega-panel-inner {
+      display: grid;
+      grid-template-columns: 289px 1.6fr 1fr 1fr;
+      column-gap: 8px;
+      align-items: start;
+    }
+    .mega-concerns {
+      align-self: stretch;
+      padding: 64px 20px 36px 40px;
+      overflow-y: auto;
+    }
+    .mega-concerns h4 { font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 24px; }
+    .mega-concerns ul { list-style: none; padding: 0; margin: 0; }
+    .mega-concerns ul li { margin-bottom: 16px; }
+    .mega-concerns ul li a {
+      font-size: 16px; color: var(--mid); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color .2s;
+    }
+    .mega-concerns ul li a::after {
+      content: '';
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E");
+      background-size: contain; background-repeat: no-repeat; background-position: center;
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity .2s ease, transform .2s ease;
+      flex-shrink: 0;
+    }
+    .mega-concerns ul li a:hover { color: var(--dark); }
+    .mega-concerns ul li a:hover::after { opacity: 1; transform: translateX(3px); }
+    .mega-panel-hero { position: relative; overflow: hidden; align-self: stretch; display: block; text-decoration: none; cursor: pointer; }
+    .mega-panel-hero img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform 0.4s ease; }
+    .mega-panel-hero:hover img { transform: scale(1.05); }
+    .mega-hero-overlay {
+      position: absolute; bottom: 36px; left: 0; right: 0;
+      padding: 0 36px; color: #fff;
+    }
+    .mega-hero-label { font-size: 18pt; font-weight: 400; letter-spacing: 0.12em; margin-bottom: 0; line-height: 1.1; }
+    .mega-hero-title-row {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mega-hero-title { font-size: 26pt; font-weight: 400; letter-spacing: 0.06em; margin: 0; line-height: 1.1; }
+    .mega-hero-cta {
+      display: inline-block;
+      padding: 13px 52px;
+      background: var(--dark); color: var(--white);
+      font-size: 12px; letter-spacing: 0.1em; font-weight: 600;
+      text-decoration: none; border-radius: 100px;
+      transition: background .2s;
+    }
+    .mega-hero-cta:hover { background: #333; }
+    /* Promo columns: staggered heights, no border (gap provides separation) */
+    .mega-promo-img { display: flex; flex-direction: column; text-decoration: none; cursor: pointer; }
+    .mega-img-clip { overflow: hidden; }
+    .mega-promo-img img { width: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; }
+    .mega-promo-img:hover img { transform: scale(1.05); }
+    /* Promo 1: square 1:1 crop (taller overall) */
+    .mega-panel-inner > div:nth-child(3) img { aspect-ratio: 1 / 1; }
+    /* Promo 2: portrait crop (shorter tile, staggered effect) */
+    .mega-panel-inner > div:nth-child(4) img { aspect-ratio: 5 / 6; object-position: center top; }
+    .mega-promo-img p {
+      padding: 16px 20px 18px;
+      font-size: 16px;
+      flex-shrink: 0; color: var(--dark);
+      background: var(--white);
+    }
+    .mega-promo-caption {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px 16px;
+      background: var(--white); flex-shrink: 0;
+    }
+    .mega-promo-caption p {
+      padding: 0; margin: 0; font-size: 16px; color: var(--dark); background: none;
+    }
+    .mega-promo-shop {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      color: var(--dark); text-decoration: none;
+      border-bottom: 1px solid var(--dark);
+      white-space: nowrap; padding-bottom: 1px;
+      transition: opacity .15s;
+    }
+    .mega-promo-shop:hover { opacity: 0.6; }
+
+    /* ── MAKEUP MEGA PANEL ────────────────────────────────────────── */
+    .mega-panel-inner--makeup {
+      grid-template-columns: repeat(4, 1fr) 1.1fr 1.1fr;
+      column-gap: 0;
+      align-items: stretch;
+    }
+    .mega-cat-col {
+      padding: 52px 28px 52px 40px;
+    }
+    .mega-cat-group { margin-bottom: 32px; }
+    .mega-cat-group:last-child { margin-bottom: 0; }
+    .mega-cat-group h5 {
+      font-size: 15px; font-weight: 700;
+      color: var(--dark); margin-bottom: 14px;
+      letter-spacing: 0.01em;
+    }
+    .mega-cat-group ul { list-style: none; padding: 0; margin: 0; }
+    .mega-cat-group ul li { margin-bottom: 10px; }
+    .mega-cat-group ul li a {
+      font-size: 14px; color: var(--mid);
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: color .2s;
+    }
+    .mega-cat-group ul li a::after {
+      content: '';
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E");
+      background-size: contain; background-repeat: no-repeat; background-position: center;
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity .2s ease, transform .2s ease;
+      flex-shrink: 0;
+    }
+    .mega-cat-group ul li a:hover { color: var(--dark); }
+    .mega-cat-group ul li a:hover::after { opacity: 1; transform: translateX(3px); }
+    .mega-promo-img--makeup { display: flex; flex-direction: column; text-decoration: none; cursor: pointer; align-self: stretch; padding-top: 52px; }
+    .mega-promo-img--makeup .mega-img-clip { overflow: hidden; flex: 1; }
+    .mega-promo-img--makeup.gap-right { margin-right: 8px; }
+    .mega-promo-img--makeup img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.4s ease;
+    }
+    .mega-promo-img--makeup:hover img { transform: scale(1.05); }
+    .mega-promo-img--makeup p {
+      padding: 16px 20px 18px;
+      font-size: 14px; color: var(--dark);
+      background: var(--white); flex-shrink: 0;
+    }
 
     /* ── SHARED ───────────────────────────────────────────────────── */
     .btn-outline {
@@ -154,23 +583,15 @@
 
     /* ── PLP HERO BANNER ──────────────────────────────────────────── */
     .plp-hero {
-      position: relative; width: 100%; height: 440px;
+      position: relative; width: 100%;
       overflow: hidden; display: flex; align-items: flex-end;
-    }
-    .plp-hero-img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
-    }
-    .plp-hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.45) 0%, rgba(0,0,0,.1) 60%, transparent 100%);
     }
     .plp-hero-content {
       position: relative; z-index: 1;
-      width: 100%; padding: 52px 64px;
+      width: 100%; padding: 68px 40px 32px;
     }
     .plp-hero-eyebrow {
-      color: rgba(255,255,255,0.85); font-size: 48px; font-weight: 400;
+      color: var(--dark); font-size: 48px; font-weight: 400;
       margin-bottom: 12px; letter-spacing: 0.2px;
     }
     .plp-hero-title {
@@ -178,17 +599,17 @@
     }
     .plp-hero-title span {
       font-size: 112px;
-      font-weight: 400; color: var(--white);
+      font-weight: 400; color: var(--dark);
       line-height: 1; white-space: nowrap;
     }
     .plp-hero-rule {
-      flex: 1; height: 1px; background: rgba(255,255,255,0.6);
+      flex: 1; height: 5px; background: var(--dark);
       margin: 0 32px; position: relative; top: 0;
     }
 
     /* ── BREADCRUMB ───────────────────────────────────────────────── */
     .breadcrumb {
-      padding: 16px 64px; font-size: 12px; color: var(--mid);
+      padding: 16px 40px; font-size: 12px; color: var(--mid);
       display: flex; gap: 8px; align-items: center;
       border-bottom: 1px solid var(--border);
     }
@@ -197,8 +618,11 @@
     .breadcrumb-sep { color: #ccc; }
 
     /* ── PLP PRODUCT LISTING ──────────────────────────────────────── */
-    .plp-section { padding: 48px 64px; }
-    .plp-heading { font-size: 32px; font-weight: 400; margin-bottom: 24px; }
+    .plp-section { padding: 48px 40px; }
+    .plp-heading-row { display: flex; align-items: baseline; gap: 24px; margin-bottom: 24px; }
+    .plp-heading { font-size: 32px; font-weight: 400; margin-bottom: 0; white-space: nowrap; }
+    .plp-heading-divider { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+    .plp-heading-count { font-size: 13px; color: var(--mid); }
     .plp-meta-row {
       display: flex; align-items: center;
       justify-content: space-between; margin-bottom: 28px;
@@ -218,69 +642,225 @@
       border-color: var(--dark);
     }
 
+    /* ── RECOMMENDATIONS + FILTER BUTTONS ─────────────────────────── */
+    .plp-panel-btns { display: flex; gap: 8px; }
+    .plp-panel-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 2px 16px; height: 36px;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: var(--white); color: var(--dark);
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: var(--font); transition: border-color .2s, background .2s, color .2s;
+      white-space: nowrap; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .plp-panel-btn:hover { border-color: var(--dark); }
+    .plp-panel-btn.active { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+    /* ── SIDE PANELS (Filter + Recommendations) ─────────────────────── */
+    .panel-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 900;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .panel-overlay.open { opacity: 1; pointer-events: all; }
+    .side-panel {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 400px; max-width: 100vw;
+      background: var(--white);
+      z-index: 901;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -4px 0 40px rgba(0,0,0,0.12);
+    }
+    .side-panel.open { transform: translateX(0); }
+    .side-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .side-panel-title { font-size: 18px; font-weight: 400; color: var(--dark); }
+    .side-panel-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--mid); padding: 4px; transition: color 0.2s; line-height: 1;
+    }
+    .side-panel-close:hover { color: var(--dark); }
+    .side-panel-body { flex: 1; overflow-y: auto; padding: 0 28px; }
+    .side-panel-section { border-bottom: 1px solid var(--border); }
+
+    /* Accordion */
+    .filter-accordion-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: none; border: none; padding: 20px 0;
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--dark);
+      cursor: pointer; font-family: var(--font);
+    }
+    .filter-accordion-btn .fchev {
+      width: 16px; height: 16px; flex-shrink: 0;
+      transition: transform 0.25s ease;
+    }
+    .filter-accordion-btn.collapsed .fchev { transform: rotate(-90deg); }
+    .filter-accordion-content { padding-bottom: 20px; }
+    .filter-accordion-content.collapsed { display: none; }
+
+    .filter-options { display: flex; flex-direction: column; gap: 12px; }
+    .filter-option {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--dark); cursor: pointer;
+    }
+    .filter-option input[type="checkbox"] {
+      width: 16px; height: 16px; accent-color: var(--dark); cursor: pointer; flex-shrink: 0;
+    }
+
+    /* Dual range price slider */
+    .price-slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--dark); margin-bottom: 16px; }
+    .price-slider-track { position: relative; height: 3px; background: var(--border); border-radius: 2px; margin: 0 8px; }
+    .price-slider-fill { position: absolute; height: 100%; background: var(--dark); border-radius: 2px; }
+    .price-slider-track input[type="range"] {
+      position: absolute; width: calc(100% + 16px); left: -8px;
+      top: 50%; transform: translateY(-50%);
+      -webkit-appearance: none; appearance: none;
+      background: transparent; pointer-events: none;
+      height: 20px; margin: 0;
+    }
+    .price-slider-track input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--dark); border: 2px solid var(--white);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      pointer-events: all; cursor: pointer;
+    }
+    .price-slider-track input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--dark); border: 2px solid var(--white);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      pointer-events: all; cursor: pointer; border: none;
+    }
+
+    .filter-price-sep { font-size: 13px; color: var(--mid); }
+    .sort-options { display: flex; flex-direction: column; }
+    .sort-option {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; color: var(--dark); cursor: pointer; transition: color .15s;
+    }
+    .sort-option:last-child { border-bottom: none; }
+    .sort-option:hover { color: var(--mid); }
+    .sort-option.selected { font-weight: 500; }
+    .sort-option.selected::after {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--dark); display: block; flex-shrink: 0;
+    }
+    .side-panel-footer {
+      padding: 20px 28px; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+    }
+    .side-panel-btn-clear {
+      padding: 13px; border: none;
+      border-radius: 999px; background: none;
+      font-size: 13px; font-family: var(--font); cursor: pointer;
+      color: var(--dark); font-weight: 700; transition: opacity .2s;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .side-panel-btn-clear:hover { opacity: 0.6; }
+    .side-panel-btn-apply {
+      flex: 1; padding: 13px; border: none;
+      border-radius: 999px; background: var(--dark);
+      font-size: 13px; font-family: var(--font); cursor: pointer; color: var(--white);
+      text-transform: uppercase; letter-spacing: 0.08em; transition: opacity .2s;
+    }
+    .side-panel-btn-apply:hover { opacity: 0.82; }
+
     /* ── PRODUCT CARDS GRID ───────────────────────────────────────── */
     .plp-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
+      column-gap: 8px;
+      row-gap: 64px;
       margin-bottom: 48px;
     }
     .plp-card {
       background: var(--white);
-      border: 1px solid var(--border);
       display: flex; flex-direction: column;
       cursor: pointer;
-      transition: box-shadow .2s;
       position: relative;
+      overflow: hidden;
     }
-    .plp-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); z-index: 1; }
-    .plp-card-header { padding: 20px 20px 0; text-align: center; }
-    .plp-card-type { font-size: 11px; color: var(--mid); display: block; margin-bottom: 4px; }
-    .plp-card-name { font-size: 15px; font-weight: 400; color: var(--dark); display: block; line-height: 1.3; }
     .plp-card-img-area {
-      position: relative; flex: 1;
-      padding: 20px 32px; display: flex;
+      position: relative;
+      background: #F5F5F5;
+      aspect-ratio: 1 / 1;
+      display: flex;
       align-items: center; justify-content: center;
-      min-height: 220px;
+      overflow: hidden;
     }
     .plp-card-img-area img {
-      max-height: 190px; width: auto;
+      width: 90%; height: 90%;
       object-fit: contain; transition: transform .3s ease;
     }
-    .plp-card:hover .plp-card-img-area img { transform: scale(1.04); }
-    .plp-card-side {
-      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 8px;
+    .plp-card:hover .plp-card-img-area img { transform: scale(1.15); }
+    .plp-card-actions {
+      position: absolute; bottom: 22px; right: 22px;
+      display: flex; flex-direction: column; gap: 6px;
     }
-    .plp-icon-circle {
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1px solid var(--border); background: var(--white);
+    .plp-card-wishlist,
+    .plp-card-add-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: none; background: rgba(255,255,255,0.88);
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px; color: var(--mid);
-      transition: border-color .2s, color .2s; cursor: pointer;
+      font-size: 18px; color: #666; cursor: pointer;
+      transition: color .2s, background .2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
     }
-    .plp-icon-circle:hover { border-color: var(--dark); color: var(--dark); }
-    .plp-card-footer {
-      padding: 14px 16px;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; gap: 10px;
+    .plp-card-wishlist:hover,
+    .plp-card-wishlist.active,
+    .plp-card-add-btn:hover { color: #fff; background: var(--dark); box-shadow: none; }
+    .plp-view-text {
+      position: absolute; bottom: 22px; left: 22px; z-index: 2;
+      font-size: 12.65px; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--dark); text-decoration: none;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
     }
-    .plp-arrow-circle {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: #F0F0F0; border: none;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; transition: background .2s;
+    .plp-card:hover .plp-view-text {
+      opacity: 1; transform: translateY(0); pointer-events: auto;
     }
-    .plp-arrow-circle:hover { background: var(--dark); }
-    .plp-arrow-circle:hover svg path { fill: var(--white); }
-    .plp-badge {
-      padding: 6px 14px; border: 1px solid var(--border);
-      border-radius: 999px; font-size: 11px; font-weight: 500;
-      color: var(--dark); white-space: nowrap;
+    .plp-card-sale-tag {
+      position: absolute; top: 12px; left: 12px; z-index: 1;
+      background: #fff; color: var(--dark);
+      font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 2px;
     }
-    .plp-price { margin-left: auto; font-size: 16px; font-weight: 400; color: var(--dark); }
+    .plp-card-info {
+      padding: 14px 16px 18px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .plp-card-brand {
+      font-size: 11px; color: #333; letter-spacing: 0.5px;
+      text-transform: uppercase; font-weight: 400;
+    }
+    .plp-card-name {
+      font-size: 14px; font-weight: 400; color: #333;
+      line-height: 1.35;
+    }
+    .plp-card-stars {
+      display: flex; align-items: center; gap: 4px;
+      margin-top: 2px;
+    }
+    .plp-card-stars-icons { color: var(--dark); font-size: 12px; letter-spacing: 1px; }
+    .plp-card-rating-count { font-size: 11px; color: #999; }
+    .plp-card-price-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 4px;
+    }
+    .plp-price-sale { font-size: 15px; font-weight: 400; color: var(--dark); }
+    .plp-card-price-row:has(.plp-price-original) .plp-price-sale { color: #DA3A00; }
+    .plp-price-original { font-size: 13px; color: #666; text-decoration: line-through; }
 
-    .plp-view-more { text-align: center; }
+    .plp-view-more { text-align: center; margin-bottom: 80px; }
 
     /* ── NOVAGE+ FEATURE PROMO ────────────────────────────────────── */
     .plp-feature {
@@ -382,7 +962,7 @@
     .plp-partner-paren-l { margin-right: 4px; }
     .plp-partner-paren-r { margin-left: 4px; }
     .plp-partner-eyebrow { font-size: 13px; color: var(--mid); margin-bottom: 12px; }
-    .plp-partner-title { font-size: 40px; font-weight: 400; line-height: 1.15; margin-bottom: 20px; color: var(--dark); }
+    .plp-partner-title { font-size: 58px; font-weight: 400; line-height: 1.15; margin-bottom: 20px; color: var(--dark); }
     .plp-partner-desc { font-size: 13px; color: var(--mid); line-height: 1.75; margin-bottom: 32px; max-width: 360px; }
     .plp-partner-actions { display: flex; align-items: center; gap: 16px; }
     .plp-partner-arrow {
@@ -397,80 +977,62 @@
 
     /* ── SIGN UP TODAY ────────────────────────────────────────────── */
     .plp-signup {
-      background: #FAF0EB;
+      background: #F9F6EE;
       padding: 80px 48px;
       text-align: center;
+      transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .plp-signup h2 { font-size: 48px; font-weight: 400; margin-bottom: 14px; color: var(--dark); }
-    .plp-signup p { font-size: 14px; color: var(--mid); margin-bottom: 32px; }
+    .plp-signup p { font-size: 14px; color: var(--mid); margin-bottom: 20px; }
     .plp-signup-btn {
       display: inline-block;
       padding: 16px 40px;
       background: var(--dark); color: var(--white);
       border-radius: 999px; font-size: 12px;
       font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; transition: background .2s;
+      text-transform: uppercase;
+      transition: background .2s, opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .plp-signup-btn:hover { background: var(--black); }
 
     /* ── FOOTER ───────────────────────────────────────────────────── */
-    .site-footer { background: #1E1E1E; color: var(--white); }
-    .newsletter {
-      background: #161616; padding: 52px 48px;
-      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
-    }
-    .newsletter h3 { font-size: 22px; font-weight: 600; }
-    .newsletter p  { font-size: 14px; color: #999; margin-top: 5px; }
-    .newsletter-form {
-      display: flex; gap: 12px;
-      flex: 1; min-width: 280px; max-width: 440px; margin-left: auto;
-    }
-    .newsletter-form input {
-      flex: 1; padding: 12px 16px;
-      border: 1px solid #3a3a3a; background: transparent;
-      color: var(--white); border-radius: 6px;
-      font-size: 14px; font-family: var(--font); outline: none;
-    }
-    .newsletter-form input::placeholder { color: #666; }
-    .newsletter-form input:focus { border-color: var(--mint); }
-    .newsletter-form button {
-      padding: 12px 26px; background: var(--mint);
-      color: var(--dark); border: none; border-radius: 6px;
-      font-size: 13px; font-weight: 700; white-space: nowrap; transition: opacity .2s;
-    }
-    .newsletter-form button:hover { opacity: .85; }
-    .footer-cols {
-      padding: 52px 48px;
-      display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 40px;
-    }
+    .site-footer { background: #1a1a1a; color: var(--white); }
+    .footer-join { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--white); border-top: 4px solid var(--white); }
+    .footer-join-panel { padding: 56px 80px 56px 64px; background: var(--cream); position: relative; display: block; text-decoration: none; transition: background 0.3s ease, opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1); }
+    .footer-join-panel:hover { background: #ede9de; }
+    .footer-join-panel h3 { font-size: 40px; font-weight: 400; color: var(--dark); margin-bottom: 12px; }
+    .footer-join-panel p { font-size: 14px; color: var(--mid); max-width: 420px; }
+    .footer-join-arrow { position: absolute; top: 56px; right: 80px; width: 48px; height: 48px; display: block; transform: rotate(45deg); transition: transform 0.3s ease; }
+    .footer-join-panel:hover .footer-join-arrow { transform: rotate(0deg); }
+    .newsletter-v { background: #1a1a1a; padding: 56px 64px; }
+    .newsletter-v h3 { font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+    .newsletter-v p  { font-size: 14px; color: #999; margin-bottom: 24px; }
+    .newsletter-v-form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+    .newsletter-v-form input { width: 100%; padding: 12px 16px; border: 1px solid #3a3a3a; background: transparent; color: var(--white); font-size: 14px; font-family: var(--font); outline: none; border-radius: 4px; }
+    .newsletter-v-form input::placeholder { color: #666; }
+    .newsletter-v-form input:focus { border-color: var(--mint); }
+    .newsletter-v-form button { padding: 13px; background: var(--white); color: var(--dark); border: none; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 1px; font-family: var(--font); text-transform: uppercase; cursor: pointer; transition: opacity .2s; }
+    .newsletter-v-form button:hover { opacity: .85; }
+    .footer-cols { padding: 52px 64px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 40px; }
     .footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; margin-bottom: 18px; }
     .footer-col ul li { margin-bottom: 11px; }
     .footer-col ul li a { font-size: 13px; color: #777; transition: color .15s; }
     .footer-col ul li a:hover { color: var(--white); }
     .app-badges { display: flex; flex-direction: column; gap: 10px; }
-    .app-badge {
-      display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px;
-      border: 1px solid #3a3a3a; border-radius: 10px; color: var(--white);
-      white-space: nowrap; transition: border-color .15s;
-    }
+    .app-badge { display: inline-flex; align-items: center; gap: 12px; padding: 11px 18px; border: 1px solid #3a3a3a; border-radius: 10px; color: var(--white); white-space: nowrap; transition: border-color .15s; }
     .app-badge:hover { border-color: var(--mint); }
     .app-badge .icon { font-size: 22px; }
     .app-badge .label { font-size: 10px; color: #888; display: block; }
     .app-badge .store { font-size: 14px; font-weight: 600; display: block; }
-    .footer-bottom {
-      border-top: 1px solid #2d2d2d; padding: 20px 48px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .footer-logo { font-size: 16px; font-weight: 700; letter-spacing: 3px; color: #555; }
+    .footer-payments { display: flex; align-items: center; gap: 10px; }
+    .footer-bottom-2 { border-top: 1px solid #2d2d2d; padding: 20px 64px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
     .footer-copy { font-size: 12px; color: #555; margin-top: 4px; }
+    .footer-change-country { font-size: 11px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; text-decoration: none; }
     .social-row { display: flex; gap: 12px; }
-    .social-link {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: #2d2d2d; display: flex; align-items: center;
-      justify-content: center; font-size: 14px; color: #888;
-      transition: background .2s, color .2s;
-    }
+    .social-link { width: 34px; height: 34px; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--dark); transition: background .2s, color .2s; }
     .social-link:hover { background: var(--mint); color: var(--dark); }
+    .footer-watermark { background: #1a1a1a; overflow: hidden; height: 220px; padding: 0 24px; user-select: none; pointer-events: none; display: flex; align-items: flex-end; }
+    .footer-watermark img { width: 100%; display: block; opacity: 0.08; filter: brightness(0) invert(1); transform: translateY(23%); }
 
     /* ── BASKET DRAWER ──────────────────────────────────────── */
     .basket-overlay {
@@ -596,6 +1158,7 @@
       border: 1px solid var(--dark); color: var(--dark);
       font-size: 14px; font-family: var(--font);
       text-decoration: none; transition: background 0.2s, color 0.2s;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em;
     }
     .btn-basket-view:hover { background: var(--dark); color: var(--white); }
     .btn-basket-checkout {
@@ -603,6 +1166,7 @@
       background: var(--dark); color: var(--white);
       font-size: 14px; font-family: var(--font);
       text-decoration: none; transition: opacity 0.2s;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: 0.08em;
     }
     .btn-basket-checkout:hover { opacity: 0.82; }
 
@@ -611,146 +1175,631 @@
       color: var(--dark); position: relative; padding: 0;
       display: flex; align-items: center;
     }
+
+  /* ── SEARCH RESULTS PANEL ─────────────────────────────────────── */
+  .search-results-panel { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); box-shadow: 0 16px 40px rgba(0,0,0,.10); z-index: 401; display: none; }
+  .search-results-panel.open { display: grid; grid-template-columns: 380px 1fr; }
+  .srp-left { padding: 40px 52px; border-right: 1px solid var(--border); }
+  .srp-right { padding: 40px 52px; }
+  .srp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .srp-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .srp-clear { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--dark); padding: 0; font-family: var(--font); }
+  .srp-view-all { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dark); display: flex; align-items: center; gap: 4px; }
+  .srp-recent { list-style: none; }
+  .srp-recent li { font-size: 14px; padding: 9px 0; cursor: pointer; transition: opacity .15s; }
+  .srp-recent li:hover { opacity: .45; }
+  .srp-products { display: flex; flex-direction: column; }
+  .srp-product { display: grid; grid-template-columns: 96px 1fr auto 52px; gap: 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .srp-product:last-child { border-bottom: none; }
+  .srp-prod-img { width: 96px; height: 96px; background: var(--cream); border-radius: 6px; overflow: hidden; flex-shrink: 0; display: block; }
+  .srp-prod-img img { width: 100%; height: 100%; object-fit: cover; }
+  .srp-prod-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px; }
+  .srp-prod-name { font-size: 14px; line-height: 1.4; margin-bottom: 5px; }
+  .srp-prod-code { font-size: 12px; color: var(--mid); }
+  .srp-swatches { display: flex; align-items: center; gap: 4px; margin-top: 7px; }
+  .srp-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; }
+  .srp-swatch-more { font-size: 11px; color: var(--mid); margin-left: 2px; }
+  .srp-price { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; white-space: nowrap; }
+  .srp-price-now { font-size: 14px; font-weight: 600; }
+  .srp-price-now.sale { color: var(--red); }
+  .srp-price-was { font-size: 12px; color: var(--mid); text-decoration: line-through; }
+  .srp-add { width: 44px; height: 44px; border-radius: 50%; background: var(--light); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; }
+  .srp-add:hover { background: var(--border); }
+
+  @media (max-width: 768px) {
+
+    /* ── Prevent horizontal overflow ───────────────────────────── */
+    html { overflow-x: clip; }
+    /* Hide mega menu entirely on mobile */
+    .mega-menu { display: none !important; }
+
+    /* ── Announcement bar ──────────────────────────────────────── */
+    .ann-bar { font-size: 11px; padding: 8px 10px; gap: 8px; }
+    .ann-bar-track { max-width: 100%; }
+
+    /* ── Header ────────────────────────────────────────────────── */
+    #site-header { position: sticky !important; top: 0 !important; z-index: 500 !important; }
+    .header-top { display: flex; padding: 0 16px; height: 58px; gap: 0; position: relative; }
+    .top-nav { display: none; }
+    .cat-nav-wrap { display: none; }
+    .hamburger { display: flex; order: -1; flex-shrink: 0; }
+    .mob-nav-overlay { display: block; }
+    .mob-nav-drawer { display: flex; }
+    .logo {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0; pointer-events: auto;
+    }
+    .logo img { width: 120px; }
+    .header-icons { margin-left: auto; gap: 12px; }
+    .header-icons img { width: 26px; height: 26px; }
+    /* hide search + user from header bar on mobile — they live in the drawer */
+    #searchBtn { display: none !important; }
+    .header-icons > a[aria-label="Account"] { display: none !important; }
+    #cartBtn { background: none; border: none; padding: 0; position: relative; }
+    .cart-badge { width: 20px; height: 20px; font-size: 11px; top: -6px; right: -6px; }
+    .search-takeover { height: 58px; padding: 0 16px 0 14px; }
+
+    /* ── Mobile nav drawer ─────────────────────────────────────── */
+    .mob-nav-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 600;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mob-nav-overlay.open { opacity: 1; pointer-events: auto; }
+    .mob-nav-drawer {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 82vw; max-width: 320px;
+      background: var(--white); z-index: 601;
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .mob-nav-drawer.open { transform: translateX(0); }
+    .mob-nav-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; flex-shrink: 0;
+    }
+    .mob-nav-search-trigger {
+      display: flex; align-items: center; gap: 10px;
+      background: none; border: none; cursor: pointer;
+      color: var(--dark); padding: 0;
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .mob-nav-close {
+      background: none; border: none; font-size: 22px;
+      cursor: pointer; color: var(--dark); padding: 4px; line-height: 1;
+    }
+    .mob-nav-user-bar {
+      padding: 0 20px; flex-shrink: 0;
+    }
+    .mob-nav-user-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0; text-decoration: none;
+      color: var(--dark); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .mob-nav-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0 20px; flex-shrink: 0;
+    }
+    .mob-nav-divider-full {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0; flex-shrink: 0;
+    }
+    .mob-nav-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      color: var(--mid); padding: 14px 20px 4px;
+      text-transform: uppercase; display: block;
+    }
+    .mob-nav-links a {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 15px; color: var(--dark); padding: 3px 20px;
+      border-bottom: none; text-decoration: none;
+    }
+    .mob-nav-links a .mob-nav-arrow { font-size: 18px; color: var(--mid); }
+    .mob-nav-accordion {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 14px 20px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font); font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; color: var(--mid); text-transform: uppercase;
+    }
+    .mob-nav-chevron {
+      color: var(--mid); flex-shrink: 0;
+      transition: transform 0.25s ease;
+    }
+    .mob-nav-accordion.open .mob-nav-chevron { transform: rotate(180deg); }
+    .mob-nav-acc-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+    }
+    .mob-nav-acc-body.open { max-height: 300px; }
+    .mob-nav-links a.mob-nav-member {
+      margin: 20px 20px 0;
+      display: block; padding: 14px; text-align: center;
+      background: var(--dark); color: var(--white) !important;
+      border-radius: 999px; font-size: 11px; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none !important;
+      border-bottom: none !important;
+    }
+
+    /* ── PLP Hero Banner ────────────────────────────────────────── */
+    .plp-hero { min-height: 160px; }
+    .plp-hero-content { padding: 32px 16px 20px; }
+    .plp-hero-eyebrow { font-size: 22px; margin-bottom: 8px; }
+    .plp-hero-title { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0; }
+    .plp-hero-title span { font-size: 52px; line-height: 1.05; }
+    .plp-hero-title span:last-child { width: 100%; }
+    .plp-hero-rule { display: block; height: 3px; margin: 0 14px; flex: 1; }
+
+    /* ── Breadcrumb ─────────────────────────────────────────────── */
+    .breadcrumb { padding: 10px 16px; font-size: 11px; gap: 5px; }
+
+    /* ── PLP Section ────────────────────────────────────────────── */
+    .plp-section { padding: 16px 12px; }
+    .plp-heading-row { gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .plp-heading { font-size: 20px; }
+
+    /* ── Filter / sort bar — scrollable on mobile ───────────────── */
+    .plp-meta-row {
+      flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 16px;
+      overflow: visible;
+    }
+    .plp-panel-btns { gap: 6px; }
+    .plp-panel-btn { font-size: 11px; padding: 0 12px; height: 32px; letter-spacing: 0.05em; }
+    .plp-panel-btn img { width: 20px; height: 20px; }
+    .plp-filters {
+      display: flex; flex-wrap: nowrap;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; gap: 6px;
+      width: 100%;
+      margin-left: -12px; margin-right: -12px;
+      padding-left: 12px; padding-right: 12px; padding-bottom: 4px;
+      box-sizing: content-box;
+    }
+    .plp-filters::-webkit-scrollbar { display: none; }
+    .plp-filter-chip { flex-shrink: 0; padding: 5px 14px; font-size: 11px; }
+
+    /* ── Product grid: 2 columns ────────────────────────────────── */
+    .plp-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      row-gap: 24px;
+      margin-bottom: 24px;
+    }
+    .plp-card-img-area { aspect-ratio: 1 / 1; }
+    .plp-card-info { padding: 8px 8px 12px; gap: 3px; }
+    .plp-card-brand { font-size: 10px; }
+    .plp-card-name { font-size: 12px; }
+    .plp-card-stars-icons { font-size: 10px; }
+    .plp-card-rating-count { font-size: 10px; }
+    .plp-price-sale { font-size: 13px; }
+    .plp-price-original { font-size: 11px; }
+    .plp-card-actions { bottom: 10px; right: 10px; gap: 4px; }
+    .plp-card-wishlist,
+    .plp-card-add-btn { width: 34px; height: 34px; font-size: 14px; opacity: 1; }
+    .plp-view-text { display: none; }
+    .plp-card-sale-tag { font-size: 9px; padding: 2px 6px; }
+
+    /* ── Novage feature promo: stacked ─────────────────────────── */
+    .plp-feature { grid-template-columns: 1fr; min-height: unset; }
+    .plp-feature-copy { padding: 32px 16px; }
+    .plp-feature-title { font-size: 28px; }
+    .plp-feature-products { padding: 20px 16px; gap: 12px; }
+    .plp-feature-nav { padding: 0 16px 20px; }
+
+    /* ── Partner CTA: stacked ───────────────────────────────────── */
+    .plp-partner { grid-template-columns: 1fr; min-height: unset; }
+    .plp-partner-copy { padding: 32px 16px; order: 2; }
+    .plp-partner-title { font-size: 32px; }
+    .plp-partner-photo { aspect-ratio: 4/3; order: 1; }
+    .plp-partner-photo img { height: 100%; object-fit: cover; }
+
+    /* ── Sign up ────────────────────────────────────────────────── */
+    .plp-signup { padding: 40px 16px; }
+    .plp-signup h2 { font-size: 28px; }
+    .plp-signup p { font-size: 13px; }
+    .plp-signup-btn { padding: 14px 24px; font-size: 11px; }
+
+    /* ── View more button ───────────────────────────────────────── */
+    .plp-view-more { margin-bottom: 32px; }
+
+    /* ── Footer: stacked ────────────────────────────────────────── */
+    .footer-join { grid-template-columns: 1fr; gap: 3px; }
+    .footer-join-panel { padding: 40px 24px; }
+    .footer-join-panel h3 { font-size: 26px; }
+    .footer-join-arrow { top: 38px; right: 24px; width: 34px; height: 34px; }
+    /* Dark footer body: single column */
+    [style*="grid-template-columns:400px"] { grid-template-columns: 1fr !important; }
+    .newsletter-v { padding: 40px 20px; }
+    .newsletter-v-form { max-width: 100%; }
+    .footer-cols {
+      padding: 32px 20px 40px !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 24px;
+    }
+    .footer-bottom-2 {
+      padding: 20px !important; flex-direction: column !important;
+      gap: 16px; align-items: flex-start !important;
+    }
+    .footer-payments-copy { flex-direction: column !important; gap: 10px !important; }
+    .footer-payments { flex-wrap: wrap; gap: 8px; }
+    .footer-copy { font-size: 11px; }
+    .footer-watermark { height: 80px; }
+    .social-row { gap: 10px; }
+
+  } /* end @media mobile */
+
   </style>
 </head>
 <body>
 
 <!-- ─── ANNOUNCEMENT BAR ──────────────────────────────────────────── -->
-<div class="ann-bar">Enjoy free shipping over £45 as a VIP!</div>
+<div class="ann-bar">
+  <button class="ann-bar-btn" id="annPrev">&#8249;</button>
+  <div class="ann-bar-track" id="annTrack">
+    <span class="ann-bar-msg">ENJOY FREE SHIPPING ON ORDERS OVER £45, AS A VIP!</span>
+    <span class="ann-bar-msg">NEW MEMBER? GET 20% OFF YOUR FIRST ORDER — JOIN FREE TODAY</span>
+    <span class="ann-bar-msg">EARN POINTS WITH EVERY PURCHASE · REDEEM FOR REWARDS</span>
+  </div>
+  <button class="ann-bar-btn" id="annNext">&#8250;</button>
+</div>
 
 <!-- ─── HEADER ───────────────────────────────────────────────────── -->
 <header id="site-header">
   <div class="header-top">
-    <button class="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
+    <button class="hamburger" id="mobileMenuBtn" aria-label="Open menu">
+      <span></span><span></span>
     </button>
-    <a href="oriflame-homepage.html" class="logo">
-      <svg width="120" height="27" viewBox="0 0 170 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M70.9061 35.5793L68.9555 29.5502H67.757L65.8064 35.5793L63.8583 29.5429H62.354L65.0519 37.6816H66.2503L68.3489 31.9525L70.2934 37.6816H71.4919L74.1824 29.5429H72.6904L70.9061 35.5793ZM1.63123 33.0184H42.4164V34.2232H1.63123V33.0184ZM52.1608 2.41826H54.8598V20.3554H52.1571V2.41826H52.1608ZM65.0555 20.3554H67.7546V12.8191H77.0514V10.257H67.7448V4.8316H78.0909V2.41703H65.0543L65.0555 20.3554ZM10.1796 20.6542C15.8785 20.6542 20.5257 15.9824 20.5257 10.2533C20.5257 4.67916 15.8785 2.11459 12.4298 2.11459C5.68162 2.11459 5.23158 8.74852 5.23158 8.74852H5.39056C5.39056 8.74852 6.58904 3.92552 11.2362 3.92552C14.9907 3.92552 17.8401 6.48763 17.8401 10.1058C17.8401 14.3227 14.3914 17.7896 10.1967 17.7896C6.14878 17.7896 2.40413 14.7776 2.40413 9.34356C2.40413 5.11437 4.65435 1.64742 8.55187 0.14753V0C3.60384 0.749943 0.00349326 5.12666 0.00349326 10.241C-0.145706 15.9701 4.50392 20.6419 10.2004 20.6419L10.1796 20.6542ZM55.1595 33.0172C53.6614 32.716 53.2113 32.4148 53.2113 31.8123C53.2113 31.2099 53.6638 30.9063 54.5688 30.9063C55.327 30.9063 56.073 31.2013 56.6722 31.6562L57.4268 30.6112C56.6771 30.0088 55.6291 29.5539 54.5773 29.5539C52.9264 29.5539 51.8783 30.4637 51.8783 31.9636C51.8783 33.4635 52.7711 33.9306 54.5688 34.3732C56.0608 34.6806 56.3665 34.9756 56.3665 35.578C56.3665 36.1805 55.7673 36.6353 55.0213 36.6353C53.9695 36.6353 53.2235 36.1805 52.4653 35.578L51.5603 36.6353C52.4592 37.5451 53.6589 38 54.8574 38C56.5084 38 57.7069 37.1025 57.7069 35.5903C57.7069 33.9306 56.8043 33.3282 55.1558 33.0332L55.1595 33.0172ZM43.7653 20.3542L38.3672 13.1203C41.0663 12.3704 42.8652 10.4156 42.8652 7.84613C42.8652 4.539 40.1747 2.27688 36.2736 2.27688H28.4712V20.214H31.1617V13.5752H35.5031L40.456 20.214L43.758 20.369L43.7653 20.3542ZM31.169 11.1582V4.8316H36.1182C38.6669 4.8316 40.1662 5.8889 40.1662 7.84736C40.1662 9.80582 38.5152 11.0131 36.1182 11.0131H31.169V11.1582ZM80.9501 34.222H84.9981V32.8672H80.9501V30.9075H85.4481V29.5515H79.6024V37.5402H85.4481V36.3354H80.9587L80.9501 34.222ZM112.287 2.26704L104.191 20.3554H107.04L109.138 15.6837H117.833L119.783 20.3554H122.782L114.687 2.26704H112.287ZM110.039 13.2703L113.329 5.584L116.619 13.2801H110.015L110.039 13.2703ZM132.223 7.09127L137.922 15.5324L138.216 15.9849L138.509 15.5423L144.056 7.10848V20.3739H146.756V2.42441H144.207L138.21 11.468L132.21 2.42441H129.666V20.3616H132.216L132.223 7.09127ZM132.223 33.0172H170V34.222H132.223V33.0172ZM159.36 17.7933V12.5191H168.655V9.9558H159.36V4.82914H169.853V2.41949H156.67V20.3567H169.865V17.7896L159.36 17.7933ZM120.986 35.1244L116.636 29.5502H115.287V37.539H116.786V31.9623L121.127 37.539H122.326V29.5502H120.981L120.986 35.1244ZM89.1964 2.41949H86.6478V20.3567H98.9433V17.7946H89.1964V2.41949ZM105.241 34.2245H109.289V32.8684H105.241V30.9075H109.738V29.5515H103.889V37.5402H109.887V36.3354H105.228L105.241 34.2245ZM93.994 29.5527H90.9868V37.5402H93.9867C96.5341 37.5402 98.1838 35.733 98.1838 33.4708C98.333 31.3599 96.5329 29.5515 93.9843 29.5515L93.994 29.5527ZM93.994 36.3341H92.3431V30.9075H93.994C95.645 30.9075 96.6845 32.1123 96.6845 33.6196C96.8313 35.1269 95.6328 36.3329 93.9818 36.3329L93.994 36.3341Z" fill="#333333"/></svg>
-    </a>
     <nav class="top-nav">
-      <a href="#" class="active">Members Shop</a>
-      <a href="#">Brand Partners</a>
-      <a href="#">Join Us</a>
+      <a href="#" id="shopNavLink">SHOP</a>
+      <a href="#">MEMBERS</a>
+      <a href="#">BRAND PARTNERS</a>
     </nav>
-    <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" placeholder="Search 60+ brands, 1000+ beauty and nutrition products">
-    </div>
+
+    <a href="oriflame-homepage.html" class="logo">
+      <img src="assets/oriflame_new_logo.svg" width="200" height="auto" alt="Oriflame">
+    </a>
+
     <div class="header-icons">
+      <button id="searchBtn" aria-label="Search" style="background:none;border:none;cursor:pointer;color:var(--dark);padding:0;display:flex;align-items:center;">
+        <img src="assets/Search.svg" width="32" height="32" alt="Search">
+      </button>
       <a href="#" aria-label="Account">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </a>
-      <a href="#" aria-label="Gifts">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <img src="assets/User.svg" width="32" height="32" alt="Account">
       </a>
       <button id="cartBtn" aria-label="Open basket">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <img src="assets/Basket.svg" width="32" height="32" alt="Basket">
         <span class="cart-badge" id="cartBadge">3</span>
+      </button>
+    </div>
+    <!-- Search takeover -->
+    <div class="search-takeover" id="searchTakeover">
+      <span class="search-takeover-icon" id="searchTakeoverIcon">
+        <img src="assets/Search.svg" width="32" height="32" alt="">
+      </span>
+      <div class="search-takeover-content">
+        <span class="search-takeover-label">SEARCH</span>
+        <div class="search-takeover-divider"></div>
+        <input class="search-takeover-input" id="searchInput" type="text" placeholder="60+ brands, 1000+ beauty and nutrition products" autocomplete="off">
+      </div>
+      <button class="search-takeover-close" id="searchClose" aria-label="Close search">
+        <img src="assets/close.svg" width="44" height="44" alt="Close">
       </button>
     </div>
   </div>
 
-  <!-- Category Nav -->
-  <div class="cat-nav-wrap">
-    <nav class="cat-nav" id="catNav">
-      <a href="#" data-menu="none">Nutrition</a>
-      <a href="#" data-menu="skincare" class="active">Skincare</a>
-      <a href="#" data-menu="none">Makeup</a>
-      <a href="#" data-menu="none">Fragrance</a>
-      <a href="#" data-menu="none">Bath &amp; Body</a>
-      <a href="#" data-menu="none">Hair</a>
-      <a href="#" data-menu="none">Accessories</a>
-      <a href="#" data-menu="none">Men</a>
-      <div class="cat-divider"></div>
-      <a href="#" data-menu="none">New Arrivals</a>
-      <a href="#" data-menu="none">Icons</a>
-      <a href="#" data-menu="none">Sample Shop</a>
-      <a href="#" data-menu="none">Oriflame Outlet</a>
-    </nav>
-    <a href="#" class="member-btn">Become a member &rsaquo;</a>
-  </div>
-
   <!-- ─── MEGA MENU ──────────────────────────────────────────────── -->
   <nav class="mega-menu" id="megaMenu">
-    <div class="mega-inner">
-      <div class="mega-col">
-        <h4>Concerns</h4>
-        <ul>
-          <li><a href="plp-anti-aging-skincare.html" class="mega-active">Anti-aging Skincare</a></li>
-          <li><a href="#">Dark circles and Puffiness</a></li>
-          <li><a href="#">Dark spots and...</a></li>
-          <li><a href="#">Dehydrated skin</a></li>
-          <li><a href="#">Dull skin</a></li>
-          <li><a href="#">Lack of firmness</a></li>
-          <li><a href="#">Menopausal skin</a></li>
-          <li><a href="#">Oily skin</a></li>
-          <li><a href="#">Pores, Acne and Blemishes</a></li>
-          <li><a href="#">Sensitive skin</a></li>
-          <li><a href="#">Stressed skin</a></li>
-          <li><a href="#">Sunburns photoaging</a></li>
-        </ul>
+
+    <!-- Level 1: category tab bar -->
+    <div class="mega-cat-bar">
+      <div class="mega-cat-items">
+        <a href="#" class="mega-cat-link active" data-panel="skincare">Skincare</a>
+        <a href="#" class="mega-cat-link" data-panel="makeup">Makeup</a>
+        <a href="#" class="mega-cat-link" data-panel="nutrition">Nutrition</a>
+        <a href="#" class="mega-cat-link" data-panel="fragrance">Fragrance</a>
+        <a href="#" class="mega-cat-link" data-panel="bath-body">Bath &amp; Body</a>
+        <a href="#" class="mega-cat-link" data-panel="hair">Hair</a>
+        <a href="#" class="mega-cat-link" data-panel="accessories">Accessories</a>
+        <a href="#" class="mega-cat-link" data-panel="men">Men</a>
       </div>
-      <div class="mega-col">
-        <h4>Skincare tools and Accessories</h4>
-        <ul>
-          <li><a href="#">Cleansing tools</a></li>
-          <li><a href="#">Facial massagers and Other tools</a></li>
-          <li><a href="#">Skincare brushes</a></li>
-          <li><a href="#">Toiletry bags</a></li>
-        </ul>
-        <div class="mega-spacer">
-          <h4>Treatments</h4>
+      <div class="mega-cat-divider"></div>
+      <div class="mega-cat-right">
+        <a href="#" class="mega-cat-link">New Arrivals</a>
+        <a href="#" class="mega-cat-link">Icons</a>
+        <a href="#" class="mega-cat-link">Sample Shop</a>
+        <a href="#" class="mega-cat-link">Oriflame Outlet</a>
+        <a href="#" class="mega-member-btn">Become a member &rsaquo;</a>
+      </div>
+    </div>
+
+    <!-- Level 2: Skincare panel (open by default) -->
+    <div class="mega-panel active" id="panel-skincare">
+      <div class="mega-panel-inner">
+        <div class="mega-concerns">
+          <h4>Concerns</h4>
           <ul>
-            <li><a href="#">Exfoliator</a></li>
-            <li><a href="#">Facial oil</a></li>
-            <li><a href="#">Serum and booster</a></li>
+            <li><a href="plp-anti-aging-skincare.html">Anti-aging Skincare</a></li>
+            <li><a href="#">Dark circles and Puffiness</a></li>
+            <li><a href="#">Dark spots and...</a></li>
+            <li><a href="#">Dehydrated skin</a></li>
+            <li><a href="#">Dull skin</a></li>
+            <li><a href="#">Lack of firmness</a></li>
+            <li><a href="#">Menopausal skin</a></li>
+            <li><a href="#">Oily skin</a></li>
+            <li><a href="#">Pores, Acne and Blemishes</a></li>
+            <li><a href="#">Sensitive skin</a></li>
+            <li><a href="#">Stressed skin</a></li>
+            <li><a href="#">Sunburns photoaging</a></li>
           </ul>
         </div>
+        <a href="#" class="mega-panel-hero">
+          <img src="assets/images/mega-skincare-1.png" alt="New Skin Retoucher">
+          <div class="mega-hero-overlay">
+            <p class="mega-hero-label">NEW</p>
+            <div class="mega-hero-title-row">
+              <p class="mega-hero-title">SLEEPING BEAUTY</p>
+              <span class="mega-hero-cta">SHOP NOW</span>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="mega-promo-img">
+          <div class="mega-img-clip">
+            <img src="assets/images/mega-skincare-2.png" alt="Skincare products for a fresher look">
+          </div>
+          <div class="mega-promo-caption">
+            <p>Skincare products for a fresher look</p>
+            <span class="mega-promo-shop">SHOP NOW</span>
+          </div>
+        </a>
+        <a href="#" class="mega-promo-img">
+          <div class="mega-img-clip">
+            <img src="assets/images/mega-skincare-3.png" alt="Your skincare routine">
+          </div>
+          <div class="mega-promo-caption">
+            <p>Your skincare routine</p>
+            <span class="mega-promo-shop">LEARN MORE</span>
+          </div>
+        </a>
       </div>
-      <div class="mega-col">
-        <h4>Sun care</h4>
-        <ul>
-          <li><a href="#">After sun and Self tanning</a></li>
-          <li><a href="#">Face sunscreen</a></li>
-          <li><a href="#">Kids Suncare</a></li>
-        </ul>
-        <div class="mega-spacer"><h4>Eye care</h4></div>
-        <div class="mega-spacer"><h4>Cleanses</h4></div>
-        <div class="mega-spacer"><h4>Lip care</h4></div>
-        <div class="mega-spacer"><h4>Toner, Essences, and Mist</h4></div>
-      </div>
-      <div class="mega-col">
-        <h4>Mask</h4>
-        <div class="mega-spacer"><h4>Skincare routines</h4></div>
-        <div class="mega-spacer"><h4>Teenage skincare</h4></div>
-        <div class="mega-spacer"><h4>Skincare Gifts</h4></div>
-      </div>
-      <div class="mega-col">
-        <div class="mega-img">
-          <img src="assets/images/mega-skincare-1.png" alt="Your skincare routine">
-          <p>Your skincare routine</p>
+    </div>
+
+    <!-- Level 2: Makeup panel -->
+    <div class="mega-panel" id="panel-makeup">
+      <div class="mega-panel-inner mega-panel-inner--makeup">
+
+        <!-- Col 1: Face makeup -->
+        <div class="mega-cat-col">
+          <div class="mega-cat-group">
+            <h5>Face makeup</h5>
+            <ul>
+              <li><a href="#">Foundation</a></li>
+              <li><a href="#">BB and CC Creams</a></li>
+              <li><a href="#">Blusher</a></li>
+              <li><a href="#">Bronzer</a></li>
+              <li><a href="#">Concealer and Corrector</a></li>
+              <li><a href="#">Face makeup remover</a></li>
+              <li><a href="#">Highlighter</a></li>
+              <li><a href="#">Makeup palettes</a></li>
+              <li><a href="#">Powder</a></li>
+              <li><a href="#">Primer</a></li>
+            </ul>
+          </div>
+          <div class="mega-cat-group">
+            <h5>Makeup brushes</h5>
+            <ul>
+              <li><a href="#">Eyelash curler</a></li>
+              <li><a href="#">Makeup bags</a></li>
+              <li><a href="#">Sponges and Other tools</a></li>
+              <li><a href="#">Mirrors</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="mega-col">
-        <div class="mega-img">
-          <img src="assets/images/mega-skincare-2.png" alt="Skincare products for a fresher look">
+
+        <!-- Col 2: Eyes makeup -->
+        <div class="mega-cat-col">
+          <div class="mega-cat-group">
+            <h5>Eyes makeup</h5>
+            <ul>
+              <li><a href="#">Mascara</a></li>
+              <li><a href="#">Eyeliner</a></li>
+              <li><a href="#">Eyeshadow</a></li>
+              <li><a href="#">Eyebrows</a></li>
+              <li><a href="#">Eye makeup remover</a></li>
+              <li><a href="#">Eyeshadow palettes</a></li>
+            </ul>
+          </div>
+          <div class="mega-cat-group">
+            <h5>Makeup brushes</h5>
+            <ul>
+              <li><a href="#">Eyes and brow brushes</a></li>
+              <li><a href="#">Face and body brushes</a></li>
+              <li><a href="#">Lip brushes</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Col 3: Nails + Gifts -->
+        <div class="mega-cat-col">
+          <div class="mega-cat-group">
+            <h5>Nails</h5>
+            <ul>
+              <li><a href="#">Nail polish</a></li>
+              <li><a href="#">Base, Topcoat</a></li>
+              <li><a href="#">Gel nail polish</a></li>
+              <li><a href="#">Nail care</a></li>
+              <li><a href="#">Nail polish remover</a></li>
+            </ul>
+          </div>
+          <div class="mega-cat-group">
+            <h5>Makeup gifts</h5>
+          </div>
+        </div>
+
+        <!-- Col 4: Lips makeup -->
+        <div class="mega-cat-col">
+          <div class="mega-cat-group">
+            <h5>Lips makeup</h5>
+            <ul>
+              <li><a href="#">Lipstick</a></li>
+              <li><a href="#">Lip gloss and Stain</a></li>
+              <li><a href="#">Lip liner</a></li>
+              <li><a href="#">Lip care</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Promo image 1 -->
+        <a href="#" class="mega-promo-img--makeup gap-right">
+          <div class="mega-img-clip">
+            <img src="assets/images/mega-skincare-3.png" alt="Your skincare routine">
+          </div>
+          <p>Your skincare routine</p>
+        </a>
+
+        <!-- Promo image 2 -->
+        <a href="#" class="mega-promo-img--makeup">
+          <div class="mega-img-clip">
+            <img src="assets/images/mega-skincare-2.png" alt="Skincare products for a fresher look">
+          </div>
           <p>Skincare products for a fresher look</p>
+        </a>
+
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- ── Search Results Panel ──────────────────────────────────── -->
+  <div class="search-results-panel" id="searchResultsPanel">
+    <div class="srp-left">
+      <div class="srp-head">
+        <span class="srp-label">Recent Searches</span>
+        <button class="srp-clear" id="srpClear">Clear</button>
+      </div>
+      <ul class="srp-recent">
+        <li>shade finder</li>
+        <li>Everlasting Sync Stress-Free Foundation SPF 20</li>
+        <li>creams</li>
+        <li>giodarni</li>
+        <li>radiant gel</li>
+      </ul>
+    </div>
+    <div class="srp-right">
+      <div class="srp-head">
+        <span class="srp-label">Popular Products</span>
+        <a href="#" class="srp-view-all">View All &rsaquo;</a>
+      </div>
+      <div class="srp-products">
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-1.jpg" alt="Beauty Collagen Complex"></a>
+          <div>
+            <p class="srp-prod-brand">Wellosophy</p>
+            <p class="srp-prod-name">Beauty Collagen Complex</p>
+            <p class="srp-prod-code">45356</p>
+          </div>
+          <div class="srp-price"><span class="srp-price-now">£29.99</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-2.jpg" alt="You Eau de Parfum"></a>
+          <div>
+            <p class="srp-prod-brand">Infinita</p>
+            <p class="srp-prod-name">You Eau de Parfum</p>
+            <p class="srp-prod-code">47713</p>
+          </div>
+          <div class="srp-price"><span class="srp-price-now sale">£22.99</span><span class="srp-price-was">£37.00</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        </div>
+        <div class="srp-product">
+          <a href="pdp-skincare.html" class="srp-prod-img"><img src="assets/images/antioxi-3.jpg" alt="Age Defying Serum Boost Foundation"></a>
+          <div>
+            <p class="srp-prod-brand">Giordani Gold</p>
+            <p class="srp-prod-name">Age Defying Serum Boost Foundation SPF 12 +UVA Protection</p>
+            <p class="srp-prod-code">42236</p>
+            <div class="srp-swatches">
+              <span class="srp-swatch" style="background:#C89070;"></span>
+              <span class="srp-swatch" style="background:#D4A880;"></span>
+              <span class="srp-swatch" style="background:#C07850;"></span>
+              <span class="srp-swatch" style="background:#B87048;"></span>
+              <span class="srp-swatch" style="background:#DEB898;"></span>
+              <span class="srp-swatch-more">+1</span>
+            </div>
+          </div>
+          <div class="srp-price"><span class="srp-price-now sale">£9.99</span><span class="srp-price-was">£19.00</span></div>
+          <button class="srp-add" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
       </div>
     </div>
-  </nav>
-</header>
+  </div>
+</header><!-- /site-header -->
+
+<div class="mega-overlay" id="megaOverlay"></div>
+
+<!-- ─── MOBILE NAV DRAWER ──────────────────────────────────────── -->
+<div class="mob-nav-overlay" id="mobNavOverlay"></div>
+<div class="mob-nav-drawer" id="mobNavDrawer">
+  <div class="mob-nav-head">
+    <button class="mob-nav-search-trigger" id="mobNavSearchBtn" aria-label="Search">
+      <img src="assets/Search.svg" width="22" height="22" alt="">
+      <span>SEARCH</span>
+    </button>
+    <button class="mob-nav-close" id="mobNavClose" aria-label="Close menu">&#x2715;</button>
+  </div>
+  <hr class="mob-nav-divider-full">
+  <div class="mob-nav-user-bar">
+    <a href="#" class="mob-nav-user-link">
+      <img src="assets/User.svg" width="18" height="18" alt="">
+      <span>LOGIN</span>
+    </a>
+  </div>
+  <hr class="mob-nav-divider-full">
+  <div class="mob-nav-links">
+    <span class="mob-nav-section-label">Shop Categories</span>
+    <a href="#">Skincare <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Makeup <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Nutrition <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Fragrance <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Bath &amp; Body <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Hair <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Accessories <span class="mob-nav-arrow">›</span></a>
+    <a href="#">Men <span class="mob-nav-arrow">›</span></a>
+    <hr class="mob-nav-divider">
+    <button class="mob-nav-accordion" data-target="acc-explore">
+      <span>Explore</span>
+      <svg class="mob-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="mob-nav-acc-body" id="acc-explore">
+      <a href="#">New Arrivals <span class="mob-nav-arrow">›</span></a>
+      <a href="#">Icons <span class="mob-nav-arrow">›</span></a>
+      <a href="#">Oriflame Outlet <span class="mob-nav-arrow">›</span></a>
+    </div>
+    <hr class="mob-nav-divider">
+    <button class="mob-nav-accordion" data-target="acc-community">
+      <span>Community</span>
+      <svg class="mob-nav-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <hr class="mob-nav-divider">
+    <div class="mob-nav-acc-body" id="acc-community">
+      <a href="#">Members <span class="mob-nav-arrow">›</span></a>
+      <a href="#">Brand Partners <span class="mob-nav-arrow">›</span></a>
+    </div>
+    <a href="#" class="mob-nav-member">Become a member</a>
+  </div>
+</div>
 
 
 <!-- ─── PLP HERO BANNER ───────────────────────────────────────────── -->
 <section class="plp-hero">
-  <img class="plp-hero-img" src="assets/images/antioxi-hero.jpg" alt="Anti-aging Skincare">
-  <div class="plp-hero-overlay"></div>
   <div class="plp-hero-content">
-    <p class="plp-hero-eyebrow">40% off all</p>
-    <div class="plp-hero-title">
+    <p class="plp-hero-eyebrow" data-reveal>40% off all</p>
+    <div class="plp-hero-title" data-reveal data-delay="200">
       <span>Anti-aging</span>
       <div class="plp-hero-rule"></div>
       <span>Skincare</span>
@@ -760,7 +1809,7 @@
 
 
 <!-- ─── BREADCRUMB ────────────────────────────────────────────────── -->
-<div class="breadcrumb">
+<div class="breadcrumb" data-reveal>
   <a href="oriflame-homepage.html">Home</a>
   <span class="breadcrumb-sep">›</span>
   <a href="#">Skincare</a>
@@ -771,412 +1820,441 @@
 
 <!-- ─── PRODUCT LISTING ───────────────────────────────────────────── -->
 <div class="plp-section">
-  <h1 class="plp-heading">Skincare</h1>
+  <div class="plp-heading-row" data-reveal>
+    <h1 class="plp-heading">Skincare</h1>
+    <div class="plp-heading-divider"></div>
+    <span class="plp-heading-count">Showing 16 results for skincare</span>
+  </div>
 
-  <div class="plp-meta-row">
-    <span class="plp-count">Showing 16 results for skincare</span>
+  <div class="plp-meta-row" data-reveal data-delay="100">
+    <div style="display:flex;align-items:center;gap:32px;">
+      <div class="plp-panel-btns">
+        <button class="plp-panel-btn" id="recommendBtn">
+          <img src="assets/Recommended.svg" width="32" height="32" alt="">
+          Recommended
+        </button>
+        <button class="plp-panel-btn" id="filterBtn">
+          <img src="assets/Filter.svg" width="32" height="32" alt="">
+          Filter
+        </button>
+      </div>
+    </div>
     <div class="plp-filters">
-      <button class="plp-filter-chip">Nutrition</button>
-      <button class="plp-filter-chip active">Skincare</button>
-      <button class="plp-filter-chip">Makeup</button>
-      <button class="plp-filter-chip">Fragrance</button>
-      <button class="plp-filter-chip">Hair</button>
-      <button class="plp-filter-chip">Bath &amp; Body</button>
-      <button class="plp-filter-chip">Accessories</button>
+      <button class="plp-filter-chip active">Anti-aging</button>
+      <button class="plp-filter-chip">Dark cirlces</button>
+      <button class="plp-filter-chip">Dark spots</button>
+      <button class="plp-filter-chip">Dehydrated skin</button>
+      <button class="plp-filter-chip">Dull skin</button>
+      <button class="plp-filter-chip">Lack for firmness</button>
+      <button class="plp-filter-chip">Menopausal skin</button>
+      <button class="plp-filter-chip">Oily skin</button>
+      <button class="plp-filter-chip">Sensitive skin</button>
     </div>
   </div>
 
-  <!-- Arrow SVG used in cards -->
   <div class="plp-grid">
 
     <!-- Row 1 -->
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Foam Cleanser</span>
-        <span class="plp-card-name">Skinrelief Pro</span>
-      </div>
+    <div class="plp-card" data-reveal>
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
-          <button class="plp-icon-circle" aria-label="Add to bag">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          </button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-01.jpg" alt="Skinrelief Pro Foam Cleanser">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-1.jpg" alt="Skinrelief Pro">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle" aria-label="View product">
-          <svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg>
-        </button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Skinrelief Pro Foam Cleanser</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(24)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£23.00</span>
+          <span class="plp-price-original">£32.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Rich SPF 30</span>
-        <span class="plp-card-name">Anti-Ageing Day Cream</span>
-      </div>
+    <!-- Card 2 -->
+    <div class="plp-card" data-reveal data-delay="100">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
-          <button class="plp-icon-circle" aria-label="Add to bag">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          </button>
+        <img src="assets/images/card-02.jpg" alt="Time Restore Intensive Day Cream">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-2.jpg" alt="Anti-Ageing Day Cream">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Time Restore Intensive Day Cream</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(63)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£52.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 3 -->
+    <div class="plp-card" data-reveal data-delay="200">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
-          <button class="plp-icon-circle" aria-label="Add to bag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-03.jpg" alt="Ultra Light UV-Age Day Shield SPF 50">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Proceuticals</span>
+        <span class="plp-card-name">Ultra Light UV-Age Day Shield SPF 50</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(41)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£38.00</span>
+          <span class="plp-price-original">£48.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 4 -->
+    <div class="plp-card" data-reveal data-delay="300">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle" aria-label="Wishlist">♡</button>
-          <button class="plp-icon-circle" aria-label="Add to bag"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-04.jpg" alt="3D Filler Day Cream">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/novage-prod-1.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Ecollagen</span>
+        <span class="plp-card-name">3D Filler Day Cream</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★☆</span>
+          <span class="plp-card-rating-count">(31)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£55.00</span>
+        </div>
       </div>
     </div>
 
     <!-- Row 2 -->
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 5 -->
+    <div class="plp-card" data-reveal>
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-05.jpg" alt="Advanced Collagen Booster Serum">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/novage-prod-2.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Advanced Collagen Booster Serum</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(57)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£48.00</span>
+          <span class="plp-price-original">£62.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Rich SPF 30</span>
-        <span class="plp-card-name">Anti-Ageing Day Cream</span>
-      </div>
+    <!-- Card 6 -->
+    <div class="plp-card" data-reveal data-delay="100">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-06.jpg" alt="Retinol Youth Renewal Serum">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/prod-collagen.jpg" alt="Anti-Ageing Day Cream">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£42</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Proceuticals</span>
+        <span class="plp-card-name">Retinol Youth Renewal Serum</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★☆</span>
+          <span class="plp-card-rating-count">(22)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£44.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Foam Cleanser</span>
-        <span class="plp-card-name">Skinrelief Pro</span>
-      </div>
+    <!-- Card 7 -->
+    <div class="plp-card" data-reveal data-delay="200">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-07.jpg" alt="Eye Perfector Concentrate">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-1.jpg" alt="Skinrelief Pro">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Eye Perfector Concentrate</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(38)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£28.00</span>
+          <span class="plp-price-original">£36.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 8 -->
+    <div class="plp-card" data-reveal data-delay="300">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-08.jpg" alt="Wrinkle Power Filler Serum">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-2.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Ecollagen</span>
+        <span class="plp-card-name">Wrinkle Power Filler Serum</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(19)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£48.00</span>
+        </div>
       </div>
     </div>
 
     <!-- Row 3 -->
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 9 -->
+    <div class="plp-card" data-reveal>
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-09.jpg" alt="Even Out Day Cream SPF 30">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Optimals</span>
+        <span class="plp-card-name">Even Out Day Cream SPF 30</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★☆</span>
+          <span class="plp-card-rating-count">(46)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£28.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 10 -->
+    <div class="plp-card" data-reveal data-delay="100">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-10.jpg" alt="Midnight Recovery Cream">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/novage-prod-1.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Midnight Recovery Cream</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(74)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£46.00</span>
+          <span class="plp-price-original">£58.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Foam Cleanser</span>
-        <span class="plp-card-name">Skinrelief Pro</span>
-      </div>
+    <!-- Card 11 -->
+    <div class="plp-card" data-reveal data-delay="200">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-11.jpg" alt="Vitamin C Brightening Serum">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/novage-prod-2.jpg" alt="Skinrelief Pro">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Proceuticals</span>
+        <span class="plp-card-name">Vitamin C Brightening Serum</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★☆</span>
+          <span class="plp-card-rating-count">(15)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£42.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Rich SPF 30</span>
-        <span class="plp-card-name">Anti-Ageing Day Cream</span>
-      </div>
+    <!-- Card 12 -->
+    <div class="plp-card" data-reveal data-delay="300">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-12.jpg" alt="Collagen Renewal Night Cream">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/prod-collagen.jpg" alt="Anti-Ageing Day Cream">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£42</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Ecollagen</span>
+        <span class="plp-card-name">Collagen Renewal Night Cream</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(29)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£39.00</span>
+          <span class="plp-price-original">£49.00</span>
+        </div>
       </div>
     </div>
 
     <!-- Row 4 -->
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 13 -->
+    <div class="plp-card" data-reveal>
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-13.jpg" alt="Micellar Cleansing Water">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-1.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Micellar Cleansing Water</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★☆☆</span>
+          <span class="plp-card-rating-count">(8)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£18.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Foam Cleanser</span>
-        <span class="plp-card-name">Skinrelief Pro</span>
-      </div>
+    <!-- Card 14 -->
+    <div class="plp-card" data-reveal data-delay="100">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-14.jpg" alt="AHA Resurfacing Toner">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-2.jpg" alt="Skinrelief Pro">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Proceuticals</span>
+        <span class="plp-card-name">AHA Resurfacing Toner</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(52)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£26.00</span>
+          <span class="plp-price-original">£34.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">UV-Age Day Shield + SPF 50</span>
-        <span class="plp-card-name">Proceuticals Ultra Light</span>
-      </div>
+    <!-- Card 15 -->
+    <div class="plp-card" data-reveal data-delay="200">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <img src="assets/images/card-15.jpg" alt="Hydra Radiance Overnight Mask">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/antioxi-3.jpg" alt="Proceuticals Ultra Light">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Optimals</span>
+        <span class="plp-card-name">Hydra Radiance Overnight Mask</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★☆</span>
+          <span class="plp-card-rating-count">(33)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£36.00</span>
+        </div>
       </div>
     </div>
 
-    <div class="plp-card">
-      <div class="plp-card-header">
-        <span class="plp-card-type">Rich SPF 30</span>
-        <span class="plp-card-name">Anti-Ageing Day Cream</span>
-      </div>
+    <!-- Card 16 -->
+    <div class="plp-card" data-reveal data-delay="300">
       <div class="plp-card-img-area">
-        <div class="plp-card-side">
-          <button class="plp-icon-circle">♡</button>
-          <button class="plp-icon-circle"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
+        <span class="plp-card-sale-tag">SALE</span>
+        <img src="assets/images/card-16.jpg" alt="Firming Body Serum">
+        <div class="plp-card-actions">
+          <button class="plp-card-wishlist" aria-label="Wishlist">♡</button>
+          <button class="plp-card-add-btn" aria-label="Add to basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
         </div>
-        <img src="assets/images/novage-prod-1.jpg" alt="Anti-Ageing Day Cream">
+        <span class="plp-view-text">BUY NOW</span>
       </div>
-      <div class="plp-card-footer">
-        <button class="plp-arrow-circle"><svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="#333"/></svg></button>
-        <span class="plp-badge">New Release</span>
-        <span class="plp-price">£23</span>
+      <div class="plp-card-info">
+        <span class="plp-card-brand">Novage+</span>
+        <span class="plp-card-name">Firming &amp; Lifting Body Serum</span>
+        <div class="plp-card-stars">
+          <span class="plp-card-stars-icons">★★★★★</span>
+          <span class="plp-card-rating-count">(17)</span>
+        </div>
+        <div class="plp-card-price-row">
+          <span class="plp-price-sale">£34.00</span>
+          <span class="plp-price-original">£44.00</span>
+        </div>
       </div>
     </div>
 
   </div><!-- /plp-grid -->
 
   <div class="plp-view-more">
-    <a href="#" class="btn-outline">View more</a>
+    <a href="#" class="btn-outline">VIEW MORE</a>
   </div>
 </div>
 
 
-<!-- ─── NOVAGE+ FEATURE PROMO ─────────────────────────────────────── -->
-<section class="plp-feature">
-  <!-- Left: copy -->
-  <div class="plp-feature-copy">
-    <p class="plp-feature-eyebrow">40% off all</p>
-    <h2 class="plp-feature-title">Novage+<br>day creams</h2>
-    <p class="plp-feature-desc">Apply, sit back, and relax. Let Novage+ products take care of your skin by protecting its health, hydration, vitality, and so much more. They're all powered by the latest technologies and highly effective ingredients. Now you can get the day creams and sets at special prices – only until 03.03!</p>
-    <div class="plp-feature-factors">
-      <div class="plp-feature-factors-label">KEY FACTORS</div>
-      <div class="plp-factor-pills">
-        <span class="plp-factor-pill">SPF 20</span>
-        <span class="plp-factor-pill">Vitamin C</span>
-        <span class="plp-factor-pill">AHA &amp; BHA</span>
-        <span class="plp-factor-pill">AHA &amp; BHA</span>
-        <span class="plp-factor-pill">Avocado Oil</span>
-        <span class="plp-factor-pill">Aloevera</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Centre: model photo -->
-  <div class="plp-feature-photo">
-    <img src="assets/images/novage-model.jpg" alt="Novage+ day creams model">
-  </div>
-
-  <!-- Right: product cards + nav -->
-  <div style="display:flex;flex-direction:column;justify-content:center;background:#F5F5F5;">
-    <div class="plp-feature-products">
-      <div class="plp-feat-card">
-        <div class="plp-feat-card-img">
-          <img src="assets/images/novage-prod-1.jpg" alt="Skinrelief Pro">
-        </div>
-        <div class="plp-feat-card-info">
-          <div class="plp-feat-card-title">Skinrelief Pro</div>
-          <div class="plp-feat-card-desc">Mild and gentle cleanser specially formulated for sensitive skin.</div>
-        </div>
-        <a href="#" class="plp-feat-card-link">↗</a>
-      </div>
-      <div class="plp-feat-card">
-        <div class="plp-feat-card-img">
-          <img src="assets/images/novage-prod-2.jpg" alt="Skinrelief Pro">
-        </div>
-        <div class="plp-feat-card-info">
-          <div class="plp-feat-card-title">Skinrelief Pro</div>
-          <div class="plp-feat-card-desc">Mild and gentle cleanser specially formulated for sensitive skin.</div>
-        </div>
-        <a href="#" class="plp-feat-card-link">↗</a>
-      </div>
-    </div>
-    <div class="plp-feature-nav">
-      <button class="plp-nav-btn">&#8249;</button>
-      <button class="plp-nav-btn">&#8250;</button>
-      <div class="plp-nav-dots">
-        <div class="plp-nav-dot"></div>
-        <div class="plp-nav-dot dim"></div>
-        <div class="plp-nav-dot dim"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <!-- ─── BRAND PARTNER CTA ─────────────────────────────────────────── -->
 <section class="plp-partner">
   <div class="plp-partner-copy">
-    <div class="plp-partner-avatars">
+    <div class="plp-partner-avatars" data-reveal>
       <span class="plp-partner-paren plp-partner-paren-l">(</span>
       <div class="plp-partner-avatars-wrap">
         <div class="plp-partner-avatar"><img src="assets/images/avatar-1.jpg" alt=""></div>
@@ -1185,24 +2263,21 @@
       </div>
       <span class="plp-partner-paren plp-partner-paren-r">)</span>
     </div>
-    <p class="plp-partner-eyebrow">Start selling start earning</p>
-    <h2 class="plp-partner-title">Become a brand<br>partner &amp; travel the<br>world</h2>
-    <p class="plp-partner-desc">As a Brand Partner, you can make money in your own time, from home or on the move. Eventually, you may even want to develop your beauty sideline into more of a business. And when that happens, we'll be there for you.</p>
-    <div class="plp-partner-actions">
-      <a href="#" class="btn-outline">Become a Brand Partner</a>
-      <a href="#" class="plp-partner-arrow">
-        <svg width="18" height="18" viewBox="0 0 40 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.2378 11.9901C20.4331 11.7951 20.7497 11.7949 20.9448 11.9901L28.0151 19.0613C28.5358 19.582 28.5356 20.4254 28.0151 20.9461L20.9448 28.0174C20.7496 28.2126 20.4331 28.2125 20.2378 28.0174C20.0428 27.8221 20.0426 27.5056 20.2378 27.3104L27.0425 20.5047H0.632324C0.356279 20.5047 0.132484 20.2807 0.132324 20.0047C0.132324 19.7286 0.356181 19.5047 0.632324 19.5047H27.0444L20.2378 12.6971C20.0425 12.5018 20.0425 12.1853 20.2378 11.9901Z" fill="currentColor"/></svg>
-      </a>
+    <p class="plp-partner-eyebrow" data-reveal data-delay="100">Start selling start earning</p>
+    <h2 class="plp-partner-title" data-reveal data-delay="200">Become a brand partner<br>&amp; travel the world</h2>
+    <p class="plp-partner-desc" data-reveal data-delay="300">As a Brand Partner, you can make money in your own time, from home or on the move. Eventually, you may even want to develop your beauty sideline into more of a business. And when that happens, we'll be there for you.</p>
+    <div class="plp-partner-actions" data-reveal data-delay="300">
+      <a href="#" class="btn-outline">BECOME A BRAND PARTNER</a>
     </div>
   </div>
-  <div class="plp-partner-photo">
+  <div class="plp-partner-photo" data-reveal data-delay="200">
     <img src="assets/images/hero-partners.jpg" alt="Become a Brand Partner">
   </div>
 </section>
 
 
 <!-- ─── SIGN UP TODAY ─────────────────────────────────────────────── -->
-<section class="plp-signup">
+<section class="plp-signup" data-reveal>
   <h2>Sign up today</h2>
   <p>Sign up today and be the first to get our best offers, latest news &amp; beauty selling tips.</p>
   <a href="#" class="plp-signup-btn">Subscribe to our partner newsletter</a>
@@ -1211,74 +2286,112 @@
 
 <!-- ─── FOOTER ────────────────────────────────────────────────────── -->
 <footer class="site-footer">
-  <div class="newsletter">
-    <div>
+
+  <!-- Become a member / partner panels -->
+  <div class="footer-join">
+    <a href="#" class="footer-join-panel" data-reveal data-style="fade-slow">
+      <img class="footer-join-arrow" src="assets/arrow-circle.svg" alt="">
+      <h3>Become a member</h3>
+      <p>At Oriflame, we call our registered customers VIPs — because that's exactly how we treat you.</p>
+    </a>
+    <a href="#" class="footer-join-panel" data-reveal data-style="fade-slow" data-delay="600">
+      <img class="footer-join-arrow" src="assets/arrow-circle.svg" alt="">
+      <h3>Become a partner</h3>
+      <p>As a Brand Partner, you can make money in your own time, from home or on the move.</p>
+    </a>
+  </div>
+
+  <!-- Dark footer body -->
+  <div data-reveal data-delay="600">
+  <div style="background:#1a1a1a; display:grid; grid-template-columns:400px 1fr; align-items:start;">
+    <div class="newsletter-v" data-reveal data-style="fade" data-delay="800">
       <h3>Join our newsletter!</h3>
       <p>Sign up today and be the first to get our best offers, latest news &amp; beauty tips.</p>
+      <form class="newsletter-v-form" onsubmit="return false;">
+        <input type="email" placeholder="Your e-mail">
+        <button type="submit">SUBSCRIBE</button>
+      </form>
     </div>
-    <form class="newsletter-form" onsubmit="return false;">
-      <input type="email" placeholder="Your e-mail">
-      <button type="submit">Subscribe</button>
-    </form>
-  </div>
-  <div class="footer-cols">
-    <div class="footer-col">
-      <h4>Support / Help</h4>
-      <ul>
-        <li><a href="#">Support Centre</a></li>
-        <li><a href="#">Track your order</a></li>
-        <li><a href="#">Claims &amp; returns</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Corporate Info</h4>
-      <ul>
-        <li><a href="#">Work With Us</a></li>
-        <li><a href="#">Reach Your Happy Place</a></li>
-        <li><a href="#">Sustainability</a></li>
-        <li><a href="#">Investor Relations</a></li>
-        <li><a href="#">Oriflame.com</a></li>
-        <li><a href="#">EU Declarations of Conformity</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Discover</h4>
-      <ul>
-        <li><a href="#">Join us as a Brand Partner</a></li>
-        <li><a href="#">Join us as a VIP Customer</a></li>
-        <li><a href="#">eCatalogue</a></li>
-        <li><a href="#">Explore Our Apps</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Explore Our Apps</h4>
-      <div class="app-badges">
-        <a href="#" class="app-badge">
-          <span class="icon">&#63743;</span>
-          <div><span class="label">Download on the</span><span class="store">App Store</span></div>
-        </a>
-        <a href="#" class="app-badge">
-          <span class="icon">&#9654;</span>
-          <div><span class="label">Get it on</span><span class="store">Google Play</span></div>
-        </a>
+    <div class="footer-cols" style="padding:52px 64px; grid-template-columns:1fr 1fr 1fr auto;" data-reveal data-style="fade" data-delay="1000">
+      <div class="footer-col">
+        <h4>Support / Help</h4>
+        <ul>
+          <li><a href="#">Support Centre</a></li>
+          <li><a href="#">Track your order</a></li>
+          <li><a href="#">Claims &amp; returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Corporate Info</h4>
+        <ul>
+          <li><a href="#">Work With Us</a></li>
+          <li><a href="#">Reach Your Happy Place</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Oriflame.com</a></li>
+          <li><a href="#">EU Declarations of Conformity</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <ul>
+          <li><a href="#">Join us as a Brand Partner</a></li>
+          <li><a href="#">Join us as a VIP Customer</a></li>
+          <li><a href="#">eCatalogue</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore Our Apps</h4>
+        <div class="app-badges">
+          <a href="#" class="app-badge">
+            <span class="icon">&#63743;</span>
+            <div><span class="label">Download on the</span><span class="store">App Store</span></div>
+          </a>
+          <a href="#" class="app-badge">
+            <span class="icon">&#9654;</span>
+            <div><span class="label">Get it on</span><span class="store">Google Play</span></div>
+          </a>
+        </div>
+        <a href="#" style="font-size:11px;color:#777;letter-spacing:0.5px;margin-top:14px;display:block;">EXPLORE OUR APPS &rsaquo;</a>
       </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div>
-      <div class="footer-logo">ORIFLAME</div>
-      <div class="footer-copy">© Oriflame is a beauty company selling direct. Copyright © 2026 Oriflame Cosmetics AG. All rights reserved.</div>
+
+  <!-- Legal bar -->
+  <div class="footer-bottom-2" style="background:#1a1a1a; align-items:flex-start;" data-reveal data-style="fade" data-delay="1000">
+    <div class="footer-payments-copy" style="display:flex; align-items:flex-start; gap:24px;">
+      <div class="footer-payments">
+        <img src="assets/images/visa.png" alt="Visa" style="height:24px;border-radius:4px;">
+        <img src="assets/images/mastercard.png" alt="Mastercard" style="height:24px;border-radius:4px;">
+        <img src="assets/images/paypal.png" alt="PayPal" style="height:24px;border-radius:4px;">
+        <img src="assets/images/gpay.png" alt="Google Pay" style="height:24px;border-radius:4px;">
+      </div>
+      <div class="footer-copy" style="color:#555;">Oriflame is a leading beauty company selling direct. Copyright &copy; 2026 Oriflame Cosmetics Global SA. All rights reserved.</div>
     </div>
-    <div class="social-row">
-      <a href="#" class="social-link" aria-label="Facebook">f</a>
-      <a href="#" class="social-link" aria-label="Instagram">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      </a>
-      <a href="#" class="social-link" aria-label="YouTube">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.7 12 2.7 12 2.7s-4.3 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.2c0 2.2.3 4.5.3 4.5s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.3 12 22.3 12 22.3s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.2C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/></svg>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:14px;">
+      <div class="social-row">
+        <a href="#" class="social-link" aria-label="Facebook">f</a>
+        <a href="#" class="social-link" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.7 12 2.7 12 2.7s-4.3 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.2c0 2.2.3 4.5.3 4.5s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.5 22.3 12 22.3 12 22.3s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.2C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+      <a href="#" class="footer-change-country" style="color:var(--white);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        CHANGE COUNTRY
       </a>
     </div>
   </div>
+
+  <!-- Watermark -->
+  <div class="footer-watermark" data-reveal data-style="fade" data-delay="1200">
+    <img src="assets/oriflame_new_logo.svg" alt="">
+  </div>
+
+  </div><!-- /dark footer wrapper -->
+
 </footer>
 
 
@@ -1329,34 +2442,267 @@
 
 </aside>
 
+
+<!-- ─── RECOMMENDATIONS PANEL ───────────────────────────────────────── -->
+<div id="recommendOverlay" class="panel-overlay"></div>
+<aside id="recommendPanel" class="side-panel" aria-label="Sort recommendations">
+  <div class="side-panel-header">
+    <span class="side-panel-title">Sort By</span>
+    <button class="side-panel-close" id="recommendClose" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="side-panel-body">
+    <div class="sort-options">
+      <div class="sort-option selected">Best Match</div>
+      <div class="sort-option">Most Popular</div>
+      <div class="sort-option">Highest Rated</div>
+      <div class="sort-option">Newest Arrivals</div>
+      <div class="sort-option">Price: Low to High</div>
+      <div class="sort-option">Price: High to Low</div>
+    </div>
+  </div>
+</aside>
+
+
+<!-- ─── FILTER PANEL ────────────────────────────────────────────────── -->
+<div id="filterOverlay" class="panel-overlay"></div>
+<aside id="filterPanel" class="side-panel" aria-label="Filter products">
+  <div class="side-panel-header">
+    <span class="side-panel-title">Filter</span>
+    <button class="side-panel-close" id="filterClose" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="side-panel-body">
+
+    <!-- Price Range -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        Price Range
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="price-slider-labels">
+          <span id="priceMin">£0</span>
+          <span id="priceMax">£200</span>
+        </div>
+        <div class="price-slider-track" id="priceTrack">
+          <div class="price-slider-fill" id="priceFill"></div>
+          <input type="range" id="rangeMin" min="0" max="200" value="0" step="1">
+          <input type="range" id="rangeMax" min="0" max="200" value="200" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- For who -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        For Who
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" checked> Women</label>
+          <label class="filter-option"><input type="checkbox"> Men</label>
+          <label class="filter-option"><input type="checkbox"> Unisex</label>
+          <label class="filter-option"><input type="checkbox"> Teenage</label>
+          <label class="filter-option"><input type="checkbox"> Kids</label>
+          <label class="filter-option"><input type="checkbox"> Seniors</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Concern -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        Concern
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" checked> Anti-Ageing</label>
+          <label class="filter-option"><input type="checkbox"> Firming &amp; Lifting</label>
+          <label class="filter-option"><input type="checkbox"> Hydration</label>
+          <label class="filter-option"><input type="checkbox"> Brightening</label>
+          <label class="filter-option"><input type="checkbox"> SPF Protection</label>
+          <label class="filter-option"><input type="checkbox"> Sensitive Skin</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skin Type -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        Skin Type
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox"> Normal</label>
+          <label class="filter-option"><input type="checkbox" checked> Dry</label>
+          <label class="filter-option"><input type="checkbox"> Oily</label>
+          <label class="filter-option"><input type="checkbox"> Combination</label>
+          <label class="filter-option"><input type="checkbox"> Sensitive</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        Brand
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" checked> Novage+</label>
+          <label class="filter-option"><input type="checkbox" checked> Proceuticals</label>
+          <label class="filter-option"><input type="checkbox"> Ecollagen</label>
+          <label class="filter-option"><input type="checkbox"> Pure Skin</label>
+          <label class="filter-option"><input type="checkbox"> Optimals</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Type -->
+    <div class="side-panel-section">
+      <button class="filter-accordion-btn" data-accordion>
+        Product Type
+        <svg class="fchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 6 8 10 12 6"/></svg>
+      </button>
+      <div class="filter-accordion-content">
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox"> Moisturiser</label>
+          <label class="filter-option"><input type="checkbox"> Serum</label>
+          <label class="filter-option"><input type="checkbox"> Cleanser</label>
+          <label class="filter-option"><input type="checkbox"> Eye Cream</label>
+          <label class="filter-option"><input type="checkbox"> Toner</label>
+          <label class="filter-option"><input type="checkbox"> SPF</label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="side-panel-footer">
+    <button class="side-panel-btn-apply" id="filterApply">Apply filters <span id="filterApplyCount"></span></button>
+    <button class="side-panel-btn-clear" id="filterClear">Clear all</button>
+  </div>
+</aside>
+
+
 <script>
   // ── Mega menu ──────────────────────────────────────────────────
-  const megaMenu = document.getElementById('megaMenu');
-  const catLinks = document.querySelectorAll('#catNav a');
+  const megaMenu    = document.getElementById('megaMenu');
+  const megaOverlay = document.getElementById('megaOverlay');
+  const shopLink    = document.getElementById('shopNavLink');
   let closeTimer;
 
-  catLinks.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      clearTimeout(closeTimer);
-      catLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      if (link.dataset.menu === 'skincare') {
-        megaMenu.classList.add('open');
-      } else {
-        megaMenu.classList.remove('open');
-      }
-    });
-    link.addEventListener('mouseleave', () => {
+  function openMenu() {
+    clearTimeout(closeTimer);
+    const headerBottom = document.querySelector('header').getBoundingClientRect().bottom;
+    document.documentElement.style.setProperty('--header-bottom', headerBottom + 'px');
+    megaMenu.classList.add('open');
+    megaOverlay.classList.add('active');
+  }
+  function closeMenu() {
+    megaMenu.classList.remove('open');
+    if (!siteHeader.classList.contains('search-open')) {
+      megaOverlay.classList.remove('active');
+    }
+  }
+
+  if (shopLink) {
+    shopLink.addEventListener('mouseenter', openMenu);
+    shopLink.addEventListener('mouseleave', () => {
       closeTimer = setTimeout(() => {
-        if (!megaMenu.matches(':hover')) megaMenu.classList.remove('open');
+        if (!megaMenu.matches(':hover')) closeMenu();
       }, 120);
     });
-  });
+  }
 
   megaMenu.addEventListener('mouseenter', () => clearTimeout(closeTimer));
   megaMenu.addEventListener('mouseleave', () => {
-    closeTimer = setTimeout(() => megaMenu.classList.remove('open'), 120);
+    closeTimer = setTimeout(closeMenu, 120);
   });
+  megaOverlay.addEventListener('mouseenter', () => {
+    closeTimer = setTimeout(closeMenu, 120);
+  });
+
+  // Category tab switching (hover)
+  document.querySelectorAll('.mega-cat-link[data-panel]').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      document.querySelectorAll('.mega-cat-link').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.mega-panel').forEach(p => p.classList.remove('active'));
+      link.classList.add('active');
+      const panel = document.getElementById('panel-' + link.dataset.panel);
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  // ── Search Takeover ────────────────────────────────────────────
+  const searchBtn      = document.getElementById('searchBtn');
+  const searchTakeover = document.getElementById('searchTakeover');
+  const searchClose    = document.getElementById('searchClose');
+  const searchInput    = document.getElementById('searchInput');
+  const siteHeader     = document.getElementById('site-header');
+
+  function openSearch() {
+    closeMenu();
+    const headerBottom = document.querySelector('header').getBoundingClientRect().bottom;
+    document.documentElement.style.setProperty('--header-bottom', headerBottom + 'px');
+    siteHeader.classList.add('search-open');
+    searchTakeover.classList.add('open');
+    megaOverlay.classList.add('active');
+    searchInput.focus();
+  }
+
+  function closeSearch() {
+    siteHeader.classList.remove('search-open');
+    searchTakeover.classList.remove('open');
+    megaOverlay.classList.remove('active');
+    searchInput.value = '';
+    if (searchResultsPanel) searchResultsPanel.classList.remove('open');
+  }
+
+  searchBtn.addEventListener('click', openSearch);
+  searchClose.addEventListener('click', closeSearch);
+  megaOverlay.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSearch(); closeMenu(); } });
+
+  // ── Search Results Panel ────────────────────────────────────────
+  const searchResultsPanel = document.getElementById('searchResultsPanel');
+  searchInput.addEventListener('input', () => {
+    if (searchResultsPanel) {
+      searchResultsPanel.classList.toggle('open', searchInput.value.trim().length > 0);
+    }
+  });
+  document.getElementById('srpClear').addEventListener('click', () => {
+    document.querySelectorAll('.srp-recent li').forEach(li => li.style.display = 'none');
+  });
+
+  // ── Announcement Bar Rotator ────────────────────────────────────
+  const annMsgs    = [...document.querySelectorAll('.ann-bar-msg')];
+  const ANN_DELAY  = 4500;
+  let   annCurrent = 0;
+  let   annTimer;
+
+  function annShow(nextIdx) {
+    annMsgs[annCurrent].classList.remove('active');
+    annCurrent = (nextIdx + annMsgs.length) % annMsgs.length;
+    annMsgs[annCurrent].classList.add('active');
+  }
+
+  function annReset() {
+    clearInterval(annTimer);
+    annTimer = setInterval(() => annShow(annCurrent + 1), ANN_DELAY);
+  }
+
+  document.getElementById('annNext').addEventListener('click', () => { annShow(annCurrent + 1); annReset(); });
+  document.getElementById('annPrev').addEventListener('click', () => { annShow(annCurrent - 1); annReset(); });
+
+  annMsgs[0].classList.add('active');
+  annTimer = setInterval(() => annShow(annCurrent + 1), ANN_DELAY);
 
   // ── Filter chips ───────────────────────────────────────────────
   document.querySelectorAll('.plp-filter-chip').forEach(chip => {
@@ -1443,9 +2789,9 @@
   basketOverlay.addEventListener('click', closeBasket);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBasket(); });
 
-  // "Add to bag" on PLP cards also opens basket
-  document.querySelectorAll('[aria-label="Add to bag"]').forEach(btn => {
-    btn.addEventListener('click', () => openBasket());
+  // "Add to basket" on PLP cards opens basket
+  document.querySelectorAll('.plp-card-add-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); openBasket(); });
   });
 
   // Initial render
@@ -1472,23 +2818,209 @@
     // Style card as clickable
     card.style.cursor = 'pointer';
 
-    // Make image area + header navigate to PDP
-    card.querySelector('.plp-card-header').addEventListener('click', () => {
+    // Make image area + info navigate to PDP
+    card.querySelector('.plp-card-img-area').addEventListener('click', (e) => {
+      if (!e.target.closest('.plp-card-actions')) location.href = href;
+    });
+    card.querySelector('.plp-card-info').addEventListener('click', () => {
       location.href = href;
     });
-    card.querySelector('.plp-card-img-area').addEventListener('click', (e) => {
-      // Only navigate if not clicking wishlist/add-to-bag buttons
-      if (!e.target.closest('.plp-icon-circle')) location.href = href;
-    });
 
-    // Update arrow circle button to navigate to PDP
-    const arrowBtn = card.querySelector('.plp-arrow-circle');
-    if (arrowBtn) {
-      arrowBtn.addEventListener('click', (e) => {
+    // Wishlist toggle
+    const wishBtn = card.querySelector('.plp-card-wishlist');
+    if (wishBtn) {
+      wishBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        location.href = href;
+        const isActive = wishBtn.classList.toggle('active');
+        wishBtn.textContent = isActive ? '♥' : '♡';
       });
     }
+  });
+
+  // ── Recommendations panel ───────────────────────────────────────
+  const recommendBtn     = document.getElementById('recommendBtn');
+  const recommendPanel   = document.getElementById('recommendPanel');
+  const recommendOverlay = document.getElementById('recommendOverlay');
+  const recommendClose   = document.getElementById('recommendClose');
+
+  function openRecommend() {
+    recommendPanel.classList.add('open');
+    recommendOverlay.classList.add('open');
+    recommendBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeRecommend() {
+    recommendPanel.classList.remove('open');
+    recommendOverlay.classList.remove('open');
+    recommendBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  recommendBtn.addEventListener('click', openRecommend);
+  recommendClose.addEventListener('click', closeRecommend);
+  recommendOverlay.addEventListener('click', closeRecommend);
+
+  // Sort option selection
+  document.querySelectorAll('#recommendPanel .sort-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('#recommendPanel .sort-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      recommendBtn.querySelector('span') ? null : null;
+      setTimeout(closeRecommend, 200);
+    });
+  });
+
+  // ── Filter panel ────────────────────────────────────────────────
+  const filterBtn     = document.getElementById('filterBtn');
+  const filterPanel   = document.getElementById('filterPanel');
+  const filterOverlay = document.getElementById('filterOverlay');
+  const filterClose   = document.getElementById('filterClose');
+  const filterClear   = document.getElementById('filterClear');
+  const filterApply   = document.getElementById('filterApply');
+
+  function openFilter() {
+    filterPanel.classList.add('open');
+    filterOverlay.classList.add('open');
+    filterBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFilter() {
+    filterPanel.classList.remove('open');
+    filterOverlay.classList.remove('open');
+    filterBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  const filterApplyCount = document.getElementById('filterApplyCount');
+
+  function updateFilterCount() {
+    const n = filterPanel.querySelectorAll('input[type="checkbox"]:checked').length;
+    filterApplyCount.textContent = n > 0 ? `(${n})` : '';
+  }
+
+  filterPanel.addEventListener('change', updateFilterCount);
+  updateFilterCount();
+
+  filterBtn.addEventListener('click', openFilter);
+  filterClose.addEventListener('click', closeFilter);
+  filterOverlay.addEventListener('click', closeFilter);
+  filterApply.addEventListener('click', closeFilter);
+  filterClear.addEventListener('click', () => {
+    filterPanel.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    const rMin = document.getElementById('rangeMin');
+    const rMax = document.getElementById('rangeMax');
+    if (rMin && rMax) { rMin.value = 0; rMax.value = 200; updatePriceSlider(); }
+    updateFilterCount();
+  });
+
+  // ── Accordion toggles ────────────────────────────────────────────
+  filterPanel.querySelectorAll('[data-accordion]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      const collapsed = content.classList.toggle('collapsed');
+      btn.classList.toggle('collapsed', collapsed);
+    });
+  });
+
+  // ── Price range slider ───────────────────────────────────────────
+  const rangeMin  = document.getElementById('rangeMin');
+  const rangeMax  = document.getElementById('rangeMax');
+  const priceFill = document.getElementById('priceFill');
+  const priceMinLbl = document.getElementById('priceMin');
+  const priceMaxLbl = document.getElementById('priceMax');
+
+  function updatePriceSlider() {
+    const min = parseInt(rangeMin.value);
+    const max = parseInt(rangeMax.value);
+    const total = parseInt(rangeMin.max);
+    const left  = (min / total) * 100;
+    const right = (max / total) * 100;
+    priceFill.style.left  = left + '%';
+    priceFill.style.width = (right - left) + '%';
+    priceMinLbl.textContent = '£' + min;
+    priceMaxLbl.textContent = '£' + max;
+  }
+
+  rangeMin.addEventListener('input', () => {
+    if (parseInt(rangeMin.value) > parseInt(rangeMax.value) - 5) rangeMin.value = parseInt(rangeMax.value) - 5;
+    updatePriceSlider();
+  });
+  rangeMax.addEventListener('input', () => {
+    if (parseInt(rangeMax.value) < parseInt(rangeMin.value) + 5) rangeMax.value = parseInt(rangeMin.value) + 5;
+    updatePriceSlider();
+  });
+
+  updatePriceSlider();
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeRecommend(); closeFilter(); }
+  });
+
+</script>
+
+<script>
+  /* ── SCROLL REVEAL ──────────────────────────────────────────────── */
+  (function () {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      observer.observe(el);
+    });
+  }());
+</script>
+
+<script>
+  /* ── MOBILE NAV DRAWER ──────────────────────────────────────────── */
+  (function () {
+    const btn     = document.getElementById('mobileMenuBtn');
+    const drawer  = document.getElementById('mobNavDrawer');
+    const overlay = document.getElementById('mobNavOverlay');
+    const close   = document.getElementById('mobNavClose');
+    if (!btn) return;
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openDrawer);
+    close.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Search trigger inside drawer — close drawer then open search takeover
+    const drawerSearch = document.getElementById('mobNavSearchBtn');
+    if (drawerSearch) {
+      drawerSearch.addEventListener('click', function () {
+        closeDrawer();
+        setTimeout(function () {
+          const searchBtn = document.getElementById('searchBtn');
+          if (searchBtn) searchBtn.click();
+        }, 300);
+      });
+    }
+  }());
+
+  // ── Mobile nav accordions ──────────────────────────────────────
+  document.querySelectorAll('.mob-nav-accordion').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const body = document.getElementById(btn.dataset.target);
+      const isOpen = btn.classList.contains('open');
+      btn.classList.toggle('open', !isOpen);
+      body.classList.toggle('open', !isOpen);
+    });
   });
 </script>
 </body>
