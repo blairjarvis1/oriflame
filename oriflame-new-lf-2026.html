@@ -528,6 +528,154 @@
       margin-top: 6vh;
       margin-bottom: -30vh;
     }
+
+    .mobile-card-label-1 { display: none; }
+
+    /* ───────────────────────────────
+       MOBILE
+    ─────────────────────────────── */
+    @media (max-width: 768px) {
+
+      body {
+        overflow-y: auto;
+        height: auto;
+      }
+
+      .page {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+        padding: 32px 20px 40px;
+        gap: 0;
+      }
+
+      /* Header */
+      .logo-svg { height: 18px; }
+      .tagline  { font-size: 18px; }
+
+      .main-content {
+        justify-content: flex-start;
+        padding-top: 24px;
+      }
+
+      /* Cards — stack vertically */
+      .cards {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .card {
+        height: 46vw;
+        min-height: 160px;
+        padding: 20px;
+      }
+
+      .card-title {
+        font-size: 22px;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+      }
+
+      .card-icon-btn {
+        width: 36px;
+        height: 36px;
+        bottom: 20px;
+        right: 20px;
+      }
+
+      /* No hover on mobile */
+      .card-r1.is-hovered { background-color: #A8D5BA; }
+      .card-r2.is-hovered { background-color: #EDE3E1; }
+      .card.is-hovered .card-title { opacity: 1; }
+      .card.is-hovered .card-hover-content { opacity: 0; }
+
+      .card-desc   { font-size: 13px; }
+      .card-bullets { font-size: 12px; }
+
+      /* Labels */
+      .card-labels {
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .card-label { font-size: 13px; }
+      .card-labels .card-label:first-child { display: none; }
+
+      .mobile-card-label-1 {
+        display: block;
+        font-size: 13px;
+        font-weight: 400;
+        margin-top: 8px;
+        margin-bottom: 24px;
+      }
+      .mobile-card-label-1 strong { font-weight: 700; }
+
+      /* Footer */
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding-top: 24px;
+      }
+
+      .creative-btn {
+        font-size: 12px;
+        gap: 10px;
+      }
+
+      .eye-btn {
+        width: 32px;
+        height: 32px;
+      }
+
+      .figma-link-group { gap: 10px; }
+      .figma-link { font-size: 12px; }
+      .figma-icon { width: 24px; }
+
+      /* Modal */
+      .modal-header {
+        padding: 16px 20px;
+      }
+
+      .modal-header .logo-svg { height: 14px; }
+
+      .modal-center-title {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+      }
+
+      .modal-close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+
+      .modal-body {
+        padding: 32px 20px 60px;
+      }
+
+      .modal-intro        { font-size: 22px; margin-bottom: 40px; }
+      .m-section-title    { font-size: 20px; }
+      .m-section-intro    { font-size: 15px; }
+      .m-sub-title        { font-size: 13px; }
+      .m-sub-body         { font-size: 14px; }
+      .m-h3               { font-size: 16px; }
+      .colour-label       { font-size: 13px; }
+      .colour-caption     { font-size: 12px; }
+
+      /* Colour bars */
+      .colour-bars  { height: 260px; }
+      .cb           { font-size: 22pt; padding: 10px; }
+      .cb-brand1    { height: 48px; }
+      .cb-brand2    { height: 44px; }
+
+      /* Image pairs — stay side by side but allow smaller icons */
+      .img-badge-above svg { width: 28px; height: 28px; }
+
+      /* Colour strip */
+      .colour-img-strip { gap: 2px; }
+    }
   </style>
 </head>
 <body>
@@ -564,6 +712,7 @@
           </ul>
         </div>
       </a>
+      <div class="mobile-card-label-1"><strong>What</strong> we can do now.</div>
 
       <!-- Card 2: Flourish X -->
       <a href="https://www.figma.com/design/DUx6KIprUA1ADdhT0wramk/Oriflame---New-L-F---2026?node-id=7-18812&t=W6eHufXEqSBn6L9I-11" target="_blank" class="card card-r2">
