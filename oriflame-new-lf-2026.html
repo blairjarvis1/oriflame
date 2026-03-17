@@ -50,7 +50,7 @@
       z-index: 1;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: flex-end;
       flex-shrink: 0;
     }
 
@@ -259,6 +259,7 @@
       text-decoration: underline;
       text-decoration-color: rgba(17, 17, 17, 0.5);
       text-underline-offset: 4px;
+      transform: translateY(8px);
     }
 
     .creative-btn:hover { text-decoration-color: #111; }
@@ -529,6 +530,13 @@
       margin-bottom: -30vh;
     }
 
+    .header-tagline {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.19vw;
+    }
+
     .mobile-card-label-1 { display: none; }
 
     /* ───────────────────────────────
@@ -689,7 +697,16 @@
 
   <header>
     <img src="assets/oriflame-logo.svg" class="logo-svg" alt="ORIFLAME">
-    <div class="tagline">New L+F /&nbsp;&nbsp;&nbsp;03/26</div>
+    <div class="tagline header-tagline">New L+F /&nbsp;&nbsp;&nbsp;03/26</div>
+    <button class="creative-btn" onclick="openModal()">
+      CREATIVE DIRECTION
+      <span class="eye-btn">
+        <svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="#111" stroke-width="1.5"/>
+        </svg>
+      </span>
+    </button>
   </header>
 
   <div class="main-content">
@@ -742,16 +759,6 @@
   </div>
 
   <footer>
-    <button class="creative-btn" onclick="openModal()">
-      CREATIVE DIRECTION
-      <span class="eye-btn">
-        <svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="12" cy="12" r="3" stroke="#111" stroke-width="1.5"/>
-        </svg>
-      </span>
-    </button>
-
     <div class="figma-link-group">
 
 
