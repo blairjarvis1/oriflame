@@ -558,8 +558,28 @@
       }
 
       /* Header */
+      header {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px 0;
+      }
+
       .logo-svg { height: 18px; }
-      .tagline  { font-size: 18px; }
+
+      .header-tagline {
+        position: static;
+        transform: none;
+        font-size: 18px;
+        font-weight: 300;
+        margin-left: auto;
+      }
+
+      .creative-btn {
+        width: 100%;
+        transform: none;
+        font-size: 12px;
+        gap: 10px;
+      }
 
       .main-content {
         justify-content: flex-start;
@@ -625,11 +645,6 @@
         align-items: flex-start;
         gap: 16px;
         padding-top: 24px;
-      }
-
-      .creative-btn {
-        font-size: 12px;
-        gap: 10px;
       }
 
       .eye-btn {
