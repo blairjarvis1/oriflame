@@ -816,7 +816,7 @@
     }
     .brands-row {
       display: flex; align-items: center;
-      gap: 16px;
+      gap: 0;
       width: max-content;
       animation: brandsTicker 30s linear infinite;
     }
@@ -828,6 +828,7 @@
     .brand-logo-wrap {
       flex-shrink: 0;
       width: 139px;
+      margin-right: 16px;
       display: flex; align-items: center; justify-content: center;
     }
     .brand-logo-img {
@@ -3362,6 +3363,31 @@
     document.querySelectorAll('[data-reveal]').forEach(function (el) {
       observer.observe(el);
     });
+  }());
+
+  /* ── Brands ticker — exact pixel loop ───────────────────────────── */
+  (function () {
+    function initTicker() {
+      var row = document.querySelector('.brands-row');
+      if (!row) return;
+      var items = row.querySelectorAll('.brand-logo-wrap');
+      var setSize = Math.floor(items.length / 2);
+      var setWidth = 0;
+      for (var i = 0; i < setSize; i++) {
+        var s = window.getComputedStyle(items[i]);
+        setWidth += items[i].offsetWidth + parseFloat(s.marginRight || 0);
+      }
+      var styleEl = document.getElementById('brands-ticker-kf') || document.createElement('style');
+      styleEl.id = 'brands-ticker-kf';
+      styleEl.textContent = '@keyframes brandsTicker{0%{transform:translateX(0)}100%{transform:translateX(-' + setWidth + 'px)}}';
+      document.head.appendChild(styleEl);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTicker);
+    } else {
+      initTicker();
+    }
+    window.addEventListener('resize', initTicker);
   }());
 </script>
 
