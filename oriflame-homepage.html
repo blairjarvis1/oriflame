@@ -3365,23 +3365,64 @@
     });
   }());
 
-  /* ── Brands ticker — exact pixel loop ───────────────────────────── */
+  /* ── Brands ticker — RAF seamless loop ──────────────────────────── */
   (function () {
+    var rafId = null;
+    var pos = 0;
+    var setWidth = 0;
+    var paused = false;
+    var speed = 0.5; // px per frame
+    var SET_SIZE = 8; // original logos per set in HTML
+
     function initTicker() {
       var row = document.querySelector('.brands-row');
       if (!row) return;
-      var items = row.querySelectorAll('.brand-logo-wrap');
-      var setSize = Math.floor(items.length / 2);
-      var setWidth = 0;
-      for (var i = 0; i < setSize; i++) {
-        var s = window.getComputedStyle(items[i]);
-        setWidth += items[i].offsetWidth + parseFloat(s.marginRight || 0);
+
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+      row.style.animation = 'none';
+      row.style.willChange = 'transform';
+      row.style.transform = 'translateX(0)';
+      pos = 0;
+
+      // Remove any previously JS-cloned items
+      var prev = row.querySelectorAll('[data-js-clone]');
+      for (var p = 0; p < prev.length; p++) prev[p].parentNode.removeChild(prev[p]);
+
+      // Measure one set width from the first SET_SIZE original items
+      var origItems = row.querySelectorAll('.brand-logo-wrap');
+      setWidth = 0;
+      for (var i = 0; i < SET_SIZE; i++) {
+        var s = window.getComputedStyle(origItems[i]);
+        setWidth += origItems[i].getBoundingClientRect().width + parseFloat(s.marginRight || 0);
       }
-      var styleEl = document.getElementById('brands-ticker-kf') || document.createElement('style');
-      styleEl.id = 'brands-ticker-kf';
-      styleEl.textContent = '@keyframes brandsTicker{0%{transform:translateX(0)}100%{transform:translateX(-' + setWidth + 'px)}}';
-      document.head.appendChild(styleEl);
+
+      // Clone extra sets until row width covers: setWidth + containerWidth (with a full set buffer)
+      var containerW = row.parentElement.offsetWidth;
+      var minRowWidth = setWidth + containerW + setWidth; // one reset worth + full viewport + buffer
+      while (row.getBoundingClientRect().width < minRowWidth) {
+        var current = row.querySelectorAll('.brand-logo-wrap:not([data-js-clone])');
+        for (var j = 0; j < SET_SIZE; j++) {
+          var clone = current[j].cloneNode(true);
+          clone.setAttribute('data-js-clone', '1');
+          row.appendChild(clone);
+        }
+      }
+
+      row.onmouseenter = function () { paused = true; };
+      row.onmouseleave = function () { paused = false; };
+
+      function tick() {
+        if (!paused) {
+          pos += speed;
+          if (pos >= setWidth) pos -= setWidth;
+          row.style.transform = 'translateX(-' + pos + 'px)';
+        }
+        rafId = requestAnimationFrame(tick);
+      }
+      rafId = requestAnimationFrame(tick);
     }
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initTicker);
     } else {
