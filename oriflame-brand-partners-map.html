@@ -20,17 +20,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --font: 'Oriflame Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --text:    #F0E0EC;   /* near-white with rose tint */
-      --mid:     #C98FB8;   /* mid mauve */
-      --faint:   #A060A0;   /* muted purple */
-      --white:   #2E0835;   /* base dark colour – cards & surfaces */
-      --bg:      #1A0020;   /* darkest shade – body background */
-      --border:  #4A1560;   /* subtle purple border */
-      --light:   #250030;   /* mid shade – alternate surfaces */
-      --chip-bg: #250030;   /* chip fill */
-      --chip-bdr:#3A1055;   /* chip outline */
-      --mint:    #D69FC3;   /* rose/pink accent */
-      --hover:   #120018;   /* stage col hover */
+      --text:    #F2E8EE;   /* near-white, rose tint */
+      --mid:     #C08898;   /* muted rose */
+      --faint:   #906070;   /* dim rose */
+      --white:   #261E22;   /* dark charcoal – rose tint – cards & surfaces */
+      --bg:      #181214;   /* darkest charcoal – body background */
+      --border:  #3E2E36;   /* charcoal border, rose tint */
+      --light:   #201A1E;   /* mid charcoal – rose tint – alternate surfaces */
+      --chip-bg: #201A1E;   /* chip fill */
+      --chip-bdr:#30242C;   /* chip outline */
+      --mint:    #D69FC3;   /* avatar pink */
+      --hover:   #130E10;   /* stage col hover */
       --mint-rgb: 214, 159, 195; /* mint as RGB channels for rgba() */
     }
 
@@ -598,6 +598,108 @@
     .m-kpi-lbl { font-size: 13px; color: #fff; line-height: 1.4; margin-bottom: 8px; }
     .m-kpi-note { font-size: 12px; color: var(--mid); line-height: 1.4; margin-top: 4px; }
 
+    /* ─── KPI GROUPS (stacked grouped stat cards) ──────── */
+    .m-kpi-groups {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .m-kpi-group {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .m-kpi-group-flag-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--light);
+    }
+    .m-kpi-group-flag-svg {
+      width: 22px;
+      height: 15px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
+    }
+    .m-kpi-group-flag-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--mid);
+    }
+    .m-kpi-group-items {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .m-kpi-group-item {
+      flex: 1;
+      min-width: 110px;
+      padding: 16px 20px;
+      border-right: 1px solid var(--border);
+    }
+    .m-kpi-group-item:last-child { border-right: none; }
+    .m-kpi-group-val {
+      font-size: 30px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .m-kpi-group-lbl {
+      font-size: 12px;
+      color: #fff;
+      line-height: 1.4;
+    }
+    .m-kpi-group-footer {
+      padding: 10px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--light);
+    }
+    .m-kpi-group-subtitle {
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 3px;
+    }
+    .m-kpi-group-source {
+      font-size: 10.5px;
+      color: var(--faint);
+    }
+    .m-kpi-group-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--mid);
+      margin-top: 3px;
+    }
+    .m-kpi-group-step {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--faint);
+      margin-top: 10px;
+    }
+    .m-kpi-group-name {
+      font-size: 11px;
+      color: var(--text);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+    .m-kpi-group-item-note {
+      font-size: 10px;
+      color: var(--faint);
+      line-height: 1.4;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
     /* Section card */
     .m-section {
       background: var(--white);
@@ -641,6 +743,12 @@
       border: 1px solid var(--border);
     }
     .ev-card:last-child { margin-bottom: 0; }
+    .ev-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ev-grid .ev-card { margin-bottom: 0; }
 
     /* Screenshot rail */
     .m-img-rail {
@@ -684,9 +792,9 @@
       font-size: 10.5px;
       font-weight: 500;
       letter-spacing: .3px;
-      background: #003840;
-      color: #80C5C9;
-      border: 1px solid #005560;
+      background: var(--chip-bg);
+      color: var(--mint);
+      border: 1px solid var(--chip-bdr);
       white-space: nowrap;
     }
 
@@ -708,7 +816,7 @@
       border-radius: 12px;
       box-shadow: 0 8px 40px rgba(0,0,0,.6);
     }
-    .ev-card.driver { background: #1c1530; border-color: #3a2e55; }
+    .ev-card.driver { background: #261C22; border-color: #4A2E3E; }
     .ev-card.barrier { background: #2a1515; border-color: #552a2a; }
     .ev-card.challenge { background: #231e08; border-color: #524510; }
     .ev-card.decision-rule { background: #1a1400; border-color: #4a3a00; }
@@ -1279,6 +1387,7 @@
 
       /* Evidence cards: tighter */
       .ev-card { padding: 12px 14px; }
+      .ev-grid { grid-template-columns: 1fr; }
       .ev-title { font-size: 12px; }
       .ev-body  { font-size: 12px; }
       .ev-impact-text { font-size: 12px; }
@@ -1451,11 +1560,35 @@ let STAGES = [
     kpis: [
       { value: '-12.6%', label: 'Traffic decline (yoy)', note: 'Search volume and user base declining YoY. Source: FY Jan 2025 – Jan 2026 – GA4 Actuals' },
       { value: '-3.1%',  label: 'User base decline (yoy)', note: 'Source: FY Jan 2025 – Jan 2026 – GA4 Actuals' },
-      { value: '93%',    label: 'of registrations are self (member)', note: 'Only 7% register as Business Entrepreneur (partner). Source: GA — April 2025 — Jan 2026 — Romania' },
-      { value: '7%',     label: 'register as Business Entrepreneur (partner)', note: '93% register as self (member). Source: GA — April 2025 — Jan 2026 — Romania' },
-      { value: '55%',    label: 'arrive via Direct channel', note: 'First-time visit, self reg (partner) — Business entrepreneur. Source: GA — April 2025 — Jan 2026 — Romania' },
-      { value: '28%',    label: 'arrive via Paid Social', note: 'Source: GA — April 2025 — Jan 2026 — Romania' },
-      { value: '17%',    label: 'arrive via other channels', note: 'Organic, email, organic social, referral, display, SMS. Source: GA — April 2025 — Jan 2026 — Romania' },
+    ],
+    kpiGroups: [
+      {
+        items: [
+          { value: '-12.6%', label: 'Traffic (yoy)' },
+          { value: '-3.1%',  label: 'User base' },
+        ],
+        subtitle: 'Search volume and user base declining YoY',
+        source: 'Source: FY Jan 2025 – Jan 2026 – GA4 Actuals',
+      },
+      {
+        flag: 'romania',
+        items: [
+          { value: '93%', label: 'Self (member) registrations' },
+          { value: '7%',  label: 'Business entrepreneur (partner)' },
+        ],
+        subtitle: 'Registration — Self vs Sponsor lead',
+        source: 'Source: GA — April 2025 — Jan 2026',
+      },
+      {
+        flag: 'romania',
+        items: [
+          { value: '55%', label: 'Direct' },
+          { value: '28%', label: 'Paid Social' },
+          { value: '17%', label: 'Organic, email, organic social, referral, display, SMS' },
+        ],
+        subtitle: 'First time visit, self reg (partner) — Business entrepreneur',
+        source: 'Source: GA — April 2025 — Jan 2026',
+      },
     ],
     drivers: [
       { source: 'Kantar', title: 'Financial benefits are visible', body: 'Free delivery threshold, cashback and referral savings are visible on the site.', impact: 'There is a clear reason to join.' },
@@ -1492,20 +1625,34 @@ let STAGES = [
       'Receives — Confirmation email',
     ],
     kpis: [
-      // South Africa — registration funnel
-      { value: '86%',  label: 'abandonment — Step 1: Business opportunity page', note: '12,235 users reached this step. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      { value: '13%',  label: 'abandonment — Step 2: Contact verification', note: '1,721 users. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      { value: '2%',   label: 'abandonment — Step 3: Personal info', note: '1,463 users. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      { value: '6%',   label: 'abandonment — Step 4: Sponsor selection', note: '1,435 users. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      { value: '12%',  label: 'abandonment — Step 5: Accept T&Cs', note: '1,345 users. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      { value: '9.6%', label: 'abandonment — Final step: Submit form', note: '1,177 users completed registration. Source: GA — April 2025 — Jan 2026 — South Africa' },
-      // Poland — registration funnel
-      { value: '85%',  label: 'abandonment — Step 1: Business opportunity page', note: '27,326 users reached this step. Source: GA — April 2025 — Jan 2026 — Poland' },
-      { value: '24%',  label: 'abandonment — Step 2: Contact verification', note: '4,090 users. Source: GA — April 2025 — Jan 2026 — Poland' },
-      { value: '20%',  label: 'abandonment — Step 3: Personal info', note: '3,080 users. Source: GA — April 2025 — Jan 2026 — Poland' },
-      { value: '3%',   label: 'abandonment — Step 4: Sponsor selection', note: '2,453 users. Source: GA — April 2025 — Jan 2026 — Poland' },
-      { value: '35%',  label: 'abandonment — Step 5: Accept T&Cs', note: '2,369 users. Source: GA — April 2025 — Jan 2026 — Poland' },
-      { value: '5.6%', label: 'abandonment — Final step: Submit form', note: '1,526 users completed registration. Source: GA — April 2025 — Jan 2026 — Poland' },
+      { value: '86%',  label: 'abandonment — Step 1: Business opportunity page', note: '12,235 users reached this step. Source: GA — April 2025 — Jan 2026 — Romania' },
+      { value: '85%',  label: 'abandonment — Step 1: Business opportunity page', note: '27,326 users reached this step. Source: GA — April 2025 — Jan 2026 — Pakistan' },
+    ],
+    kpiGroups: [
+      {
+        flag: 'romania',
+        items: [
+          { value: '86%',  label: 'Abandonment rate', count: '12,235', step: 'Step 1', name: 'Business opportunity page', note: 'Caveat: the page itself has abandonment issues — users sent to this page who are already registered.' },
+          { value: '13%',  label: 'Abandonment rate', count: '1,721',  step: 'Step 2', name: 'Contact verification' },
+          { value: '2%',   label: 'Abandonment rate', count: '1,463',  step: 'Step 3', name: 'Personal info' },
+          { value: '6%',   label: 'Abandonment rate', count: '1,435',  step: 'Step 4', name: 'Sponsor selection' },
+          { value: '12%',  label: 'Abandonment rate', count: '1,345',  step: 'Step 5', name: "Accept T&Cs" },
+          { value: '9.6%', label: 'Abandonment rate', count: '1,177',  step: 'Final step', name: 'Submit form' },
+        ],
+        source: 'Source: GA — April 2025 — Jan 2026',
+      },
+      {
+        flag: 'pakistan',
+        items: [
+          { value: '85%',  label: 'Abandonment rate', count: '27,326', step: 'Step 1', name: 'Business opportunity page', note: 'Caveat: the page itself has abandonment issues — users sent to this page who are already registered.' },
+          { value: '24%',  label: 'Abandonment rate', count: '4,090',  step: 'Step 2', name: 'Contact verification' },
+          { value: '20%',  label: 'Abandonment rate', count: '3,080',  step: 'Step 3', name: 'Personal info' },
+          { value: '3%',   label: 'Abandonment rate', count: '2,453',  step: 'Step 4', name: 'Sponsor selection' },
+          { value: '35%',  label: 'Abandonment rate', count: '2,369',  step: 'Step 5', name: "Accept T&Cs" },
+          { value: '5.6%', label: 'Abandonment rate', count: '1,526',  step: 'Final step', name: 'Submit form' },
+        ],
+        source: 'Source: GA — April 2025 — Jan 2026',
+      },
     ],
     drivers: [
       { source: 'Kantar', title: 'Smooth registration form', body: 'Registration form is: Short, familiar, similar to other e-commerce sites. Smooth.', impact: 'Lower barrier to starting the process.' },
@@ -1991,6 +2138,40 @@ function applyTheme(baseHex) {
   R.style.setProperty('--hover', hslToHex(h, s, Math.max(0, l-3)));
 }
 
+const FLAGS = {
+  romania: `<svg class="m-kpi-group-flag-svg" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="2" fill="#002B7F"/><rect x="1" width="1" height="2" fill="#FCD116"/><rect x="2" width="1" height="2" fill="#CE1126"/></svg>`,
+  pakistan: `<img class="m-kpi-group-flag-svg" src="assets/journey/bp/pakistan-flag.jpg" alt="Pakistan" />`,
+};
+const FLAG_LABELS = { romania: 'Romania', pakistan: 'Pakistan' };
+
+function renderKpiGroups(groups) {
+  return `<div class="m-kpi-groups">
+    ${groups.map(g => `
+      <div class="m-kpi-group">
+        ${g.flag && FLAGS[g.flag] ? `
+        <div class="m-kpi-group-flag-row">
+          ${FLAGS[g.flag]}
+          <span class="m-kpi-group-flag-label">${FLAG_LABELS[g.flag] || g.flag}</span>
+        </div>` : ''}
+        <div class="m-kpi-group-items">
+          ${g.items.map(item => `
+            <div class="m-kpi-group-item">
+              <div class="m-kpi-group-val">${item.value}</div>
+              <div class="m-kpi-group-lbl">${item.label}</div>
+              ${item.count ? `<div class="m-kpi-group-count">${item.count} users</div>` : ''}
+              ${item.step ? `<div class="m-kpi-group-step">${item.step}</div>` : ''}
+              ${item.name ? `<div class="m-kpi-group-name">${item.name}</div>` : ''}
+              ${item.note ? `<div class="m-kpi-group-item-note">${item.note}</div>` : ''}
+            </div>`).join('')}
+        </div>
+        <div class="m-kpi-group-footer">
+          ${g.subtitle ? `<div class="m-kpi-group-subtitle">${g.subtitle}</div>` : ''}
+          <div class="m-kpi-group-source">${g.source}</div>
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
 function sourceChips(str) {
   if (!str) return '';
   const chips = str.split(',').map(s => s.trim()).map(s => {
@@ -2031,7 +2212,8 @@ function renderModal(idx) {
   const body = document.getElementById('mBody');
 
   // KPI section
-  const kpiSection = s.kpis.length ? `
+  const kpiSection = s.kpiGroups ? renderKpiGroups(s.kpiGroups) :
+    (s.kpis.length ? `
     <div class="m-kpi-row">
       ${s.kpis.map(k => `
         <div class="m-kpi-item">
@@ -2039,7 +2221,7 @@ function renderModal(idx) {
           <div class="m-kpi-lbl">${k.label}</div>
           ${k.note ? `<div class="m-kpi-note">${k.note}</div>` : ''}
         </div>`).join('')}
-    </div>` : '';
+    </div>` : '');
 
   // Driver cards
   const driverCards = s.drivers.map(d => `
@@ -2109,30 +2291,30 @@ function renderModal(idx) {
     </div>`).join('');
 
   const decisionRulesSection = decisionRuleCards ? `
-    <div class="m-section">
+    <div class="m-section full">
       <div class="m-section-head">
         <div class="m-section-icon">${ico('check-circle', 13, '#888', 2)}</div>
         <div class="m-section-title">Decision Rules</div>
       </div>
-      ${decisionRuleCards}
+      <div class="ev-grid">${decisionRuleCards}</div>
     </div>` : '';
 
   body.innerHTML = `
     ${kpiSection}
     ${screenshotSection}
-    <div class="m-section">
+    <div class="m-section full">
       <div class="m-section-head">
         <div class="m-section-icon">${ico('trending-up', 13, '#888', 2)}</div>
         <div class="m-section-title">Drivers</div>
       </div>
-      ${driverCards}
+      <div class="ev-grid">${driverCards}</div>
     </div>
-    <div class="m-section">
+    <div class="m-section full">
       <div class="m-section-head">
         <div class="m-section-icon">${ico('alert-circle', 13, '#888', 2)}</div>
         <div class="m-section-title">Barriers</div>
       </div>
-      ${barrierCards}
+      <div class="ev-grid">${barrierCards}</div>
     </div>
     ${decisionRulesSection}
     ${challengeSection}

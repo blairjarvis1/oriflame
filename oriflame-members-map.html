@@ -637,6 +637,12 @@
       border: 1px solid var(--border);
     }
     .ev-card:last-child { margin-bottom: 0; }
+    .ev-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .ev-grid .ev-card { margin-bottom: 0; }
 
     /* Screenshot rail */
     .m-img-rail {
@@ -1280,6 +1286,7 @@
 
       /* Evidence cards: tighter */
       .ev-card { padding: 12px 14px; }
+      .ev-grid { grid-template-columns: 1fr; }
       .ev-title { font-size: 12px; }
       .ev-body  { font-size: 12px; }
       .ev-impact-text { font-size: 12px; }
@@ -1950,19 +1957,19 @@ function renderModal(idx) {
   body.innerHTML = `
     ${kpiSection}
     ${screenshotSection}
-    <div class="m-section">
+    <div class="m-section full">
       <div class="m-section-head">
         <div class="m-section-icon">${ico('trending-up', 13, '#888', 2)}</div>
         <div class="m-section-title">Drivers</div>
       </div>
-      ${driverCards}
+      <div class="ev-grid">${driverCards}</div>
     </div>
-    <div class="m-section">
+    <div class="m-section full">
       <div class="m-section-head">
         <div class="m-section-icon">${ico('alert-circle', 13, '#888', 2)}</div>
         <div class="m-section-title">Barriers</div>
       </div>
-      ${barrierCards}
+      <div class="ev-grid">${barrierCards}</div>
     </div>
     ${challengeSection}
   `;
