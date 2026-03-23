@@ -2318,7 +2318,7 @@
   <div class="hc-track" id="hcTrack">
 
     <!-- ── Slide 0: Original Members / Partners ── -->
-    <div class="hc-slide" style="gap:6px;">
+    <div class="hc-slide" style="gap:6px;display:none;">
       <div class="hero-panel">
         <img src="assets/images/hero-members.jpg" alt="Members">
         <div class="hero-overlay"></div>
@@ -3301,7 +3301,7 @@
     const slides  = Array.from(document.querySelectorAll('#hcTrack .hc-slide'));
     const dots    = Array.from(document.querySelectorAll('#hcCounter .hc-dot'));
     const carousel = document.getElementById('heroCarousel');
-    let current = 0;
+    let current = 1;
     let timer   = null;
 
     carousel.style.setProperty('--hc-delay', HC_DELAY + 'ms');
@@ -3323,7 +3323,7 @@
       current = index;
     }
 
-    function next() { goTo((current + 1) % HC_COUNT); }
+    function next() { goTo(current + 1 >= HC_COUNT ? 1 : current + 1); }
 
     function startTimer() {
       clearInterval(timer);
@@ -3340,7 +3340,7 @@
     carousel.addEventListener('mouseleave', function () { startTimer(); });
 
     // Init — disable carousel auto-advance on mobile
-    goTo(0);
+    goTo(1);
     startTimer();
   }());
 </script>
